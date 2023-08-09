@@ -22,7 +22,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <StyledComponentsRegistry>
           <Header />
-          <Profile />
           {children}
         </StyledComponentsRegistry>
       </body>
