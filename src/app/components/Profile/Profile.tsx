@@ -1,8 +1,7 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import {
   ProfileContainer,
-  ProfilePictureBorder,
   ProfilePicture,
   ProfilePictureContainer,
   Button,
@@ -19,27 +18,11 @@ const Profile = () => {
 
   return (
     <ProfileContainer>
-      <ProfilePictureContainer>
-        <ProfilePictureBorder>
-          {/* <ProfilePicture src={avatar} /> */}
-        </ProfilePictureBorder>
-      </ProfilePictureContainer>
-      <StatsContainer>
-        <StatsNumbers>40</StatsNumbers>
-        <Stats> Posts</Stats>
-        <Stats>10K Followers</Stats>
-        <Stats>1865 Following</Stats>
-      </StatsContainer>
+      <ProfilePicture src="https://instagram-anitka.s3.eu-central-1.amazonaws.com/sebastian-pena-lambarri-q79ZzOkbQJ8-unsplash.jpg" />
       <Button isFollowing={isFollowing} onClick={() => setIsFollowing(true)}>
         {isFollowing ? "Following" : "Follow"}
       </Button>
       <InstaStoriesContainer>
-        <Instastory />
-        <Instastory />
-        <Instastory />
-        <Instastory />
-        <Instastory />
-        <Instastory />
         <Instastory />
       </InstaStoriesContainer>
     </ProfileContainer>

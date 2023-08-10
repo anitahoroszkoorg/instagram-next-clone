@@ -2,6 +2,7 @@
 
 import Feed from "./components/Feed/Feed";
 import Profile from "./components/Profile/Profile";
+import SideBar from "./components/Sidebar/SideBar";
 import { AppWrapper } from "./styled";
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
     <AppWrapper>
       <Profile />
       <Feed />
+      <SideBar />
     </AppWrapper>
   );
 }

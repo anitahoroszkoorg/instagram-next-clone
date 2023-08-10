@@ -16,8 +16,8 @@ export const ProfilePictureContainer = styled.div`
   border-radius: 100%;
 `;
 
-export const ProfilePictureBorder = styled.div`
-  border-width: 4px;
+export const ProfilePicture = styled.img`
+  border-width: 50px;
   border-style: solid;
   border-image: linear-gradient(to right, magenta, orange) 1;
   width: 70px;
@@ -54,12 +54,6 @@ export const Button = styled.button<ButtonProps>`
   border-radius: 5px;
   justify-content: center;
   border: none;
-`;
-
-export const ProfilePicture = styled.img`
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
 `;
 
 export const InstaStoriesContainer = styled.div`
