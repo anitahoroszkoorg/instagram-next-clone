@@ -1,7 +1,8 @@
+"use client";
 import React from "react";
-
+import { Title } from "./styled";
 const page = () => {
-  return <div>page of things I will post</div>;
+  return <Title>page of things I will post</Title>;
 };
 
 export default page;
