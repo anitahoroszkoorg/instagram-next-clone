@@ -26,7 +26,7 @@ export const Logo = styled.img`
   height: 30px;
   margin: 10px;
 `;
-export const Logo2 = styled.img`
+export const Logo2 = styled.div`
   width: 100px;
   height: 50px;
   margin: 5px;
@@ -37,7 +37,7 @@ export const Avatar = styled.img`
   width: 50px;
   height: 50px;
   padding: 5px;
-  margin-top: 5px;
+  margin-top: 10px;
 `;
 export const Icon = styled.div`
   margin: 25px;

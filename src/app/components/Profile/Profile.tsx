@@ -11,7 +11,6 @@ import {
   Instastory,
   StatsNumbers,
 } from "./styled";
-// import avatar from "../../assets/avatar.jpg";
 
 const Profile = () => {
   const [isFollowing, setIsFollowing] = useState(false);

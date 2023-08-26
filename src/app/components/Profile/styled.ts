@@ -8,6 +8,7 @@ export const ProfileContainer = styled.div`
   border-radius: 3px;
   width: 25vw;
   height: 100%;
+  justify-content: center;
 `;
 
 export const ProfilePictureContainer = styled.div`
@@ -17,12 +18,12 @@ export const ProfilePictureContainer = styled.div`
 `;
 
 export const ProfilePicture = styled.img`
-  border-width: 50px;
   border-style: solid;
   border-image: linear-gradient(to right, magenta, orange) 1;
   width: 70px;
   height: 70px;
   border-radius: 100%;
+  justify-content: center;
 `;
 
 export const StatsContainer = styled.div`

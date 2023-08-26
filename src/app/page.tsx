@@ -1,16 +1,6 @@
 "use client";
-
-import Feed from "./components/Feed/Feed";
-import Profile from "./components/Profile/Profile";
-import SideBar from "./components/Sidebar/SideBar";
-import { AppWrapper } from "./styled";
+import { HomePage } from "./components/Home/page";
 
 export default function Home() {
-  return (
-    <AppWrapper>
-      <Profile />
-      <Feed />
-      <SideBar />
-    </AppWrapper>
-  );
+  return <HomePage />;
 }

@@ -10,22 +10,18 @@ import {
   Logo2,
   LogoWrapper,
 } from "./styled";
-// import instalogo from "../../assets/instalogo.png";
-// import avatar from "../../assets/avatar.jpg";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import SmartDisplayOutlinedIcon from "@mui/icons-material/SmartDisplayOutlined";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
+import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
+import instalogo from "../../assets/instagram-text-logo.png";
+import Link from "next/link";
 const Header = () => {
   return (
     <HeaderWrapper>
       <LogoWrapper>
-        {/* <Logo src={instalogo} alt="logo" /> */}
-        {/* <Logo2
-          src="https://www.citypng.com/public/uploads/preview/-11590321548vfiwckfjs3.png"
-          alt="instagram"
-        /> */}
+        <Logo />
       </LogoWrapper>
       <IconsWrapper>
         <Icon>
@@ -35,7 +31,9 @@ const Header = () => {
           <SearchOutlinedIcon />
         </Icon>
         <Icon>
-          <SmartDisplayOutlinedIcon />
+          <Link href="/create">
+            <AddAPhotoOutlinedIcon />
+          </Link>
         </Icon>
         <Icon>
           <FavoriteBorderOutlinedIcon />
@@ -45,7 +43,7 @@ const Header = () => {
         <Icon>
           <MailOutlinedIcon />
         </Icon>
-        {/* <Avatar src={avatar} /> */}
+        <Avatar src="https://instagram-anitka.s3.eu-central-1.amazonaws.com/sebastian-pena-lambarri-q79ZzOkbQJ8-unsplash.jpg" />
       </AvatarWrapper>
     </HeaderWrapper>
   );
