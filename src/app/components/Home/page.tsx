@@ -5,14 +5,15 @@ import Profile from "../Profile/Profile";
 import SideBar from "../Sidebar/SideBar";
 import Feed from "../Feed/Feed";
 import Header from "../Header/Header";
+import Create from "../Create/Create";
 
 export const HomePage = () => {
   return (
     <>
+      <Create />
       <Header />
       <AppWrapper>
         <Profile />
-        <Feed />
         <SideBar />
       </AppWrapper>
     </>
