@@ -26,7 +26,6 @@ import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 
 const Profile = () => {
-  const [isFollowing, setIsFollowing] = useState(false);
   const [show, setShow] = useState(false);
   const likesCount = 5;
 
@@ -34,9 +33,7 @@ const Profile = () => {
     <>
       <ProfileContainer>
         <ProfilePicture src="https://instagram-anitka.s3.eu-central-1.amazonaws.com/sebastian-pena-lambarri-q79ZzOkbQJ8-unsplash.jpg" />
-        <Button isFollowing={isFollowing} onClick={() => setIsFollowing(true)}>
-          {isFollowing ? "Following" : "Follow"}
-        </Button>
+        <Button>Follow</Button>
         <InstaStoriesContainer>
           <Instastory />
         </InstaStoriesContainer>

@@ -43,14 +43,9 @@ export const StatsNumbers = styled.p`
 export const ButtonsContainer = styled.div`
   display: flex;
 `;
-interface ButtonProps {
-  isFollowing: boolean;
-}
 
-export const Button = styled.button<ButtonProps>`
+export const Button = styled.button`
   height: 2rem;
-  background-color: ${(props) => (props.isFollowing ? "lightgrey" : "#458eff")};
-  color: ${(props) => (props.isFollowing ? "black" : "white")};
   margin: 1rem;
   border-radius: 5px;
   justify-content: center;
