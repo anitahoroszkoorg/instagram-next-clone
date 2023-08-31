@@ -43,7 +43,6 @@ const Create = () => {
         <input
           type="file"
           accept="image/png, image/jpeg"
-          // hidden
           onChange={uploadPhoto}
         />
       </ModalContent>
