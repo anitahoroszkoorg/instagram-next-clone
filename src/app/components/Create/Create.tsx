@@ -1,35 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ModalOverlay,
   ModalContent,
   CloseButton,
   ModalHeader,
   ImgUpload,
-  Input,
 } from "./styled";
 import CloseIcon from "@mui/icons-material/Close";
 
 const Create = () => {
-  const uploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]!;
-    const filename = file.name;
-    const fileType = file.type;
-    const res = await fetch(
-      `/api/upload?file=${filename}&fileType=${fileType}`
-    );
-    const { url } = await res.json();
-    const upload = await fetch(url, {
-      method: "PUT",
-      body: file,
-      headers: { "Content-Type": fileType },
-    });
-    if (upload.ok) {
-      console.log("Uploaded successfully!");
-    } else {
-      console.error("Upload failed.");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isFilePicked, setIsFilePicked] = useState(false);
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedFile(e.target.files![0]);
+    setIsFilePicked(true);
+  };
+
+  const uploadFile = async (e: { preventDefault: () => void } | undefined) => {
+    e?.preventDefault();
+    if (!selectedFile) {
+      return "XD";
     }
-    const s3FileUrl = `https://<S3_BUCKET_NAME>.s3.us-west-2.amazonaws.com/${filename}`;
-    console.log("File URL", s3FileUrl);
+    try {
+      let data = new FormData();
+
+      data.append("image", selectedFile);
+      // data.append("name", selectedFile.name);
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    //
+    // const response = await fetch("/api/getSignedUrl", {"name": selectedFile.name});
+    // presignedUrl = response.presignedUrl
+    //   const options = {
+    //   method: 'PUT',
+    //   body: selectedFile
+    // };
+    // return fetch(presignedUrl, options
   };
 
   return (
@@ -40,11 +51,8 @@ const Create = () => {
       <ModalContent>
         <ModalHeader>Create a New Post</ModalHeader>
         <ImgUpload src="https://uxwing.com/wp-content/themes/uxwing/download/video-photography-multimedia/upload-image-icon.png" />
-        <input
-          type="file"
-          accept="image/png, image/jpeg"
-          onChange={uploadPhoto}
-        />
+        <input type="file" onChange={handleFileInput} />
+        <button onClick={(e) => uploadFile(e)}>upload!</button>
       </ModalContent>
     </ModalOverlay>
   );

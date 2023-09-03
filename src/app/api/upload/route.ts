@@ -1,23 +1,21 @@
-import S3 from "aws-sdk/clients/s3";
-import { NextApiRequest, NextApiResponse } from "next";
+import { S3Client } from "@aws-sdk/client-s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const s3 = new S3({
-    region: "",
-    accessKeyId: process.env.ACCESS_KEY,
-    secretAccessKey: process.env.SECRET_KEY,
-  });
+export const POST = async (request: Request) => {
+  const data = await request.formData();
+  const data2 = data.get("image");
 
-  const preSignedUrl = await s3.getSignedUrl("putObject", {
-    Bucket: process.env.BUCKET_NAME,
-    Key: req.query.file,
-    ContentType: req.query.fileType,
-    Expires: 5 * 60,
+  const s3 = new S3Client({
+    region: "eu-central-1",
   });
-  res.status(200).json({
-    url: preSignedUrl,
-  });
-}
+  const results = await s3.send(
+    new PutObjectCommand({
+      Body: data2,
+      Bucket: "aws-bucket-next-ig",
+      Key: "dawdwadwa2.jpg",
+    })
+  );
+  // console.log(results);
+
+  return new Response("ok", { status: 200 });
+};
