@@ -1,27 +1,22 @@
-import React, { useState } from "react";
-import {
-  ModalOverlay,
-  ModalContent,
-  CloseButton,
-  ModalHeader,
-  ImgUpload,
-} from "./styled";
+import React, { useState, useEffect } from "react";
+import { ModalOverlay, ModalContent, CloseButton, ModalHeader } from "./styled";
 import CloseIcon from "@mui/icons-material/Close";
+import Image from "next/image";
 
 const Create = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFilePicked, setIsFilePicked] = useState(false);
-  const [contents, setContents] = useState<string>("");
+  const [images, setImages] = useState<string[]>([]);
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedFile(e.target.files![0]);
     setIsFilePicked(true);
   };
 
-  const uploadFile = async (e: { preventDefault: () => void } | undefined) => {
-    e?.preventDefault();
+  const uploadFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (!selectedFile) {
-      return "XD";
+      return;
     }
     try {
       let data = new FormData();
@@ -30,21 +25,26 @@ const Create = () => {
         method: "POST",
         body: data,
       });
+      if (response.ok) {
+        fetchImages();
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const logButtonContents = async () => {
+  const fetchImages = async () => {
     try {
       const response = await fetch("/api/getAllImages");
-      console.log(response);
-      const data = await response.json();
-      setContents(data);
+      if (response.ok) {
+        const data = await response.json();
+        setImages(data);
+      }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error(error);
     }
   };
+  console.log(images);
 
   return (
     <ModalOverlay>
@@ -53,11 +53,9 @@ const Create = () => {
       </CloseButton>
       <ModalContent>
         <ModalHeader>Create a New Post</ModalHeader>
-        <ImgUpload src="https://uxwing.com/wp-content/themes/uxwing/download/video-photography-multimedia/upload-image-icon.png" />
         <input type="file" onChange={handleFileInput} />
-        <button onClick={(e) => uploadFile(e)}>upload!</button>
-        <button onClick={() => logButtonContents()}>fetch</button>
-        {contents && <div>{JSON.stringify(contents)}</div>}
+        <button onClick={() => fetchImages()}>imgs</button>
+        <button onClick={(e) => uploadFile(e)}>upload</button>
       </ModalContent>
     </ModalOverlay>
   );
