@@ -36,10 +36,9 @@ export const GET = async () => {
           }),
           { expiresIn: 3600 }
         );
-        return { ...object, signedUrl: objectUrl };
+        return objectUrl;
       })
     );
-
     console.log(signedUrls);
     return new Response(JSON.stringify(signedUrls), { status: 200 });
   } catch (err) {

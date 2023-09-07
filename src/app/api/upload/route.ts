@@ -12,15 +12,14 @@ export const POST = async (request: Request) => {
   const s3 = new S3Client({
     region: "eu-central-1",
   });
-  console.log(d.name);
+  const fileType = d.type.split("/").pop();
   const results = await s3.send(
     new PutObjectCommand({
       Body: stream,
       Bucket: "aws-bucket-next-ig",
-      Key: `${uuidv4()}.jpg`,
+      Key: `${uuidv4()}.${fileType}`,
       ContentType: "image/jpeg",
     })
   );
-
   return new Response("ok", { status: 201 });
 };

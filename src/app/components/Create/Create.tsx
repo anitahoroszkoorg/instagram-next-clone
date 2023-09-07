@@ -44,7 +44,7 @@ const Create = () => {
       console.error(error);
     }
   };
-  console.log(images);
+  console.log(typeof images);
 
   return (
     <ModalOverlay>
