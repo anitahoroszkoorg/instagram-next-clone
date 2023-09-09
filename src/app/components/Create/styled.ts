@@ -17,7 +17,7 @@ export const ModalContent = styled.div`
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  width: 33vw;
+  width: 500px;
   height: 50vh;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -36,9 +36,11 @@ export const CloseButton = styled.button`
   background-color: transparent;
   border: none;
   position: absolute;
-  top: 140px;
-  right: 410px;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
+  font-size: 20px;
+  color: #000;
 `;
 
 export const ImgUpload = styled.img`
@@ -51,4 +53,30 @@ export const ImgUpload = styled.img`
 export const Input = styled.input`
   color: blue;
   display: none !important;
+`;
+
+export const ModalInside = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-bottom: 20px;
+`;
+
+export const SelectedImage = styled.img`
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const UploadBtn = styled.button`
+  height: 2.2rem;
+  width: 40%;
+  margin: 1rem;
+  border-radius: 5px;
+  justify-content: center;
+  border: none;
+  background-color: #4c68d7;
+  color: white;
+  padding: 5px;
 `;

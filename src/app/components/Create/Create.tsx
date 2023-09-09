@@ -1,16 +1,37 @@
-import React, { useState, useEffect } from "react";
-import { ModalOverlay, ModalContent, CloseButton, ModalHeader } from "./styled";
+import React, { useState, useRef } from "react";
+import {
+  ModalOverlay,
+  ModalContent,
+  CloseButton,
+  ModalHeader,
+  ModalInside,
+  UploadBtn,
+  SelectedImage,
+} from "./styled";
 import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 
-const Create = () => {
+export const Create = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isFilePicked, setIsFilePicked] = useState(false);
+  const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
   const [images, setImages] = useState<string[]>([]);
 
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedFile(e.target.files![0]);
-    setIsFilePicked(true);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      setSelectedFile(file);
+      setIsFilePicked(true);
+    } else {
+      setSelectedFile(null);
+      setIsFilePicked(false);
+    }
+  };
+
+  const handleButtonClick = () => {
+    inputRef.current?.click();
   };
 
   const uploadFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -26,6 +47,7 @@ const Create = () => {
         body: data,
       });
       if (response.ok) {
+        closeModal();
         fetchImages();
       }
     } catch (error) {
@@ -44,18 +66,40 @@ const Create = () => {
       console.error(error);
     }
   };
-  console.log(typeof images);
+
+  const closeModal = () => {
+
+  };
+
+  const inputStyle = { display: "none" };
 
   return (
     <ModalOverlay>
-      <CloseButton>
-        <CloseIcon />
-      </CloseButton>
       <ModalContent>
-        <ModalHeader>Create a New Post</ModalHeader>
-        <input type="file" onChange={handleFileInput} />
-        <button onClick={() => fetchImages()}>imgs</button>
-        <button onClick={(e) => uploadFile(e)}>upload</button>
+        <ModalHeader>Create a New Post</ModalHeader>{" "}
+        {!selectedFile && (
+          <>
+            <ModalInside>Upload your pictures and movies here</ModalInside>
+            <input
+              ref={inputRef}
+              style={inputStyle}
+              type="file"
+              onChange={handleFileInputChange}
+            />
+            <UploadBtn onClick={handleButtonClick}>
+              Choose from your computer
+            </UploadBtn>
+          </>
+        )}
+        {selectedFile && (
+          <>
+            <SelectedImage
+              src={URL.createObjectURL(selectedFile)}
+              alt="Selected"
+            />
+            <UploadBtn onClick={(e) => uploadFile(e)}>Upload!</UploadBtn>
+          </>
+        )}
       </ModalContent>
     </ModalOverlay>
   );
