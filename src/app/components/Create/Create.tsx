@@ -19,7 +19,6 @@ interface Props {
 export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
-  const [images, setImages] = useState<string[]>([]);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -53,24 +52,13 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
       });
       if (response.ok) {
         closeModal();
-        fetchImages();
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const fetchImages = async () => {
-    try {
-      const response = await fetch("/api/getAllImages");
-      if (response.ok) {
-        const data = await response.json();
-        setImages(data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
 
   const inputStyle = { display: "none" };
 

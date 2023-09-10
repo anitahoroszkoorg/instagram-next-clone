@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ProfileContainer,
   ProfilePicture,
@@ -26,8 +26,25 @@ import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 
 const Profile = () => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
   const likesCount = 5;
+  const [images, setImages] = useState<string[]>([]);
+
+  const fetchImages = async () => {
+    try {
+      const response = await fetch("/api/getAllImages");
+      if (response.ok) {
+        const data = await response.json();
+        setImages(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
 
   return (
     <>
@@ -65,18 +82,9 @@ const Profile = () => {
         </PhotoboxFrame>
       </BackDropContainer>
       <FeedWrapper>
-        <Photobox
-          src="https://images.pexels.com/photos/6373255/pexels-photo-6373255.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          onClick={() => setShow(true)}
-        />
-        <Photobox src="https://images.pexels.com/photos/5660045/pexels-photo-5660045.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
-        <Photobox src="https://images.pexels.com/photos/6240913/pexels-photo-6240913.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
-        <Photobox src="https://images.pexels.com/photos/9828102/pexels-photo-9828102.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
-        <Photobox src="https://images.pexels.com/photos/13371111/pexels-photo-13371111.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
-        <Photobox src="https://images.pexels.com/photos/6127875/pexels-photo-6127875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
-        <Photobox src="https://images.pexels.com/photos/6127875/pexels-photo-6127875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
-        <Photobox src="https://images.pexels.com/photos/6127875/pexels-photo-6127875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
-        <Photobox src="https://images.pexels.com/photos/6127875/pexels-photo-6127875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
+        {images.map((image) => (
+          <Photobox src={image} key={image} />
+        ))}
       </FeedWrapper>
     </>
   );
