@@ -10,7 +10,6 @@ import Create from "../Create/Create";
 export const HomePage = () => {
   return (
     <>
-      <Create />
       <Header />
       <AppWrapper>
         <Profile />

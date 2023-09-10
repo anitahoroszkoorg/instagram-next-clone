@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   ModalOverlay,
   ModalContent,
@@ -11,7 +11,12 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 
-export const Create = () => {
+interface Props {
+  openModal: boolean;
+  closeModal: () => void;
+}
+
+export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
   const [images, setImages] = useState<string[]>([]);
@@ -67,16 +72,17 @@ export const Create = () => {
     }
   };
 
-  const closeModal = () => {
-
-  };
-
   const inputStyle = { display: "none" };
 
   return (
-    <ModalOverlay>
+    <ModalOverlay style={{ display: openModal ? "flex" : "none" }}>
       <ModalContent>
-        <ModalHeader>Create a New Post</ModalHeader>{" "}
+        <ModalHeader>
+          Create a New Post
+          <div className="close-button" onClick={closeModal}>
+            x
+          </div>
+        </ModalHeader>
         {!selectedFile && (
           <>
             <ModalInside>Upload your pictures and movies here</ModalInside>

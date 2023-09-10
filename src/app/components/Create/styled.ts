@@ -23,6 +23,15 @@ export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  div.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #000;
+  }
 `;
 
 export const ModalHeader = styled.div`
