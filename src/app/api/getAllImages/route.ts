@@ -39,7 +39,6 @@ export const GET = async () => {
         return objectUrl;
       })
     );
-    console.log(signedUrls);
     return new Response(JSON.stringify(signedUrls), { status: 200 });
   } catch (err) {
     console.error(err);

@@ -58,8 +58,6 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     }
   };
 
-
-
   const inputStyle = { display: "none" };
 
   return (

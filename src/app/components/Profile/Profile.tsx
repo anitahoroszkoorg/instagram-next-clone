@@ -82,9 +82,7 @@ const Profile = () => {
         </PhotoboxFrame>
       </BackDropContainer>
       <FeedWrapper>
-        {images.map((image) => (
-          <Photobox src={image} key={image} />
-        ))}
+        {images.map(image => <Photobox src={image} key={image}/>)}
       </FeedWrapper>
     </>
   );
