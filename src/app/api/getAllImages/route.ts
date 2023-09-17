@@ -7,25 +7,6 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-
-const insertSignedUrls = async (signedUrls: string[]) => {
-  try {
-    for (const signedUrl of signedUrls) {
-      await prisma.post.create({
-        data: {
-          url: signedUrl,
-        },
-      });
-    }
-
-    console.log("Signed URLs inserted successfully.");
-  } catch (error) {
-    console.error("Error inserting signed URLs:", error);
-  } finally {
-    await prisma.$disconnect(); 
-  }
-};
-
 const client = new S3Client({});
 
 export const GET = async () => {
