@@ -7,6 +7,7 @@ import {
   ModalInside,
   UploadBtn,
   SelectedImage,
+  CaptionInput, 
 } from "./styled";
 import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
@@ -19,6 +20,7 @@ interface Props {
 export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
+  const [caption, setCaption] = useState<string>(""); 
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -38,14 +40,19 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     inputRef.current?.click();
   };
 
+  const handleCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCaption(e.target.value);
+  };
+
   const uploadFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!selectedFile) {
+    if (!selectedFile || !caption) {
       return;
     }
     try {
       let data = new FormData();
       data.append("image", selectedFile);
+      data.append("caption", caption); 
       const response = await fetch("/api/upload", {
         method: "POST",
         body: data,
@@ -88,6 +95,12 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
             <SelectedImage
               src={URL.createObjectURL(selectedFile)}
               alt="Selected"
+            />
+            <CaptionInput
+              type="text"
+              placeholder="Enter a caption"
+              value={caption}
+              onChange={handleCaptionChange}
             />
             <UploadBtn onClick={(e) => uploadFile(e)}>Upload!</UploadBtn>
           </>

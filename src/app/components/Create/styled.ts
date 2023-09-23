@@ -89,3 +89,5 @@ export const UploadBtn = styled.button`
   color: white;
   padding: 5px;
 `;
+
+export const CaptionInput = styled.input``;
