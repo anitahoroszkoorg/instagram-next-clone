@@ -16,8 +16,9 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import instalogo from "../../assets/instagram-text-logo.png";
-import Link from "next/link";
+import Link from "next/link"; // Import Link from Next.js
 import Create from "../Create/Create";
+
 const Header = () => {
   const [openModal, setOpenModal] = useState(false);
   const closeModal = () => {
@@ -43,12 +44,20 @@ const Header = () => {
           <Icon>
             <FavoriteBorderOutlinedIcon />
           </Icon>
-        </IconsWrapper>
-        <AvatarWrapper>
           <Icon>
             <MailOutlinedIcon />
           </Icon>
-          <Avatar src="https://instagram-anitka.s3.eu-central-1.amazonaws.com/sebastian-pena-lambarri-q79ZzOkbQJ8-unsplash.jpg" />
+        </IconsWrapper>
+        <AvatarWrapper>
+          <Link href="/pages/profile">
+            <Avatar>
+              {/*eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://instagram-anitka.s3.eu-central-1.amazonaws.com/sebastian-pena-lambarri-q79ZzOkbQJ8-unsplash.jpg"
+                alt="User Avatar"
+              />
+            </Avatar>
+          </Link>
         </AvatarWrapper>
       </HeaderWrapper>
       <Create openModal={openModal} closeModal={closeModal} />

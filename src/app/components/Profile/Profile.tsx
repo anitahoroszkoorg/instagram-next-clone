@@ -32,7 +32,7 @@ const Profile = () => {
 
   const fetchImages = async () => {
     try {
-      const response = await fetch("/api/getAllImages");
+      const response = await fetch("/api/getAllMyImages");
       if (response.ok) {
         const data = await response.json();
         setImages(data);
@@ -82,7 +82,9 @@ const Profile = () => {
         </PhotoboxFrame>
       </BackDropContainer>
       <FeedWrapper>
-        {images.map(image => <Photobox src={image} key={image}/>)}
+        {images.map((image) => (
+          <Photobox src={image} key={image} />
+        ))}
       </FeedWrapper>
     </>
   );
