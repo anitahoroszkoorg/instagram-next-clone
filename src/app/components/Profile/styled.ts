@@ -97,7 +97,8 @@ export const BackDropContainer = styled.div<BackDropProps>`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  display: ${({ show }) => (show ? "flex" : "none")};
+  display: flex;
+  // display: ${({ show }) => (show ? "flex" : "none")};
   justify-content: center;
   align-items: center;
   z-index: 2;
