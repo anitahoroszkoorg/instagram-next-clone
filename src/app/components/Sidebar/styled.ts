@@ -11,7 +11,6 @@ export const SideBarWrapper = styled.div`
 `;
 
 export const SideIconsWrapper = styled.div`
-  display: flex;
   justify-content: space-between;
   margin-left: 35px;
   flex-direction: column;
