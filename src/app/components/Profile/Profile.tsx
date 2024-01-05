@@ -55,7 +55,7 @@ const Profile = () => {
           <Instastory />
         </InstaStoriesContainer>
       </ProfileContainer>
-      <BackDropContainer>
+      <BackDropContainer show={show ? true : false} onClick={() => setShow(false)}>
         <PhotoboxFrame>
           <Photo src="https://images.pexels.com/photos/5660045/pexels-photo-5660045.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
           <PhotoDetails>
