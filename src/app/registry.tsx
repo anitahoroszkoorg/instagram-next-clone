@@ -7,7 +7,7 @@ import { ServerStyleSheet, StyleSheetManager } from "styled-components";
 export default function StyledComponentsRegistry({
   children,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet());
 
@@ -21,7 +21,7 @@ export default function StyledComponentsRegistry({
 
   return (
     <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-      {children as React.ReactChild}
+      {children as React.ReactNode}
     </StyleSheetManager>
   );
 }
