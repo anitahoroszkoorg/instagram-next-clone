@@ -46,7 +46,8 @@ const Header = () => {
         </IconsWrapper>
         <AvatarWrapper>
           <Icon>
-            <MailOutlinedIcon />
+            <Link href='pages/dm'><MailOutlinedIcon /></Link>
+            
           </Icon>
           <Avatar src="https://instagram-anitka.s3.eu-central-1.amazonaws.com/sebastian-pena-lambarri-q79ZzOkbQJ8-unsplash.jpg" />
         </AvatarWrapper>

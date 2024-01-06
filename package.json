@@ -26,7 +26,6 @@
     "eslint-config-next": "^14.0.4",
     "next": "^14.0.4",
     "postcss": "^8.4.27",
-    "prisma": "^5.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "styled-components": "^6.0.7",
@@ -37,12 +36,14 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
-    "@types/uuid": "^9.0.3"
+    "@types/uuid": "^9.0.3",
+    "prisma": "^5.7.1"
   },
   "parserOptions": {
     "babelOptions": {
-      "presets": ["require.resolve('next/babel')"]
+      "presets": [
+        "require.resolve('next/babel')"
+      ]
     }
   }
-  
 }

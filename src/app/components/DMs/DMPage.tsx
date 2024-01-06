@@ -20,10 +20,8 @@ const DMPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <div>
+    <>
         <h2>{username}</h2>
-      </div>
       <div>
         {messages.map((msg, index) => (
           <div key={index}>{msg.text}</div>
@@ -37,9 +35,9 @@ const DMPage: React.FC = () => {
             setMessage(e.target.value)
           }
         />
-        <button onClick={handleSendMessage}>Send</button>
-      </div>
-    </div>
+        <button onClick={handleSendMessage}>Send</button></div>
+     </>
+    
   );
 };
 
