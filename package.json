@@ -37,8 +37,8 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
     "@types/uuid": "^9.0.3",
-    "prisma": "^5.7.1",
-    "prettier": "3.1.1"
+    "prettier": "3.1.1",
+    "prisma": "^5.7.1"
   },
   "parserOptions": {
     "babelOptions": {

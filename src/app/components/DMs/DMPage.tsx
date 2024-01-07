@@ -19,6 +19,11 @@ const DMPage: React.FC = () => {
     }
   };
 
+  //get all messages for user
+  //get all users 
+  //POST a message from user1 to user
+
+
   return (
     <>
       <h2>{username}</h2>
