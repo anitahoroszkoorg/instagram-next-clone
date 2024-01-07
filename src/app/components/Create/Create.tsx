@@ -2,15 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import {
   ModalOverlay,
   ModalContent,
-  CloseButton,
   ModalHeader,
   ModalInside,
   UploadBtn,
   SelectedImage,
   CaptionInput,
 } from "./styled";
-import CloseIcon from "@mui/icons-material/Close";
-import Image from "next/image";
+
 
 interface Props {
   openModal: boolean;
