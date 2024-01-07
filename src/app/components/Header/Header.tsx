@@ -44,8 +44,9 @@ const Header = () => {
             <FavoriteBorderOutlinedIcon />
           </Icon>
           <Icon>
-            <Link href='pages/dm'><MailOutlinedIcon /></Link>
-            
+            <Link href="pages/dm">
+              <MailOutlinedIcon />
+            </Link>
           </Icon>
         </IconsWrapper>
         <AvatarWrapper>

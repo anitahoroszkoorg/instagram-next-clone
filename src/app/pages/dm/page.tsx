@@ -1,20 +1,16 @@
 "use client";
 
-import DMPage from "@/app/components/DMs/DMPage";
-import ListOfMessages from "@/app/components/DMs/ListOfMessages";
-import Header from "@/app/components/Header/Header";
-import { AppWrapper } from "@/app/components/Home/styled";
 import React from "react";
-
+import Header from "../../components/Header/Header";
+import DMPage from "../../components/DMs/DMPage";
 
 const page = () => {
-  return <>
-  <Header/>
-  <AppWrapper>
-    <ListOfMessages/>
-     <DMPage />
-  </AppWrapper>
-  </>;
+  return (
+    <>
+      <Header />
+      <DMPage />
+    </>
+  );
 };
 
 export default page;

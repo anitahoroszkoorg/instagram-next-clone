@@ -1,4 +1,2 @@
 import styled from "styled-components";
-export const messageList = styled.div`
-
-`
+export const messageList = styled.div``;
