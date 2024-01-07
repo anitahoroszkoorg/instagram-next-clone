@@ -37,12 +37,14 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
-    "@types/uuid": "^9.0.3"
+    "@types/uuid": "^9.0.3",
+    "prettier": "3.1.1"
   },
   "parserOptions": {
     "babelOptions": {
-      "presets": ["require.resolve('next/babel')"]
+      "presets": [
+        "require.resolve('next/babel')"
+      ]
     }
   }
-  
 }

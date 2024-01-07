@@ -1,0 +1,45 @@
+name: Code quality check
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  eslint_check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js latest
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.10.0"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint check
+        run: npx eslint . --max-warnings=0
+
+  prettier_check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js latest
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.10.0"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Prettier
+        run: npm install --save-dev prettier
+
+      - name: Check Prettier formatting
+        run: npx prettier . --check 'src/**/*.(ts|scss|js)'
