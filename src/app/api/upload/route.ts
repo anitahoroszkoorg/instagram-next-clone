@@ -42,7 +42,7 @@ export const POST = async (request: Request) => {
       Bucket: "aws-bucket-next-ig",
       Key: key,
       ContentType: "image/jpeg",
-    })
+    }),
   );
 
   const fileContents = Buffer.from(stream).toString("base64");

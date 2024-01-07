@@ -7,7 +7,7 @@ import {
   ModalInside,
   UploadBtn,
   SelectedImage,
-  CaptionInput, 
+  CaptionInput,
 } from "./styled";
 import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
@@ -20,7 +20,7 @@ interface Props {
 export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
-  const [caption, setCaption] = useState<string>(""); 
+  const [caption, setCaption] = useState<string>("");
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -52,7 +52,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     try {
       let data = new FormData();
       data.append("image", selectedFile);
-      data.append("caption", caption); 
+      data.append("caption", caption);
       const response = await fetch("/api/upload", {
         method: "POST",
         body: data,

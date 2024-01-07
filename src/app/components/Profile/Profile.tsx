@@ -32,7 +32,7 @@ const Profile = () => {
 
   const fetchImages = async () => {
     try {
-      const response = await fetch("/api/getAllImages");
+      const response = await fetch("/api/getAllMyImages");
       if (response.ok) {
         const data = await response.json();
         setImages(data);
@@ -55,7 +55,10 @@ const Profile = () => {
           <Instastory />
         </InstaStoriesContainer>
       </ProfileContainer>
-      <BackDropContainer show={show ? true : false} onClick={() => setShow(false)}>
+      <BackDropContainer
+        show={show ? true : false}
+        onClick={() => setShow(false)}
+      >
         <PhotoboxFrame>
           <Photo src="https://images.pexels.com/photos/5660045/pexels-photo-5660045.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
           <PhotoDetails>
@@ -82,7 +85,9 @@ const Profile = () => {
         </PhotoboxFrame>
       </BackDropContainer>
       <FeedWrapper>
-        {images.map(image => <Photobox src={image} key={image}/>)}
+        {images.map((image) => (
+          <Photobox src={image} key={image} />
+        ))}
       </FeedWrapper>
     </>
   );
