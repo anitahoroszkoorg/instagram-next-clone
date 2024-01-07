@@ -35,10 +35,10 @@ export const GET = async () => {
             Bucket: bucketName,
             Key: objectKey,
           }),
-          { expiresIn: 3600 }
+          { expiresIn: 3600 },
         );
         return objectUrl;
-      })
+      }),
     );
     return new Response(JSON.stringify(signedUrls), { status: 200 });
   } catch (err) {

@@ -13,9 +13,12 @@ export const HomePage = () => {
       <Header />
       <AppWrapper>
         <Profile />
-        <Create openModal={false} closeModal={function (): void {
-          throw new Error("Function not implemented.");
-        } } />
+        <Create
+          openModal={false}
+          closeModal={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
         <Main />
         <SideBar />
       </AppWrapper>
