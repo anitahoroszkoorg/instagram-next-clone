@@ -1,5 +1,19 @@
 "use client";
 import React, { useState, ChangeEvent } from "react";
+import {
+  Recents,
+  MessageList,
+  MessageItem,
+  CreateMessage,
+  InputMessage,
+  SendButton,
+  RecentsTitle,
+  UserAvatar,
+  Messenger,
+  Wrapper,
+} from "./styled";
+import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread";
+import SearchIcon from "@mui/icons-material/Search";
 
 interface Message {
   text: string;
@@ -7,41 +21,63 @@ interface Message {
 }
 
 const DMPage: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [message, setMessage] = useState<string>("");
-  const username = "anitka";
+  // const [messages, setMessages] = useState<Message[]>([]);
+  // const [message, setMessage] = useState<string>("");
 
-  const handleSendMessage = (): void => {
-    if (message.trim() !== "") {
-      const newMessage: Message = { text: message, sender: "me" };
-      setMessages([...messages, newMessage]);
-      setMessage("");
-    }
-  };
+  // const handleSendMessage = (): void => {
+  //   if (message.trim() !== "") {
+  //     const newMessage: Message = { text: message, sender: "me" };
+  //     setMessages([...messages, newMessage]);
+  //     setMessage("");
+  //   }
+  // };
 
   //get all messages for user
-  //get all users 
+  //get all users
   //POST a message from user1 to user
 
+  const messages = [
+    { id: 1, text: "hello", sender: "user1", read: false },
+    { id: 2, text: "hi", sender: "user2", read: false },
+    { id: 3, text: "how are you", sender: "user3", read: true },
+    { id: 4, text: "good", sender: "user4", read: false },
+    { id: 5, text: "great", sender: "user5", read: true },
+    {
+      id: 6,
+      text: "nice",
+      sender: "user6",
+      read: true,
+      avatar: "https://avatars.githubusercontent.com/u/1234?v=4",
+    },
+  ];
+
+  const count = messages.filter((message) => message.read === false).length;
 
   return (
     <>
-      <h2>{username}</h2>
-      <div>
-        {messages.map((msg, index) => (
-          <div key={index}>{msg.text}</div>
-        ))}
-      </div>
-      <div>
-        <input
-          type="text"
-          value={message}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setMessage(e.target.value)
-          }
-        />
-        <button onClick={handleSendMessage}>Send</button>
-      </div>
+    <Wrapper>
+      <Recents>
+        <RecentsTitle>recents: {count}</RecentsTitle>
+        <MessageList>
+          {messages.map((message) => (
+            <MessageItem key={message.text}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <UserAvatar
+                  src={
+                    message.avatar
+                      ? message.avatar
+                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQbNlDeOEF9mbaBzWL9K2QHPPkofVOU-FLDwj_7bPMGgcd8JIhIJhoppJy4WwVXFd3BH8&usqp=CAU"
+                  }
+                />
+                <p>{message.sender}</p>
+              </div>
+              <p>{message.text}</p>
+            </MessageItem>
+          ))}
+        </MessageList>
+      </Recents>
+      <Messenger>HELLO</Messenger>
+      </Wrapper>
     </>
   );
 };

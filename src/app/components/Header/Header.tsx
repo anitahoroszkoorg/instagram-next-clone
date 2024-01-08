@@ -28,20 +28,23 @@ const Header = () => {
     <>
       <HeaderWrapper>
         <LogoWrapper>
+          <Link href="/">
           <Logo />
+          </Link>
         </LogoWrapper>
         <IconsWrapper>
           <Icon>
+          <Link href="/">
             <HomeOutlinedIcon />
-          </Icon>
-          <Icon>
-            <SearchOutlinedIcon />
+            </Link>
           </Icon>
           <Icon>
             <AddAPhotoOutlinedIcon onClick={() => setOpenModal(true)} />
           </Icon>
           <Icon>
+          <Link href="pages/notifications">
             <FavoriteBorderOutlinedIcon />
+            </Link>
           </Icon>
           <Icon>
             <Link href="pages/dm">

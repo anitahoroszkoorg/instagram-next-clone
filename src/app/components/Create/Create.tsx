@@ -9,7 +9,6 @@ import {
   CaptionInput,
 } from "./styled";
 
-
 interface Props {
   openModal: boolean;
   closeModal: () => void;
