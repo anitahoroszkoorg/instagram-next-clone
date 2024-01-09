@@ -11,6 +11,8 @@ import {
   UserAvatar,
   Messenger,
   Wrapper,
+  MessengerBubble,
+  MyMessageBubble,
 } from "./styled";
 import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread";
 import SearchIcon from "@mui/icons-material/Search";
@@ -76,7 +78,11 @@ const DMPage: React.FC = () => {
           ))}
         </MessageList>
       </Recents>
-      <Messenger>HELLO</Messenger>
+      <Messenger>
+      <MessengerBubble>Hello, how have you been? I havent heard from you in a while</MessengerBubble>
+      <MyMessageBubble>Hi, thanks for reaching out! I lost my phone last week!!</MyMessageBubble>
+      <MessengerBubble>No way, what happened!?</MessengerBubble>
+      </Messenger>
       </Wrapper>
     </>
   );

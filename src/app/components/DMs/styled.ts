@@ -67,7 +67,10 @@ export const MessageItem = styled.div`
   }
 `;
 
-export const CreateMessage = styled.div``;
+export const CreateMessage = styled.div`
+
+
+`;
 
 export const InputMessage = styled.input``;
 
@@ -85,6 +88,28 @@ export const Messenger = styled.div`
   height: 100%;
   width: 70vw;
 `;
+
+export const MessengerBubble = styled.div`
+background: rgb(255,0,181);
+background: linear-gradient(90deg, rgba(255,0,181,1) 0%, rgba(132,29,180,1) 44%, rgba(0,108,255,1) 100%);
+width: 30%;
+color: white;
+height: 100%x;
+border-radius: 20px;
+padding: 8px;
+margin: 15px 0px 20px 20px;
+word-wrap: break-word;
+`
+export const MyMessageBubble = styled.div`
+background: lightgrey;
+width: 30%;
+color: white;
+height: 100%x;
+border-radius: 20px;
+padding: 8px;
+margin: 15px 0px 20px 20px;
+word-wrap: break-word;
+`
 
 export const Wrapper = styled.div`
 display: flex;
