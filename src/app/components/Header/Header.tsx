@@ -42,12 +42,12 @@ const Header = () => {
             <AddAPhotoOutlinedIcon onClick={() => setOpenModal(true)} />
           </Icon>
           <Icon>
-          <Link href="pages/notifications">
+          <Link href="/pages/notifications">
             <FavoriteBorderOutlinedIcon />
             </Link>
           </Icon>
           <Icon>
-            <Link href="pages/dm">
+            <Link href="/pages/dm">
               <MailOutlinedIcon />
             </Link>
           </Icon>
