@@ -57,32 +57,36 @@ const DMPage: React.FC = () => {
 
   return (
     <>
-    <Wrapper>
-      <Recents>
-        <RecentsTitle>recents: {count}</RecentsTitle>
-        <MessageList>
-          {messages.map((message) => (
-            <MessageItem key={message.text}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <UserAvatar
-                  src={
-                    message.avatar
-                      ? message.avatar
-                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQbNlDeOEF9mbaBzWL9K2QHPPkofVOU-FLDwj_7bPMGgcd8JIhIJhoppJy4WwVXFd3BH8&usqp=CAU"
-                  }
-                />
-                <p>{message.sender}</p>
-              </div>
-              <p>{message.text}</p>
-            </MessageItem>
-          ))}
-        </MessageList>
-      </Recents>
-      <Messenger>
-      <MessengerBubble>Hello, how have you been? I havent heard from you in a while</MessengerBubble>
-      <MyMessageBubble>Hi, thanks for reaching out! I lost my phone last week!!</MyMessageBubble>
-      <MessengerBubble>No way, what happened!?</MessengerBubble>
-      </Messenger>
+      <Wrapper>
+        <Recents>
+          <RecentsTitle>recents: {count}</RecentsTitle>
+          <MessageList>
+            {messages.map((message) => (
+              <MessageItem key={message.text}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <UserAvatar
+                    src={
+                      message.avatar
+                        ? message.avatar
+                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQbNlDeOEF9mbaBzWL9K2QHPPkofVOU-FLDwj_7bPMGgcd8JIhIJhoppJy4WwVXFd3BH8&usqp=CAU"
+                    }
+                  />
+                  <p>{message.sender}</p>
+                </div>
+                <p>{message.text}</p>
+              </MessageItem>
+            ))}
+          </MessageList>
+        </Recents>
+        <Messenger>
+          <MessengerBubble>
+            Hello, how have you been? I havent heard from you in a while
+          </MessengerBubble>
+          <MyMessageBubble>
+            Hi, thanks for reaching out! I lost my phone last week!!
+          </MyMessageBubble>
+          <MessengerBubble>No way, what happened!?</MessengerBubble>
+        </Messenger>
       </Wrapper>
     </>
   );

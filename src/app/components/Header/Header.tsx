@@ -29,21 +29,21 @@ const Header = () => {
       <HeaderWrapper>
         <LogoWrapper>
           <Link href="/">
-          <Logo />
+            <Logo />
           </Link>
         </LogoWrapper>
         <IconsWrapper>
           <Icon>
-          <Link href="/">
-            <HomeOutlinedIcon />
+            <Link href="/">
+              <HomeOutlinedIcon />
             </Link>
           </Icon>
           <Icon>
             <AddAPhotoOutlinedIcon onClick={() => setOpenModal(true)} />
           </Icon>
           <Icon>
-          <Link href="/pages/notifications">
-            <FavoriteBorderOutlinedIcon />
+            <Link href="/pages/notifications">
+              <FavoriteBorderOutlinedIcon />
             </Link>
           </Icon>
           <Icon>
@@ -55,11 +55,16 @@ const Header = () => {
         <AvatarWrapper>
           <Link href="/pages/profile">
             <Avatar>
-              {/*eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://instagram-anitka.s3.eu-central-1.amazonaws.com/sebastian-pena-lambarri-q79ZzOkbQJ8-unsplash.jpg"
                 alt="User Avatar"
               />
+              {/* <Image
+                src="https://as1.ftcdn.net/v2/jpg/00/81/18/30/1000_F_81183096_QOH14DqWS1Lgbdm8zd2lrLXFTW1Dtp3A.jpg"
+                alt="User Avatar"
+                width={300}
+                height={300}
+              /> */}
             </Avatar>
           </Link>
         </AvatarWrapper>
