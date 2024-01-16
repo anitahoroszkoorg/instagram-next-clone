@@ -12,7 +12,7 @@ export const HomePage = () => {
     <>
       <Header />
       <AppWrapper>
-        <Profile />
+        {/* <Profile /> */}
         <Create
           openModal={false}
           closeModal={function (): void {

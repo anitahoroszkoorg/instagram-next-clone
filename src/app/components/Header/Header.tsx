@@ -17,6 +17,7 @@ import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import Link from "next/link"; // Import Link from Next.js
 import Create from "../Create/Create";
+import Image from "next/image";
 
 const Header = () => {
   const [openModal, setOpenModal] = useState(false);
