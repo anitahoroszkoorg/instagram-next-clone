@@ -7,18 +7,19 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-const client = new S3Client({ region: process.env.AWS_REGION,
+const client = new S3Client({
+  region: process.env.AWS_REGION,
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string}});
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+  },
+});
 
 export const GET = async () => {
   const bucketName = "aws-bucket-next-ig";
   try {
     const command = new ListObjectsV2Command({
       Bucket: bucketName,
-      
-      
     });
 
     let isTruncated = true;

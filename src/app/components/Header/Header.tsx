@@ -57,7 +57,7 @@ const Header = () => {
           <Link href="/pages/profile">
             <Avatar>
               <img
-                src="https://instagram-anitka.s3.eu-central-1.amazonaws.com/sebastian-pena-lambarri-q79ZzOkbQJ8-unsplash.jpg"
+                src="https://images.unsplash.com/photo-1601288848351-48adce9d676a?q=80&w=1826&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="User Avatar"
               />
               {/* <Image
