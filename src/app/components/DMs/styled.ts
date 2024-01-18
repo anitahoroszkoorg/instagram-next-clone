@@ -13,7 +13,7 @@ const itemAnimation = keyframes`
 }
 
 100% {
-    transform: translateX(50px);
+    transform: translateX(10px);
 }
 `;
 
@@ -46,13 +46,15 @@ export const MessageList = styled.div`
 `;
 
 export const MessageItem = styled.div`
+  margin-top: 1px;
+  background-color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 30vw;
   border-radius: 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  height: 40px;
+  height: 70px;
   &:hover {
     animation-name: ${itemAnimation};
     animation-duration: 1s;
@@ -84,6 +86,19 @@ export const Messenger = styled.div`
   border-radius: 10px;
   height: 100%;
   width: 70vw;
+  background-color: black;
+`;
+
+export const MessengerColumnIncoming = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+export const MessengerColumnOutcoming = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
 export const MessengerBubble = styled.div`
