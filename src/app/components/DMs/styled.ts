@@ -13,7 +13,7 @@ const itemAnimation = keyframes`
 }
 
 100% {
-    transform: translateX(10px);
+    transform: translateX(5px);
 }
 `;
 

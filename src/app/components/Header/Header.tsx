@@ -7,15 +7,13 @@ import {
   HeaderWrapper,
   IconsWrapper,
   Logo,
-  Logo2,
   LogoWrapper,
 } from "./styled";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
-import Link from "next/link"; // Import Link from Next.js
+import Link from "next/link";
 import Create from "../Create/Create";
 import Image from "next/image";
 
@@ -25,17 +23,30 @@ const Header = () => {
     setOpenModal(false);
   };
 
+  const hyperLinksStyle = {
+    textDecoration: "none!important",
+    color: "black!important",
+    "&:hover": {
+      textDecoration: "none!important",
+      color: "black!important",
+    },
+    "&:visited": {
+      textDecoration: "none!important",
+      color: "black!important",
+    },
+  };
+
   return (
     <>
       <HeaderWrapper>
         <LogoWrapper>
-          <Link href="/">
-            <Logo />
+          <Link href="/" style={hyperLinksStyle}>
+            <Logo src="/logo.png" alt="logo" />
           </Link>
         </LogoWrapper>
         <IconsWrapper>
           <Icon>
-            <Link href="/">
+            <Link href="/" style={hyperLinksStyle}>
               <HomeOutlinedIcon />
             </Link>
           </Icon>
@@ -43,12 +54,12 @@ const Header = () => {
             <AddAPhotoOutlinedIcon onClick={() => setOpenModal(true)} />
           </Icon>
           <Icon>
-            <Link href="/pages/notifications">
+            <Link href="/pages/notifications" style={hyperLinksStyle}>
               <FavoriteBorderOutlinedIcon />
             </Link>
           </Icon>
           <Icon>
-            <Link href="/pages/dm">
+            <Link href="/pages/dm" style={hyperLinksStyle}>
               <MailOutlinedIcon />
             </Link>
           </Icon>
@@ -56,16 +67,12 @@ const Header = () => {
         <AvatarWrapper>
           <Link href="/pages/profile">
             <Avatar>
-              <img
-                src="https://images.unsplash.com/photo-1601288848351-48adce9d676a?q=80&w=1826&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="User Avatar"
-              />
-              {/* <Image
-                src="https://as1.ftcdn.net/v2/jpg/00/81/18/30/1000_F_81183096_QOH14DqWS1Lgbdm8zd2lrLXFTW1Dtp3A.jpg"
+              <Image
+                src="/avatar.jpeg"
                 alt="User Avatar"
                 width={300}
                 height={300}
-              /> */}
+              />
             </Avatar>
           </Link>
         </AvatarWrapper>

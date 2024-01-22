@@ -65,11 +65,7 @@ const DMPage: React.FC = () => {
               <MessageItem key={message.text}>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <UserAvatar
-                    src={
-                      message.avatar
-                        ? message.avatar
-                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQbNlDeOEF9mbaBzWL9K2QHPPkofVOU-FLDwj_7bPMGgcd8JIhIJhoppJy4WwVXFd3BH8&usqp=CAU"
-                    }
+                    src={message.avatar ? message.avatar : "/avatar.jpeg"}
                   />
                   <p>{message.sender}</p>
                 </div>
