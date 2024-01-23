@@ -23,21 +23,6 @@ interface Message {
 }
 
 const DMPage: React.FC = () => {
-  // const [messages, setMessages] = useState<Message[]>([]);
-  // const [message, setMessage] = useState<string>("");
-
-  // const handleSendMessage = (): void => {
-  //   if (message.trim() !== "") {
-  //     const newMessage: Message = { text: message, sender: "me" };
-  //     setMessages([...messages, newMessage]);
-  //     setMessage("");
-  //   }
-  // };
-
-  //get all messages for user
-  //get all users
-  //POST a message from user1 to user
-
   const messages = [
     { id: 1, text: "hello", sender: "user1", read: false },
     { id: 2, text: "hi", sender: "user2", read: false },

@@ -17,7 +17,7 @@ import Link from "next/link";
 import Create from "../Create/Create";
 import Image from "next/image";
 
-const Header = () => {
+export const Header = () => {
   const [openModal, setOpenModal] = useState(false);
   const closeModal = () => {
     setOpenModal(false);
@@ -59,7 +59,7 @@ const Header = () => {
             </Link>
           </Icon>
           <Icon>
-            <Link href="/pages/dm" style={hyperLinksStyle}>
+            <Link href="/pages/inbox" style={hyperLinksStyle}>
               <MailOutlinedIcon />
             </Link>
           </Icon>

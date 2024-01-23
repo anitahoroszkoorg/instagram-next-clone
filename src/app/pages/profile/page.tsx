@@ -8,11 +8,8 @@ import { AppWrapper } from "../../../../styled";
 const ProfilePage = () => {
   return (
     <>
-      <Header />
-      <AppWrapper>
-        <Profile />
-        <SideBar />
-      </AppWrapper>
+      <Profile />
+      <SideBar />
     </>
   );
 };

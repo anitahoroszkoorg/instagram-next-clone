@@ -87,18 +87,41 @@ export const Messenger = styled.div`
   height: 100%;
   width: 70vw;
   background-color: black;
-`;
-
-export const MessengerColumnIncoming = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 `;
 
-export const MessengerColumnOutcoming = styled.div`
+export const Incoming = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  background: rgb(255, 0, 181);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 181, 1) 0%,
+    rgba(132, 29, 180, 1) 44%,
+    rgba(0, 108, 255, 1) 100%
+  );
+  width: 30%;
+  color: white;
+  height: 100%x;
+  border-radius: 20px;
+  padding: 8px;
+  margin: 15px 0px 20px 20px;
+  word-wrap: break-word;
+`;
+
+export const Outgoing = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  background: lightgrey;
+  width: 30%;
+  color: white;
+  height: 100%x;
+  border-radius: 20px;
+  padding: 8px;
+  margin: 15px 0px 20px 20px;
+  word-wrap: break-word;
 `;
 
 export const MessengerBubble = styled.div`
