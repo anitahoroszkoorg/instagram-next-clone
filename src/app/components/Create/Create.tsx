@@ -8,6 +8,8 @@ import {
   SelectedImage,
   CaptionInput,
 } from "./styled";
+import ReactCrop, { Crop } from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 
 interface Props {
   openModal: boolean;
@@ -73,6 +75,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
             x
           </div>
         </ModalHeader>
+
         {!selectedFile && (
           <>
             <ModalInside>Upload your pictures and movies here</ModalInside>

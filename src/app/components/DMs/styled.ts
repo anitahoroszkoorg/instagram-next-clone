@@ -86,8 +86,8 @@ export const Messenger = styled.div`
   border-radius: 10px;
   height: 100%;
   width: 70vw;
-  background-color: black;
   display: flex;
+  flex-direction: column;
 `;
 
 export const Incoming = styled.div`

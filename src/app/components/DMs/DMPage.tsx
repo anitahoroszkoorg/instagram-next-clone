@@ -13,6 +13,8 @@ import {
   Wrapper,
   MessengerBubble,
   MyMessageBubble,
+  Incoming,
+  Outgoing,
 } from "./styled";
 import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread";
 import SearchIcon from "@mui/icons-material/Search";
@@ -60,12 +62,12 @@ const DMPage: React.FC = () => {
           </MessageList>
         </Recents>
         <Messenger>
-          <MessengerBubble>
+          <Incoming>
             Hello, how have you been? I havent heard from you in a while
-          </MessengerBubble>
-          <MyMessageBubble>
+          </Incoming>
+          <Outgoing>
             Hi, thanks for reaching out! I lost my phone last week!!
-          </MyMessageBubble>
+          </Outgoing>
           <MessengerBubble>No way, what happened!?</MessengerBubble>
         </Messenger>
       </Wrapper>
