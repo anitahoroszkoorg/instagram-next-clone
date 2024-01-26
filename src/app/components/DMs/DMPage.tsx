@@ -12,12 +12,10 @@ import {
   Messenger,
   Wrapper,
   MessengerBubble,
-  MyMessageBubble,
   Incoming,
   Outgoing,
+  MessageItemText,
 } from "./styled";
-import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread";
-import SearchIcon from "@mui/icons-material/Search";
 
 interface Message {
   text: string;
@@ -56,7 +54,9 @@ const DMPage: React.FC = () => {
                   />
                   <p>{message.sender}</p>
                 </div>
-                <p>{message.text}</p>
+                <MessageItemText key={message.id} read={message.read}>
+                  {message.text}
+                </MessageItemText>
               </MessageItem>
             ))}
           </MessageList>

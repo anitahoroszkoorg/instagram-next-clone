@@ -35,6 +35,7 @@ export const UserAvatar = styled.img`
   border-radius: 50%;
   height: 30px;
   width: 30px;
+  padding: 5px;
 `;
 
 export const MessageList = styled.div`
@@ -69,6 +70,15 @@ export const MessageItem = styled.div`
   }
 `;
 
+interface MessageItemTextProps {
+  read: boolean;
+}
+
+export const MessageItemText = styled.p<MessageItemTextProps>`
+  padding: 5px;
+  color: ${({ read }) => (read ? "lightgrey" : "black")};
+`;
+
 export const CreateMessage = styled.div``;
 
 export const InputMessage = styled.input``;
@@ -78,7 +88,6 @@ export const SendButton = styled.button``;
 export const Recents = styled.div`
   width: 30vw;
   height: 100vh;
-  background-color: #e9ebee;
   border-radius: 10px;
 `;
 
@@ -108,6 +117,9 @@ export const Incoming = styled.div`
   padding: 8px;
   margin: 15px 0px 20px 20px;
   word-wrap: break-word;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 `;
 
 export const Outgoing = styled.div`
@@ -122,6 +134,9 @@ export const Outgoing = styled.div`
   padding: 8px;
   margin: 15px 0px 20px 20px;
   word-wrap: break-word;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 `;
 
 export const MessengerBubble = styled.div`
@@ -140,6 +155,7 @@ export const MessengerBubble = styled.div`
   margin: 15px 0px 20px 20px;
   word-wrap: break-word;
 `;
+
 export const MyMessageBubble = styled.div`
   background: lightgrey;
   width: 30%;
