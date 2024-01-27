@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
-export const Followers = () => {
+const Followers = () => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -32,3 +32,5 @@ export const Followers = () => {
     </div>
   );
 };
+
+export default Followers;

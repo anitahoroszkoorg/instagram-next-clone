@@ -1,11 +1,10 @@
 "use client";
-import { AppWrapper } from "./styled";
 import React from "react";
 import Profile from "../Profile/Profile";
 import Create from "../Create/Create";
 import { ImagesGrid } from "../ImagesGrid/ImagesGrid";
 
-export const HomePage = () => {
+const HomePage = () => {
   return (
     <>
       <Profile />
@@ -19,3 +18,5 @@ export const HomePage = () => {
     </>
   );
 };
+
+export default HomePage;
