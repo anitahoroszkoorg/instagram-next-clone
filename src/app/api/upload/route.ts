@@ -2,6 +2,7 @@ import { S3Client } from "@aws-sdk/client-s3";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
 import { PrismaClient } from "@prisma/client";
+import { Readable } from "stream";
 
 const prisma = new PrismaClient();
 
@@ -31,6 +32,9 @@ export const POST = async (request: Request) => {
   }
 
   const stream = await d.arrayBuffer();
+  const readableStream = new Readable();
+  readableStream.push(Buffer.from(stream));
+  readableStream.push(null);
   const s3 = new S3Client({
     region: "eu-central-1",
   });
@@ -38,7 +42,7 @@ export const POST = async (request: Request) => {
   const key = `${uuidv4()}.${fileType}`;
   const results = await s3.send(
     new PutObjectCommand({
-      Body: stream,
+      Body: readableStream,
       Bucket: "aws-bucket-next-ig",
       Key: key,
       ContentType: "image/jpeg",
