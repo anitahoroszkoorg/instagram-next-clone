@@ -44,6 +44,18 @@ export const MessageList = styled.div`
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid darkgrey;
+  overflow-y: scroll;
+  height: 80vh;
+`;
+
+export const ActiveUsers = styled.div`
+  border-radius: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid darkgrey;
+  overflow-y: scroll;
 `;
 
 export const MessageItem = styled.div`
@@ -77,6 +89,7 @@ interface MessageItemTextProps {
 export const MessageItemText = styled.p<MessageItemTextProps>`
   padding: 5px;
   color: ${({ read }) => (read ? "lightgrey" : "black")};
+  margin-right: 10px;
 `;
 
 export const CreateMessage = styled.div``;
@@ -102,7 +115,6 @@ export const Messenger = styled.div`
 export const Incoming = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   background: rgb(255, 0, 181);
   background: linear-gradient(
     90deg,

@@ -8,8 +8,6 @@ import {
   SelectedImage,
   CaptionInput,
 } from "./styled";
-import ReactCrop, { Crop } from "react-image-crop";
-import "react-image-crop/dist/ReactCrop.css";
 
 interface Props {
   openModal: boolean;

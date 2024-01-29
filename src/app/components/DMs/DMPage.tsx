@@ -15,6 +15,7 @@ import {
   Incoming,
   Outgoing,
   MessageItemText,
+  ActiveUsers,
 } from "./styled";
 
 interface Message {
@@ -36,6 +37,15 @@ const DMPage: React.FC = () => {
       read: true,
       avatar: "https://avatars.githubusercontent.com/u/1234?v=4",
     },
+    { id: 7, text: "great", sender: "user5", read: true },
+
+    { id: 8, text: "great", sender: "user5", read: true },
+    { id: 9, text: "great", sender: "user5", read: true },
+    { id: 10, text: "great", sender: "user5", read: true },
+    { id: 11, text: "great", sender: "user5", read: true },
+    { id: 12, text: "great", sender: "user5", read: true },
+    { id: 13, text: "great", sender: "user5", read: true },
+    { id: 14, text: "great", sender: "user5", read: true },
   ];
 
   const count = messages.filter((message) => message.read === false).length;
@@ -44,7 +54,7 @@ const DMPage: React.FC = () => {
     <>
       <Wrapper>
         <Recents>
-          <RecentsTitle>recents: {count}</RecentsTitle>
+          <RecentsTitle>Unread messages: {count}</RecentsTitle>
           <MessageList>
             {messages.map((message) => (
               <MessageItem key={message.text}>
@@ -62,14 +72,31 @@ const DMPage: React.FC = () => {
           </MessageList>
         </Recents>
         <Messenger>
+          <div style={{ marginTop: "4rem" }}></div>
           <Incoming>
             Hello, how have you been? I havent heard from you in a while
           </Incoming>
           <Outgoing>
             Hi, thanks for reaching out! I lost my phone last week!!
           </Outgoing>
-          <MessengerBubble>No way, what happened!?</MessengerBubble>
+          <Incoming>No way, what happened!?</Incoming>
         </Messenger>
+        <RecentsTitle>Active Friends</RecentsTitle>
+        <ActiveUsers>
+          {messages.map((message) => (
+            <MessageItem key={message.text}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <UserAvatar
+                  src={message.avatar ? message.avatar : "/avatar.jpeg"}
+                />
+                <p>{message.sender}</p>
+              </div>
+              <MessageItemText key={message.id} read={message.read}>
+                {message.text}
+              </MessageItemText>
+            </MessageItem>
+          ))}
+        </ActiveUsers>
       </Wrapper>
     </>
   );
