@@ -47,6 +47,7 @@ export const MessageList = styled.div`
   border-right: 1px solid darkgrey;
   overflow-y: scroll;
   height: 80vh;
+  border: 1px solid darkgrey;
 `;
 
 export const ActiveUsers = styled.div`
@@ -80,6 +81,7 @@ export const MessageItem = styled.div`
     animation-duration: 1s;
     animation-iteration-count: 1;
   }
+  border: 1px solid darkgrey;
 `;
 
 interface MessageItemTextProps {
@@ -92,16 +94,25 @@ export const MessageItemText = styled.p<MessageItemTextProps>`
   margin-right: 10px;
 `;
 
-export const CreateMessage = styled.div``;
+export const CreateMessage = styled.div`
+  width: 70vw;
+`;
 
-export const InputMessage = styled.input``;
+export const InputMessage = styled.input`
+  border: 1px solid darkgrey;
+  width: 70vw;
+`;
 
-export const SendButton = styled.button``;
+export const SendButton = styled.button`
+  border: 1px solid darkgrey;
+  width: 10vw;
+`;
 
 export const Recents = styled.div`
   width: 30vw;
   height: 100vh;
   border-radius: 10px;
+  border: 1px solid darkgrey;
 `;
 
 export const Messenger = styled.div`
@@ -110,6 +121,17 @@ export const Messenger = styled.div`
   width: 70vw;
   display: flex;
   flex-direction: column;
+  border: 1px solid darkgrey;
+`;
+
+export const MessengerContainer = styled.div`
+  border-radius: 10px;
+  height: 100%;
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid darkgrey;
+  margintop: 4rem;
 `;
 
 export const Incoming = styled.div`
@@ -132,6 +154,7 @@ export const Incoming = styled.div`
   box-shadow:
     rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  border: 1px solid darkgrey;
 `;
 
 export const Outgoing = styled.div`
@@ -166,6 +189,7 @@ export const MessengerBubble = styled.div`
   padding: 8px;
   margin: 15px 0px 20px 20px;
   word-wrap: break-word;
+  border: 1px solid darkgrey;
 `;
 
 export const MyMessageBubble = styled.div`
@@ -177,6 +201,7 @@ export const MyMessageBubble = styled.div`
   padding: 8px;
   margin: 15px 0px 20px 20px;
   word-wrap: break-word;
+  border: 1px solid darkgrey;
 `;
 
 export const Wrapper = styled.div`
@@ -184,4 +209,5 @@ export const Wrapper = styled.div`
   flex-direction: row;
   align-items: flex-start;
   height: 100vh;
+  border: 1px solid darkgrey;
 `;
