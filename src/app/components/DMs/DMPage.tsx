@@ -120,21 +120,6 @@ const DMPage: React.FC = () => {
             <SendButton>Send</SendButton>
           </CreateMessage>
         </MessengerContainer>
-        <ActiveUsers>
-          {messages.map((message) => (
-            <MessageItem key={message?.id}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <UserAvatar
-                  src={message.avatar ? message.avatar : "/avatar.jpeg"}
-                />
-                <p>{message.sender}</p>
-              </div>
-              <MessageItemText read={message.read}>
-                {message.text}
-              </MessageItemText>
-            </MessageItem>
-          ))}
-        </ActiveUsers>
       </Messenger>
     </Wrapper>
   );
