@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React from "react";
 import {
   Recents,
   MessageList,
@@ -13,8 +13,7 @@ import {
   Incoming,
   Outgoing,
   MessageItemText,
-  ActiveUsers,
-  MessengerContainer,
+  DateStamp,
 } from "./styled";
 import SendIcon from "@mui/icons-material/Send";
 
@@ -108,18 +107,17 @@ const DMPage: React.FC = () => {
         </MessageList>
       </Recents>
       <Messenger>
-        <MessengerContainer>
-          <Incoming>Hello, how have you been lately?</Incoming>
-          <Outgoing>
-            Hi, thanks for reaching out! I lost my phone last week!!
-          </Outgoing>
-          <Incoming>No way, what happened!?</Incoming>
-          <SendIcon />
-          <CreateMessage>
-            <InputMessage placeholder="Type your message..." />
-            <SendButton>Send</SendButton>
-          </CreateMessage>
-        </MessengerContainer>
+        <DateStamp> Friday, 20th December</DateStamp>
+        <Incoming>Hello, how have you been lately?</Incoming>
+        <Outgoing>
+          Hi, thanks for reaching out! I lost my phone last week!!
+        </Outgoing>
+        <Incoming>No way, what happened!?</Incoming>
+        <SendIcon />
+        <CreateMessage>
+          <InputMessage placeholder="Type your message..." />
+          <SendButton>Send</SendButton>
+        </CreateMessage>
       </Messenger>
     </Wrapper>
   );

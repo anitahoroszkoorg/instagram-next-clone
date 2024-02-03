@@ -24,7 +24,13 @@ const clickItemAnimation = keyframes`
 `;
 
 export const RecentsTitle = styled.p`
-  font-size: 15px;
+  font-size: 12px;
+  color: #616771;
+  padding: 10px;
+`;
+
+export const DateStamp = styled.p`
+  font-size: 12px;
   color: #616771;
   padding: 10px;
 `;
@@ -114,22 +120,18 @@ export const Messenger = styled.div`
   ${commonMessengerStyles}
   height: 100%;
   flex-direction: column;
-`;
-
-export const MessengerContainer = styled.div`
-  ${commonMessengerStyles}
-  flex-direction: column;
-  margin-top: 4rem;
+  margin-top: 2rem;
 `;
 
 const commonBubbleStyles = `
   width: 30%;
   color: white;
-  height: 100%;
   border-radius: 20px;
-  padding: 8px;
+  padding: 10px;
   margin: 15px 0px 20px 20px;
   word-wrap: break-word;
+  display: flex;
+  justify-content: center;
 `;
 
 export const Incoming = styled.div`
@@ -152,21 +154,6 @@ export const Outgoing = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  background: lightgrey;
-`;
-
-export const MessengerBubble = styled.div`
-  ${commonBubbleStyles}
-  background: linear-gradient(
-    90deg,
-    rgba(255, 0, 181, 1) 0%,
-    rgba(132, 29, 180, 1) 44%,
-    rgba(0, 108, 255, 1) 100%
-  );
-`;
-
-export const MyMessageBubble = styled.div`
-  ${commonBubbleStyles}
   background: lightgrey;
 `;
 
