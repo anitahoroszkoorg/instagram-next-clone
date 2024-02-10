@@ -26,11 +26,9 @@ export const POST = async (request: Request) => {
   const data = await request.formData();
   const d = data.get("image");
   const caption = data.get("caption");
-
   if (!d || typeof d === "string" || !caption) {
     return new Response("Bad Request", { status: 400 });
   }
-
   const stream = await d.arrayBuffer();
   const readableStream = new Readable();
   readableStream.push(Buffer.from(stream));
@@ -48,6 +46,7 @@ export const POST = async (request: Request) => {
       ContentType: "image/jpeg",
     }),
   );
+  console.log(results);
 
   const fileContents = Buffer.from(stream).toString("base64");
 

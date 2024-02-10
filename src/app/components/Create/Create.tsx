@@ -73,7 +73,6 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
             x
           </div>
         </ModalHeader>
-
         {!selectedFile && (
           <>
             <ModalInside>Upload your pictures and movies here</ModalInside>
