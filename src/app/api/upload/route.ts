@@ -2,7 +2,6 @@ import { S3Client } from "@aws-sdk/client-s3";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
 import { PrismaClient } from "@prisma/client";
-const { Readable } = require("stream");
 
 const prisma = new PrismaClient();
 
@@ -31,8 +30,20 @@ export const POST = async (request: Request) => {
     return new Response("Bad Request", { status: 400 });
   }
 
+  const reader = d.stream().getReader();
+  const chunks = [];
+  let result;
+  while (!(result = await reader.read()).done) {
+    chunks.push(result.value);
+  }
+  const buffer = Buffer.concat(chunks);
   const stream = await d.arrayBuffer();
-  const readable = Readable.from(stream);
+  const readable = new ReadableStream({
+    start(controller) {
+      controller.enqueue(new Uint8Array(stream));
+      controller.close();
+    },
+  });
   const s3 = new S3Client({
     region: "eu-central-1",
   });
@@ -40,7 +51,7 @@ export const POST = async (request: Request) => {
   const key = `${uuidv4()}.${fileType}`;
   const results = await s3.send(
     new PutObjectCommand({
-      Body: readable,
+      Body: buffer,
       Bucket: process.env.BUCKET,
       Key: key,
       ContentType: "image/jpeg",
