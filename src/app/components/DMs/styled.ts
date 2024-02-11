@@ -53,10 +53,6 @@ export const MessageList = styled.div`
   height: 80vh;
 `;
 
-export const ActiveUsers = styled(MessageList)`
-  overflow-y: scroll;
-`;
-
 export const MessageItem = styled.div`
   margin-top: 1px;
   background-color: white;
@@ -87,21 +83,38 @@ export const MessageItemText = styled.p<MessageItemTextProps>`
 `;
 
 export const CreateMessage = styled.div`
+  position: relative;
   width: 70vw;
 `;
 
 const commonInputStyle = `
   border: 1px solid darkgrey;
+  border-radius: 5px;
 `;
 
 export const InputMessage = styled.input`
   ${commonInputStyle}
-  width: 70vw;
+  width: 65vw;
+  height: 30px;
+  padding: 5px;
+  margin: 15px;
+  position: fixed;
+  right: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
 `;
 
 export const SendButton = styled.button`
-  ${commonInputStyle}
-  width: 10vw;
+  position: absolute;
+  right: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 `;
 
 export const Recents = styled.div`
@@ -118,9 +131,11 @@ const commonMessengerStyles = `
 
 export const Messenger = styled.div`
   ${commonMessengerStyles}
-  height: 100%;
+  height: 80vh;
   flex-direction: column;
   margin-top: 2rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 const commonBubbleStyles = `
@@ -161,5 +176,13 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  justify-content: space-between;
   height: 100vh;
+`;
+
+export const ActiveLog = styled.div`
+  display: flex;
+  width: 70vw;
+  height: 5vh;
+  border: 1px solid black;
 `;
