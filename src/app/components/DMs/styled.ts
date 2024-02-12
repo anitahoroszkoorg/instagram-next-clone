@@ -117,7 +117,6 @@ export const SendButton = styled.button`
 
 export const Recents = styled.div`
   width: 30vw;
-  height: 100vh;
   border-radius: 10px;
 `;
 
@@ -129,17 +128,17 @@ export const Messenger = styled.div`
   border-radius: 10px;
   width: 70vw;
   display: flex;
+  height: 65vh;
 `;
 
 const commonBubbleStyles = `
-  width: 30%;
-  color: white;
-  border-radius: 20px;
-  padding: 10px;
-  margin: 15px 0px 10px 20px;
-  word-wrap: break-word;
-  display: flex;
-  justify-content: center;
+color: white;
+border-radius: 20px;
+padding: 10px 10px; 
+margin: 15px 0px 10px 20px;
+word-wrap: break-word;
+display: flex;
+justify-content: center;
 `;
 
 export const Incoming = styled.div`
