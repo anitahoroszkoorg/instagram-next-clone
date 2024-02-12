@@ -52,7 +52,7 @@ export const MessageList = styled.div`
   height: 80vh;
 `;
 
-export const MessageItem = styled.div`
+export const MessageItem = styled.div<MessageItemTextProps>`
   margin-top: 1px;
   background-color: white;
   display: flex;
@@ -69,10 +69,12 @@ export const MessageItem = styled.div`
   &:active {
     animation: ${clickItemAnimation} 1s 1;
   }
+  border: ${({ picked }) => (picked ? "1px solid lightblue" : "none")};
 `;
 
 interface MessageItemTextProps {
-  read: boolean;
+  read?: boolean;
+  picked?: boolean;
 }
 
 export const MessageItemText = styled.p<MessageItemTextProps>`

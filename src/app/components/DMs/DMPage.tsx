@@ -23,6 +23,7 @@ interface Message {
   sender: string;
   read: boolean;
   avatar?: string;
+  picked?: boolean;
 }
 
 const DMPage: React.FC = () => {
@@ -34,6 +35,7 @@ const DMPage: React.FC = () => {
       read: false,
       avatar:
         "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=2662&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      picked: true,
     },
     {
       id: 2,
@@ -97,7 +99,7 @@ const DMPage: React.FC = () => {
         <RecentsTitle>Unread messages: {count}</RecentsTitle>
         <MessageList>
           {messages.map((message) => (
-            <MessageItem key={message.id}>
+            <MessageItem key={message.id} picked={message.picked}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <UserAvatar
                   src={message.avatar ? message.avatar : "/avatar.jpeg"}
