@@ -14,7 +14,6 @@ import {
   Outgoing,
   MessageItemText,
   DateStamp,
-  ActiveLog,
 } from "./styled";
 import SendIcon from "@mui/icons-material/Send";
 
@@ -90,7 +89,6 @@ const DMPage: React.FC = () => {
   return (
     <Wrapper>
       <Recents>
-        <ActiveLog></ActiveLog>
         <RecentsTitle>Unread messages: {count}</RecentsTitle>
         <MessageList>
           {messages.map((message) => (
@@ -122,7 +120,7 @@ const DMPage: React.FC = () => {
         <Outgoing>so you can say I got pretty lucky at the end...</Outgoing>
         <Incoming>Totally, wow</Incoming>
         <CreateMessage>
-          <InputMessage placeholder="Type your message..." />
+          <InputMessage placeholder="Type your message" />
           <SendButton>
             <SendIcon style={{ color: "gray" }} />
           </SendButton>

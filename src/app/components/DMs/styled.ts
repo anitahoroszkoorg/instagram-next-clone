@@ -32,7 +32,7 @@ export const RecentsTitle = styled.p`
 export const DateStamp = styled.p`
   font-size: 12px;
   color: #616771;
-  padding: 10px;
+  margin-left: 10px;
 `;
 
 export const UserAvatar = styled.img`
@@ -48,7 +48,6 @@ export const MessageList = styled.div`
   box-shadow: ${commonBoxShadow};
   display: flex;
   flex-direction: column;
-  border-right: 1px solid darkgrey;
   overflow-y: scroll;
   height: 80vh;
 `;
@@ -95,22 +94,19 @@ const commonInputStyle = `
 export const InputMessage = styled.input`
   ${commonInputStyle}
   width: 65vw;
-  height: 30px;
+  height: 10vh;
   padding: 5px;
-  margin: 15px;
   position: fixed;
   right: 3rem;
-  top: 50%;
+  top: 90%;
   transform: translateY(-50%);
   right: 3rem;
-  top: 50%;
-  transform: translateY(-50%);
 `;
 
 export const SendButton = styled.button`
-  position: absolute;
-  right: 3rem;
-  top: 50%;
+  position: fixed;
+  right: 4rem;
+  top: 90%;
   transform: translateY(-50%);
   border: none;
   background-color: transparent;
@@ -123,19 +119,15 @@ export const Recents = styled.div`
   border-radius: 10px;
 `;
 
-const commonMessengerStyles = `
+export const Messenger = styled.div`
+  height: 60%;
+  flex-direction: column;
+  margin-top: 2rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
   border-radius: 10px;
   width: 70vw;
   display: flex;
-`;
-
-export const Messenger = styled.div`
-  ${commonMessengerStyles}
-  height: 80vh;
-  flex-direction: column;
-  margin-top: 2rem;
-  overflow-y: scroll;
-  overflow-x: hidden;
 `;
 
 const commonBubbleStyles = `
@@ -143,7 +135,7 @@ const commonBubbleStyles = `
   color: white;
   border-radius: 20px;
   padding: 10px;
-  margin: 15px 0px 20px 20px;
+  margin: 15px 0px 10px 20px;
   word-wrap: break-word;
   display: flex;
   justify-content: center;
@@ -178,11 +170,4 @@ export const Wrapper = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   height: 100vh;
-`;
-
-export const ActiveLog = styled.div`
-  display: flex;
-  width: 70vw;
-  height: 5vh;
-  border: 1px solid black;
 `;
