@@ -120,7 +120,6 @@ export const Recents = styled.div`
 `;
 
 export const Messenger = styled.div`
-  height: 60%;
   flex-direction: column;
   margin-top: 2rem;
   overflow-x: hidden;
