@@ -58,7 +58,7 @@ export const MessageItem = styled.div<MessageItemTextProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 30vw;
+  width: 28vw;
   border-radius: 10px;
   box-shadow: ${commonBoxShadow};
   height: 70px;
@@ -154,14 +154,16 @@ export const Incoming = styled.div`
   box-shadow:
     rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  width: 200px;
 `;
 
 export const Outgoing = styled.div`
   ${commonBubbleStyles}
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-end;
   background: lightgrey;
+  width: 200px;
 `;
 
 export const Wrapper = styled.div`
@@ -170,4 +172,15 @@ export const Wrapper = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   height: 100vh;
+`;
+
+export const ColumnOne = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`;
+export const ColumnTwo = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 `;

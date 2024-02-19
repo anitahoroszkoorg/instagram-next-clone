@@ -14,6 +14,8 @@ import {
   Outgoing,
   MessageItemText,
   DateStamp,
+  ColumnOne,
+  ColumnTwo,
 } from "./styled";
 import SendIcon from "@mui/icons-material/Send";
 
@@ -114,7 +116,9 @@ const DMPage: React.FC = () => {
         </MessageList>
       </Recents>
       <Messenger>
-        <DateStamp>{new Date().toDateString()}</DateStamp>
+        <ColumnOne></ColumnOne>
+        <ColumnTwo></ColumnTwo>
+        {/* <DateStamp>{new Date().toDateString()}</DateStamp>
         <Incoming>Hello, how have you been lately?</Incoming>
         <Outgoing>
           Hi, thanks for reaching out! I lost my phone last week!!
@@ -132,7 +136,7 @@ const DMPage: React.FC = () => {
           <SendButton>
             <SendIcon style={{ color: "gray" }} />
           </SendButton>
-        </CreateMessage>
+        </CreateMessage> */}
       </Messenger>
     </Wrapper>
   );
