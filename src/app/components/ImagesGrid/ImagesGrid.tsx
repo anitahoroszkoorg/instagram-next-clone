@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FeedWrapper, Photobox } from "../Profile/styled";
+import { FeedWrapper, Photobox } from "./styled";
 
-export const Main = () => {
+export const ImagesGrid = () => {
   const [images, setImages] = useState<string[]>([]);
 
   const fetchImages = async () => {
@@ -20,6 +20,7 @@ export const Main = () => {
   useEffect(() => {
     fetchImages();
   }, []);
+
   return (
     <FeedWrapper>
       {images.map((image) => (

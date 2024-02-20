@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint src"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.405.0",
@@ -24,11 +24,11 @@
     "autoprefixer": "^10.4.14",
     "eslint": "8.46.0",
     "eslint-config-next": "^14.0.4",
-    "next": "^14.0.4",
+    "next": "^14.1.0",
     "postcss": "^8.4.27",
-    "prisma": "^5.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-image-crop": "^11.0.5",
     "styled-components": "^6.0.7",
     "tailwindcss": "^3.3.3",
     "ts-node": "^10.9.1",
@@ -38,7 +38,8 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
     "@types/uuid": "^9.0.3",
-    "prettier": "3.1.1"
+    "prettier": "3.1.1",
+    "prisma": "^5.7.1"
   },
   "parserOptions": {
     "babelOptions": {

@@ -7,7 +7,7 @@ export const ProfileContainer = styled.div`
   font-size: 1em;
   border-radius: 3px;
   width: 25vw;
-  height: 100%;
+  height: 100vh;
   justify-content: center;
 `;
 

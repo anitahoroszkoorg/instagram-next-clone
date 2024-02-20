@@ -25,19 +25,13 @@ export const IconsWrapper = styled.div`
   align-items: space-between;
   overflow-y: hidden;
   overflow-x: hidden;
+  margin-right: 5rem;
 `;
 
 export const Logo = styled.img`
-  width: 30px;
-  height: 30px;
-  margin: 10px;
-  overflow-y: hidden;
-  overflow-x: hidden;
-`;
-export const Logo2 = styled.div`
   width: 100px;
-  height: 50px;
-  margin: 5px;
+  height: 30px;
+  margin: 15px 10px 0px 0px;
   overflow-y: hidden;
   overflow-x: hidden;
 `;

@@ -7,54 +7,71 @@ import {
   HeaderWrapper,
   IconsWrapper,
   Logo,
-  Logo2,
   LogoWrapper,
 } from "./styled";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
-import instalogo from "../../assets/instagram-text-logo.png";
-import Link from "next/link"; // Import Link from Next.js
+import Link from "next/link";
 import Create from "../Create/Create";
+import Image from "next/image";
 
-const Header = () => {
+export const Header = () => {
   const [openModal, setOpenModal] = useState(false);
   const closeModal = () => {
     setOpenModal(false);
+  };
+
+  const hyperLinksStyle = {
+    textDecoration: "none!important",
+    color: "black!important",
+    "&:hover": {
+      textDecoration: "none!important",
+      color: "black!important",
+    },
+    "&:visited": {
+      textDecoration: "none!important",
+      color: "black!important",
+    },
   };
 
   return (
     <>
       <HeaderWrapper>
         <LogoWrapper>
-          <Logo />
+          <Link href="/" style={hyperLinksStyle}>
+            <Logo src="/logo.png" alt="logo" />
+          </Link>
         </LogoWrapper>
         <IconsWrapper>
           <Icon>
-            <HomeOutlinedIcon />
-          </Icon>
-          <Icon>
-            <SearchOutlinedIcon />
+            <Link href="/" style={hyperLinksStyle}>
+              <HomeOutlinedIcon />
+            </Link>
           </Icon>
           <Icon>
             <AddAPhotoOutlinedIcon onClick={() => setOpenModal(true)} />
           </Icon>
           <Icon>
-            <FavoriteBorderOutlinedIcon />
+            <Link href="/pages/notifications" style={hyperLinksStyle}>
+              <FavoriteBorderOutlinedIcon />
+            </Link>
           </Icon>
           <Icon>
-            <MailOutlinedIcon />
+            <Link href="/pages/inbox" style={hyperLinksStyle}>
+              <MailOutlinedIcon />
+            </Link>
           </Icon>
         </IconsWrapper>
         <AvatarWrapper>
           <Link href="/pages/profile">
             <Avatar>
-              {/*eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://instagram-anitka.s3.eu-central-1.amazonaws.com/sebastian-pena-lambarri-q79ZzOkbQJ8-unsplash.jpg"
+              <Image
+                src="/avatar.jpeg"
                 alt="User Avatar"
+                width={300}
+                height={300}
               />
             </Avatar>
           </Link>
