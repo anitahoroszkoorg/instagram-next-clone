@@ -154,7 +154,7 @@ export const Incoming = styled.div`
   box-shadow:
     rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-  width: 200px;
+  width: 250px;
 `;
 
 export const Outgoing = styled.div`
@@ -163,7 +163,7 @@ export const Outgoing = styled.div`
   flex-direction: column;
   align-items: flex-end;
   background: lightgrey;
-  width: 200px;
+  width: 250px;
 `;
 
 export const Wrapper = styled.div`
@@ -177,10 +177,11 @@ export const Wrapper = styled.div`
 export const ColumnOne = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
 `;
 export const ColumnTwo = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: flex-end;
+  margin-right: 6vw;
 `;
