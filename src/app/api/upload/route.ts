@@ -52,7 +52,7 @@ export const POST = async (request: Request) => {
   const results = await s3.send(
     new PutObjectCommand({
       Body: buffer,
-      Bucket: process.env.BUCKET,
+      Bucket: process.env.AWS_BUCKET_NAME,
       Key: key,
       ContentType: "image/jpeg",
     }),

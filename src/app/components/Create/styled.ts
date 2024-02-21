@@ -18,7 +18,7 @@ export const ModalContent = styled.div`
   padding: 20px;
   border-radius: 8px;
   width: 500px;
-  height: 50vh;
+  height: 60vh;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -71,11 +71,13 @@ export const ModalInside = styled.div`
   margin-bottom: 20px;
 `;
 
-export const SelectedImage = styled.img`
-  width: 80%;
+export const SelectedImage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 100%;
+  background-size: cover;
+  background-image: url("https://source.unsplash.com/320x240/?sky");
 `;
 
 export const UploadBtn = styled.button`

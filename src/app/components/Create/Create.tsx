@@ -89,10 +89,9 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
         )}
         {selectedFile && (
           <>
-            <SelectedImage
-              src={URL.createObjectURL(selectedFile)}
-              alt="Selected"
-            />
+            <SelectedImage>
+              <img src={URL.createObjectURL(selectedFile)} />
+            </SelectedImage>
             <CaptionInput
               type="text"
               placeholder="Enter a caption"
