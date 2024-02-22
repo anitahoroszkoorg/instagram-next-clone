@@ -71,13 +71,19 @@ export const ModalInside = styled.div`
   margin-bottom: 20px;
 `;
 
-export const SelectedImage = styled.div`
+interface BackgroundProps {
+  backgroundImage?: string | null;
+}
+
+export const SelectedImage = styled.div<BackgroundProps>`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   max-width: 100%;
   background-size: cover;
-  background-image: url("https://source.unsplash.com/320x240/?sky");
+  // background-image: url(${(props) => props.backgroundImage});
+  background-position: center;
 `;
 
 export const UploadBtn = styled.button`
