@@ -5,9 +5,13 @@ import {
   ModalHeader,
   ModalInside,
   UploadBtn,
-  SelectedImage,
   CaptionInput,
+  ImgUpload,
+  CloseButton,
 } from "./styled";
+import upload from "../../assets/images/upload-image-icon.png";
+import Image from "next/image";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {
   openModal: boolean;
@@ -26,6 +30,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     if (files && files.length > 0) {
       const file = files[0];
       setSelectedFile(file);
+      console.log(file);
       setIsFilePicked(true);
     } else {
       setSelectedFile(null);
@@ -69,13 +74,14 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
       <ModalContent>
         <ModalHeader>
           Create a New Post
-          <div className="close-button" onClick={closeModal}>
-            x
-          </div>
+          <CloseButton>
+            <CloseIcon onClick={closeModal} />
+          </CloseButton>
         </ModalHeader>
         {!selectedFile && (
           <>
             <ModalInside>Upload your pictures and movies here</ModalInside>
+            <ImgUpload src={upload.src} alt="Upload" />
             <input
               ref={inputRef}
               style={inputStyle}
@@ -89,9 +95,12 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
         )}
         {selectedFile && (
           <>
-            <SelectedImage>
-              <img src={URL.createObjectURL(selectedFile)} />
-            </SelectedImage>
+            <Image
+              src={URL.createObjectURL(selectedFile)}
+              alt="selected image"
+              width={200}
+              height={300}
+            />
             <CaptionInput
               type="text"
               placeholder="Enter a caption"

@@ -53,8 +53,8 @@ export const CloseButton = styled.button`
 `;
 
 export const ImgUpload = styled.img`
-  width: 50%;
-  height: 70%;
+  width: 250px;
+  height: 80%;
   padding: 10px;
   margin-right: 25px;
 `;
@@ -66,24 +66,9 @@ export const Input = styled.input`
 
 export const ModalInside = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: row;
   margin-bottom: 20px;
-`;
-
-interface BackgroundProps {
-  backgroundImage?: string | null;
-}
-
-export const SelectedImage = styled.div<BackgroundProps>`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 100%;
-  background-size: cover;
-  // background-image: url(${(props) => props.backgroundImage});
-  background-position: center;
 `;
 
 export const UploadBtn = styled.button`
@@ -98,4 +83,7 @@ export const UploadBtn = styled.button`
   padding: 5px;
 `;
 
-export const CaptionInput = styled.input``;
+export const CaptionInput = styled.input`
+  border: 1px solid darkgrey;
+  border-radius: 5px;
+`;
