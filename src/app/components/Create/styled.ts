@@ -18,7 +18,7 @@ export const ModalContent = styled.div`
   padding: 20px;
   border-radius: 8px;
   width: 500px;
-  height: 60vh;
+  height: 500px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -38,7 +38,6 @@ export const ModalHeader = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row;
-  margin-bottom: 20px;
 `;
 
 export const CloseButton = styled.button`
@@ -54,36 +53,43 @@ export const CloseButton = styled.button`
 
 export const ImgUpload = styled.img`
   width: 250px;
-  height: 80%;
   padding: 10px;
   margin-right: 25px;
 `;
 
 export const Input = styled.input`
   color: blue;
-  display: none !important;
-`;
-
-export const ModalInside = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  margin-bottom: 20px;
+  display: none;
 `;
 
 export const UploadBtn = styled.button`
   height: 2.2rem;
   width: 40%;
-  margin: 1rem;
   border-radius: 5px;
   justify-content: center;
   border: none;
   background-color: #4c68d7;
   color: white;
   padding: 5px;
+  margin-left: 12px;
+  margin-top: 12px;
 `;
 
-export const CaptionInput = styled.input`
+export const CaptionInput = styled.textarea`
   border: 1px solid darkgrey;
   border-radius: 5px;
+  height: 6rem;
+  width: 100%;
+  resize: none;
+`;
+
+export const CreateWizardContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+`;
+
+export const CreateWizardActions = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
