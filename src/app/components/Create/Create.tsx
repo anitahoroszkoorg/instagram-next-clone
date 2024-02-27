@@ -112,19 +112,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
                 alt="selected image"
               />
               <CreateWizardActions>
-                <CaptionInput
-                  value={caption}
-                  {...register("caption", {
-                    required: true,
-                    maxLength: 255,
-                    onChange: (e) => {
-                      handleCaptionChange;
-                    },
-                    validate: () => {
-                      return "please add a caption";
-                    },
-                  })}
-                />
+                <CaptionInput value={caption} onChange={handleCaptionChange} />
                 <UploadBtn type="submit">Upload!</UploadBtn>
               </CreateWizardActions>
             </CreateWizardContainer>
