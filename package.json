@@ -28,6 +28,7 @@
     "postcss": "^8.4.27",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.50.1",
     "react-image-crop": "^11.0.5",
     "react-toastify": "^10.0.4",
     "styled-components": "^6.0.7",
