@@ -10,6 +10,7 @@ import {
   Input,
   CreateWizardContainer,
   CreateWizardActions,
+  WizardImg,
 } from "./styled";
 import upload from "../../assets/images/upload-image-icon.png";
 import CloseIcon from "@mui/icons-material/Close";
@@ -32,9 +33,10 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
 
   const inputRef = useRef<HTMLInputElement>();
 
-  const clear = () => {
+  const close = () => {
     setSelectedFile(null);
     setCaption("");
+    closeModal();
   };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +72,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
         body: data,
       });
       if (response.ok) {
-        clear();
+        close();
         closeModal();
       }
     } catch (error) {
@@ -85,7 +87,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
           <ModalHeader>
             Create a new post
             <CloseButton>
-              <CloseIcon onClick={closeModal} />
+              <CloseIcon onClick={close} />
             </CloseButton>
           </ModalHeader>
           <p>Upload your pictures and movies here:</p>
@@ -99,21 +101,28 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
                 type="file"
                 onChange={handleFileInputChange}
               />
-              <UploadBtn onClick={handleButtonClick}>
+              <UploadBtn
+                isFileSelected={!!selectedFile}
+                onClick={handleButtonClick}
+              >
                 Choose from your device
               </UploadBtn>
             </>
           )}
           {selectedFile && (
             <CreateWizardContainer>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={URL.createObjectURL(selectedFile)}
-                alt="selected image"
-              />
+              <WizardImg>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={URL.createObjectURL(selectedFile)}
+                  alt="selected image"
+                />
+              </WizardImg>
               <CreateWizardActions>
                 <CaptionInput value={caption} onChange={handleCaptionChange} />
-                <UploadBtn type="submit">Upload!</UploadBtn>
+                <UploadBtn type="submit" isFileSelected>
+                  Upload!
+                </UploadBtn>
               </CreateWizardActions>
             </CreateWizardContainer>
           )}
