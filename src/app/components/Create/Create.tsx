@@ -23,10 +23,11 @@ interface Props {
 
 interface IFormInput {
   caption: string;
+  image: FileList;
 }
 
 export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
-  const { register, handleSubmit, reset } = useForm<IFormInput>();
+  const { register, handleSubmit } = useForm<IFormInput>();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
   const [caption, setCaption] = useState<string>("");
@@ -80,6 +81,8 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     }
   };
 
+  console.log(register);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <ModalOverlay style={{ display: openModal ? "flex" : "none" }}>
@@ -119,7 +122,10 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
                 />
               </WizardImg>
               <CreateWizardActions>
-                <CaptionInput value={caption} onChange={handleCaptionChange} />
+                <CaptionInput
+                  value={caption}
+                  {...register("caption", { required: true })}
+                />
                 <UploadBtn type="submit" isFileSelected>
                   Upload!
                 </UploadBtn>

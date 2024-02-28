@@ -90,7 +90,6 @@ export const CaptionInput = styled.textarea`
   height: 6rem;
   resize: none;
   margin-left: 10px;
-  width: 30vw;
 `;
 
 export const CreateWizardContainer = styled.div`
