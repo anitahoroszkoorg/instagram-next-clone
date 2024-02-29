@@ -14,20 +14,13 @@ import {
 } from "./styled";
 import upload from "../../assets/images/upload-image-icon.png";
 import CloseIcon from "@mui/icons-material/Close";
-import { useForm } from "react-hook-form";
 
 interface Props {
   openModal: boolean;
   closeModal: () => void;
 }
 
-interface IFormInput {
-  caption: string;
-  image: FileList;
-}
-
 export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
-  const { register, handleSubmit } = useForm<IFormInput>();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
   const [caption, setCaption] = useState<string>("");
@@ -81,60 +74,56 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     }
   };
 
-  console.log(register);
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <ModalOverlay style={{ display: openModal ? "flex" : "none" }}>
-        <ModalContent>
-          <ModalHeader>
-            Create a new post
-            <CloseButton>
-              <CloseIcon onClick={close} />
-            </CloseButton>
-          </ModalHeader>
-          <p>Upload your pictures and movies here:</p>
-          {!selectedFile && (
-            <>
-              <ImgUpload src={upload.src} alt="Upload" />
-              <Input
-                ref={(e) => {
-                  inputRef.current = e as HTMLInputElement;
-                }}
-                type="file"
-                onChange={handleFileInputChange}
+    <ModalOverlay style={{ display: openModal ? "flex" : "none" }}>
+      <ModalContent>
+        <ModalHeader>
+          Create a new post
+          <CloseButton>
+            <CloseIcon onClick={close} />
+          </CloseButton>
+        </ModalHeader>
+        <p>Upload your pictures and movies here:</p>
+        {!selectedFile && (
+          <>
+            <ImgUpload src={upload.src} alt="Upload" />
+            <Input
+              ref={(e) => {
+                inputRef.current = e as HTMLInputElement;
+              }}
+              type="file"
+              onChange={handleFileInputChange}
+            />
+            <UploadBtn
+              isFileSelected={!!selectedFile}
+              onClick={handleButtonClick}
+            >
+              Choose from your device
+            </UploadBtn>
+          </>
+        )}
+        {selectedFile && (
+          <CreateWizardContainer>
+            <WizardImg>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={URL.createObjectURL(selectedFile)}
+                alt="selected image"
               />
-              <UploadBtn
-                isFileSelected={!!selectedFile}
-                onClick={handleButtonClick}
-              >
-                Choose from your device
+            </WizardImg>
+            <CreateWizardActions>
+              <CaptionInput
+                onChange={handleCaptionChange}
+                placeholder="Add your caption"
+              />
+              <UploadBtn onClick={onSubmit} isFileSelected>
+                Upload!
               </UploadBtn>
-            </>
-          )}
-          {selectedFile && (
-            <CreateWizardContainer>
-              <WizardImg>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={URL.createObjectURL(selectedFile)}
-                  alt="selected image"
-                />
-              </WizardImg>
-              <CreateWizardActions>
-                <CaptionInput
-                  value={caption}
-                  {...register("caption", { required: true })}
-                />
-                <UploadBtn type="submit" isFileSelected>
-                  Upload!
-                </UploadBtn>
-              </CreateWizardActions>
-            </CreateWizardContainer>
-          )}
-        </ModalContent>
-      </ModalOverlay>
-    </form>
+            </CreateWizardActions>
+          </CreateWizardContainer>
+        )}
+      </ModalContent>
+    </ModalOverlay>
   );
 };
 
