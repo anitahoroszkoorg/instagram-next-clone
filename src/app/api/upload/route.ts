@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 
 const insertUrltoDb = async (url: string, caption: string) => {
   try {
+    console.log(url);
     await prisma.post.create({
       data: {
         image_url: url,
@@ -23,33 +24,28 @@ const insertUrltoDb = async (url: string, caption: string) => {
 
 export const POST = async (request: Request) => {
   const data = await request.formData();
-  const d = data.get("image");
+  const blob = data.get("image");
   const caption = data.get("caption");
 
-  if (!d || typeof d === "string" || !caption) {
+  if (!blob || typeof blob === "string" || !caption) {
     return new Response("Bad Request", { status: 400 });
   }
 
-  const reader = d.stream().getReader();
+  const reader = blob.stream().getReader();
   const chunks = [];
   let result;
   while (!(result = await reader.read()).done) {
     chunks.push(result.value);
   }
   const buffer = Buffer.concat(chunks);
-  const stream = await d.arrayBuffer();
-  const readable = new ReadableStream({
-    start(controller) {
-      controller.enqueue(new Uint8Array(stream));
-      controller.close();
-    },
-  });
+  const stream = await blob.arrayBuffer();
+
   const s3 = new S3Client({
     region: "eu-central-1",
   });
-  const fileType = d.type.split("/").pop();
+  const fileType = blob.type.split("/").pop();
   const key = `${uuidv4()}.${fileType}`;
-  const results = await s3.send(
+  await s3.send(
     new PutObjectCommand({
       Body: buffer,
       Bucket: process.env.AWS_BUCKET_NAME,
@@ -57,12 +53,9 @@ export const POST = async (request: Request) => {
       ContentType: "image/jpeg",
     }),
   );
+  const uri = `s3://${process.env.AWS_BUCKET_NAME}/${key}`;
 
-  const fileContents = Buffer.from(stream).toString("base64");
-
-  const dataUrl = `data:${d.type};base64,${fileContents}`;
-
-  insertUrltoDb(dataUrl, caption.toString());
+  insertUrltoDb(uri, caption.toString());
 
   return new Response("Created", { status: 201 });
 };
