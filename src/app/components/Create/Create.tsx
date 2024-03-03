@@ -1,13 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalInside,
   UploadBtn,
-  SelectedImage,
   CaptionInput,
+  ImgUpload,
+  CloseButton,
+  Input,
+  CreateWizardContainer,
+  CreateWizardActions,
+  WizardImg,
 } from "./styled";
+import upload from "../../assets/images/upload-image-icon.png";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {
   openModal: boolean;
@@ -19,7 +25,13 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
   const [caption, setCaption] = useState<string>("");
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const inputRef = useRef<HTMLInputElement>();
+
+  const close = () => {
+    setSelectedFile(null);
+    setCaption("");
+    closeModal();
+  };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -37,12 +49,11 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     inputRef.current?.click();
   };
 
-  const handleCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCaptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCaption(e.target.value);
   };
 
-  const uploadFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     if (!selectedFile || !caption) {
       return;
     }
@@ -55,52 +66,61 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
         body: data,
       });
       if (response.ok) {
+        close();
         closeModal();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
-
-  const inputStyle = { display: "none" };
 
   return (
     <ModalOverlay style={{ display: openModal ? "flex" : "none" }}>
       <ModalContent>
         <ModalHeader>
-          Create a New Post
-          <div className="close-button" onClick={closeModal}>
-            x
-          </div>
+          Create a new post
+          <CloseButton>
+            <CloseIcon onClick={close} />
+          </CloseButton>
         </ModalHeader>
+        <p>Upload your pictures and movies here:</p>
         {!selectedFile && (
           <>
-            <ModalInside>Upload your pictures and movies here</ModalInside>
-            <input
-              ref={inputRef}
-              style={inputStyle}
+            <ImgUpload src={upload.src} alt="Upload" />
+            <Input
+              ref={(e) => {
+                inputRef.current = e as HTMLInputElement;
+              }}
               type="file"
               onChange={handleFileInputChange}
             />
-            <UploadBtn onClick={handleButtonClick}>
-              Choose from your computer
+            <UploadBtn
+              isFileSelected={!!selectedFile}
+              onClick={handleButtonClick}
+            >
+              Choose from your device
             </UploadBtn>
           </>
         )}
         {selectedFile && (
-          <>
-            <SelectedImage
-              src={URL.createObjectURL(selectedFile)}
-              alt="Selected"
-            />
-            <CaptionInput
-              type="text"
-              placeholder="Enter a caption"
-              value={caption}
-              onChange={handleCaptionChange}
-            />
-            <UploadBtn onClick={(e) => uploadFile(e)}>Upload!</UploadBtn>
-          </>
+          <CreateWizardContainer>
+            <WizardImg>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={URL.createObjectURL(selectedFile)}
+                alt="selected image"
+              />
+            </WizardImg>
+            <CreateWizardActions>
+              <CaptionInput
+                onChange={handleCaptionChange}
+                placeholder="Add your caption"
+              />
+              <UploadBtn onClick={onSubmit} isFileSelected>
+                Upload!
+              </UploadBtn>
+            </CreateWizardActions>
+          </CreateWizardContainer>
         )}
       </ModalContent>
     </ModalOverlay>

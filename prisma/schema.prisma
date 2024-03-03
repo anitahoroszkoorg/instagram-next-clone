@@ -55,7 +55,7 @@ model post {
   post_id           Int              @id @default(autoincrement())
   instagram_user_id Int?
   caption           String?          @db.VarChar(255)
-  image_url         String?          @db.VarChar(50)
+  image_url         String?          @db.VarChar(600)
   created_at        DateTime?        @default(now()) @db.Timestamp(6)
   comment           comment[]
   instagram_like    instagram_like[]

@@ -1,68 +1,11 @@
-import { S3Client } from "@aws-sdk/client-s3";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { v4 as uuidv4 } from "uuid";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
-const insertUrltoDb = async (url: string, caption: string) => {
-  try {
-    await prisma.post.create({
-      data: {
-        image_url: url,
-        caption: caption,
-      },
-    });
-    console.log("URL and caption inserted successfully.");
-  } catch (error) {
-    console.error("Error inserting URL and caption:", error);
-  } finally {
-    await prisma.$disconnect();
-  }
-};
-
+import { addPost } from "@/app/services/addPost";
+import { validateUploadPostData } from "@/app/schemas/uploadPostSchema";
 export const POST = async (request: Request) => {
-  const data = await request.formData();
-  const d = data.get("image");
-  const caption = data.get("caption");
-
-  if (!d || typeof d === "string" || !caption) {
-    return new Response("Bad Request", { status: 400 });
+  const formData = await request.formData();
+  const { error, values } = validateUploadPostData(formData);
+  if (error) {
+    return new Response(error, { status: 400 });
   }
-
-  const reader = d.stream().getReader();
-  const chunks = [];
-  let result;
-  while (!(result = await reader.read()).done) {
-    chunks.push(result.value);
-  }
-  const buffer = Buffer.concat(chunks);
-  const stream = await d.arrayBuffer();
-  const readable = new ReadableStream({
-    start(controller) {
-      controller.enqueue(new Uint8Array(stream));
-      controller.close();
-    },
-  });
-  const s3 = new S3Client({
-    region: "eu-central-1",
-  });
-  const fileType = d.type.split("/").pop();
-  const key = `${uuidv4()}.${fileType}`;
-  const results = await s3.send(
-    new PutObjectCommand({
-      Body: buffer,
-      Bucket: process.env.BUCKET,
-      Key: key,
-      ContentType: "image/jpeg",
-    }),
-  );
-
-  const fileContents = Buffer.from(stream).toString("base64");
-
-  const dataUrl = `data:${d.type};base64,${fileContents}`;
-
-  insertUrltoDb(dataUrl, caption.toString());
-
-  return new Response("Created", { status: 201 });
+  await addPost(values.image as File, values.caption as string);
+  return new Response(JSON.stringify(values), { status: 200 });
 };
