@@ -47,6 +47,7 @@ const Register = () => {
             name="email"
             value={values.email}
             required
+            placeholder="email"
           />
           {errorEmail && <ErrorMessage>{errorEmail}</ErrorMessage>}
           <Input

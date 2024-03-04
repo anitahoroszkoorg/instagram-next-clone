@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  display: flex;
+  display: grid;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -22,10 +22,20 @@ export const Card = styled.div`
   box-shadow: -0px 0px 33px -14px rgba(66, 68, 90, 0.61);
 `;
 
+export const CardItemsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
 export const Title = styled.h1`
-  font-size: 36px;
+  font-size: 24px;
   font-weight: 300;
-  margin-bottom: 25px;
+  margin: 0px 0px 20px 0px;
+  padding: 10px;
 `;
 
 export const Input = styled.input`
@@ -44,8 +54,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  margin-top: 20px;
-  width: 320px;
+  width: 100% !important;
   height: 45px;
   border: none;
   border-radius: 3px;
@@ -57,6 +66,7 @@ export const Button = styled.button`
   &:hover {
     background-color: #0d8bf2;
   }
+  margin-top: 30px;
 `;
 
 export const ForgotPassword = styled.a`

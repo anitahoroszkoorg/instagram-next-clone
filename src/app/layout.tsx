@@ -18,12 +18,14 @@ const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Props) {
+  const isLoggedIn = false;
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <StyledComponentsRegistry>
           <AppWrapper>
-            <Header />
+            {isLoggedIn && <Header />}
             {children}
           </AppWrapper>
         </StyledComponentsRegistry>
