@@ -35,11 +35,24 @@ const Register = () => {
     }
   };
 
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify({
+        email: formData.get("email"),
+        password: formData.get("password"),
+      }),
+    });
+    console.log(response);
+  };
+
   return (
     <Container>
       <Card>
         <Title>Register to Instagram</Title>
-        <form onSubmit={(e) => onSubmit(e)}>
+        <form onSubmit={handleSubmit}>
           <Input
             onChange={(e) => onChange(e)}
             type="email"
