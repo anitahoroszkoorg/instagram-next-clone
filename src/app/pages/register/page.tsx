@@ -10,6 +10,7 @@ import {
   SignUp,
   Title,
 } from "../login/styled";
+import Form from "./form";
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -52,29 +53,7 @@ const Register = () => {
     <Container>
       <Card>
         <Title>Register to Instagram</Title>
-        <form onSubmit={handleSubmit}>
-          <Input
-            onChange={(e) => onChange(e)}
-            type="email"
-            id="email"
-            name="email"
-            value={values.email}
-            required
-            placeholder="email"
-          />
-          {errorEmail && <ErrorMessage>{errorEmail}</ErrorMessage>}
-          <Input
-            onChange={(e) => onChange(e)}
-            type="password"
-            value={values.password}
-            id="password"
-            name="password"
-            placeholder="passwod"
-            required
-          />
-          {errorPassword && <ErrorMessage>{errorPassword}</ErrorMessage>}
-          <Button type="submit">Sign up</Button>
-        </form>
+        <Form />
         <SignUp href="login">Already have an account? Log in</SignUp>
       </Card>
     </Container>
