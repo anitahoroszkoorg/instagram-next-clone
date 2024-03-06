@@ -1,12 +1,6 @@
+import { NewUser } from "@/globals";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-
-interface NewUser {
-  email: string;
-  password_hash: string;
-  username: string;
-  full_name: string;
-}
 
 export const addUser = async (data: NewUser) => {
   try {

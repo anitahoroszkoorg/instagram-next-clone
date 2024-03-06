@@ -1,3 +1,5 @@
+import { NewUser } from "@/globals";
+
 const Joi = require("joi");
 
 export const addUserSchema = Joi.object({
@@ -7,7 +9,7 @@ export const addUserSchema = Joi.object({
   full_name: Joi.string(),
 });
 
-export const validatAddUserData = (formData: FormData) => {
-  const { error, values } = addUserSchema.validate(formData);
+export const validateAddUserData = (newUser: NewUser) => {
+  const { error, values } = addUserSchema.validate(newUser);
   return { error, values };
 };

@@ -1,25 +1,33 @@
 import { hash } from "bcrypt";
-import { PrismaClient } from "@prisma/client";
-import { validatAddUserData } from "@/app/schemas/addUserSchema";
+import { validateAddUserData } from "@/app/schemas/addUserSchema";
 import { addUser } from "@/app/db/users";
-const prisma = new PrismaClient();
 
-export async function POST(request: Request) {
+interface NewUser {
+  email: string;
+  password_hash: string;
+  username: string;
+  full_name: string;
+}
+
+export async function POST(request: Request): Promise<Response> {
+  const newUser: NewUser = {
+    email: "XD",
+    password_hash: "XD",
+    username: "XD",
+    full_name: "XD",
+  };
+
+  const { email, password_hash, username } = Object.values(request);
+  console.log(email, password_hash, username);
   try {
-    const formData = await request.formData();
-    const { error, values } = validatAddUserData(formData);
+    const { error, values } = validateAddUserData(newUser);
     if (error) {
       return new Response(error, { status: 400 });
     }
-    const newUser = {
-      email: values.email,
-      password_hash: await hash(values.password_hash, 10),
-      username: values.username,
-      full_name: values.full_name,
-    };
     await addUser(newUser);
+    return new Response(JSON.stringify(values), { status: 200 });
   } catch (err) {
     console.error("Error creating user:", err);
+    return new Response(JSON.stringify({ status: 400 }));
   }
-  return new Response(JSON.stringify({ satisfies: true }), { status: 200 });
 }
