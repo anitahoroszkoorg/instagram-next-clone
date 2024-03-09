@@ -1,73 +1,44 @@
 "use client";
 
-import { useState } from "react";
-import { FormEvent } from "react";
-import {
-  Button,
-  Card,
-  Container,
-  ErrorMessage,
-  Input,
-  SignUp,
-  Title,
-} from "../login/styled";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-export default function Form() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    fullName: "",
-    username: "",
-  });
+type Inputs = {
+  example: string;
+  exampleRequired: string;
+};
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+export default function App() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    console.log(formData);
-    e.preventDefault();
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      const response = await fetch(`/api/auth/register`, {
+      const response = await fetch("/api/auth/register", {
         method: "POST",
+        body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
       });
-      console.log({ response });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
     } catch (error) {
-      console.error("Error registering user:", error);
+      console.error("There was a problem with the fetch operation:", error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Input
-        name="email"
-        type="email"
-        value={formData.email}
-        onChange={handleChange}
-      />
-      <Input
-        name="password"
-        type="password"
-        value={formData.password}
-        onChange={handleChange}
-      />
-      <Input
-        name="fullName"
-        type="text"
-        value={formData.fullName}
-        onChange={handleChange}
-      />
-      <Input
-        name="username"
-        type="text"
-        value={formData.username}
-        onChange={handleChange}
-      />
-      <Button type="submit">Register</Button>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input defaultValue="test" {...register("example")} />
+      <input {...register("exampleRequired", { required: true })} />
+      {errors.exampleRequired && <span>This field is required</span>}
+
+      <input type="submit" />
     </form>
   );
 }
