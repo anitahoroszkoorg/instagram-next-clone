@@ -1,44 +1,48 @@
 "use client";
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import { FormEvent } from "react";
 
-type Inputs = {
-  example: string;
-  exampleRequired: string;
-};
-
-export default function App() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>();
-
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-    }
+export default function Form() {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const response = await fetch(`/api/auth/register`, {
+      method: "POST",
+      body: JSON.stringify({
+        email: formData.get("email"),
+        password: formData.get("password"),
+        username: formData.get("username"),
+        full_name: formData.get("full_name"),
+      }),
+    });
+    console.log({ response });
   };
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input defaultValue="test" {...register("example")} />
-      <input {...register("exampleRequired", { required: true })} />
-      {errors.exampleRequired && <span>This field is required</span>}
-
-      <input type="submit" />
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-2 mx-auto max-w-md mt-10"
+    >
+      <input
+        name="email"
+        className="border border-black text-black"
+        type="email"
+      />
+      <input
+        name="password"
+        className="border border-black  text-black"
+        type="password"
+      />
+      <input
+        name="username"
+        className="border border-black  text-black"
+        type="text"
+      />
+      <input
+        name="full_name"
+        className="border border-black  text-black"
+        type="text"
+      />
+      <button type="submit">Register</button>
     </form>
   );
 }

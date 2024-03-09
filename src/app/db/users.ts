@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 
 export const addUser = async (data: NewUser) => {
   try {
-    console.log(data);
     const { email, password_hash, username, full_name } = data;
     await prisma.instagram_user.create({
       data: {
