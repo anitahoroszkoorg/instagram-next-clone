@@ -5,8 +5,7 @@ import {
   _Object,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+
 const client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
