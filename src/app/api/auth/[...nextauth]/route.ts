@@ -16,10 +16,13 @@ const handler = NextAuth({
       async authorize(credentials, req) {
         const response = await prisma.instagram_user.findUniqueOrThrow({
           where: {
-            username: credentials?.email,
+            email: credentials?.email,
           },
         });
-        console.log(response.email);
+        console.log(response);
+        // decode hashed password ?
+        // check flagged if user is active
+        console.log(response);
         const user = response.full_name;
         console.log(user);
         return null;
