@@ -16,6 +16,7 @@ import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import Link from "next/link";
 import Create from "../Create/Create";
 import Image from "next/image";
+import { signOut } from "next-auth/react";
 
 export const Header = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -65,6 +66,7 @@ export const Header = () => {
           </Icon>
         </IconsWrapper>
         <AvatarWrapper>
+          <button onClick={() => signOut()}>Sign out</button>
           <Link href="/pages/profile">
             <Avatar>
               <Image
