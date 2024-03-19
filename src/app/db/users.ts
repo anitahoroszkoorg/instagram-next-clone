@@ -13,7 +13,6 @@ export const addUser = async (data: NewUser) => {
         full_name: full_name,
       },
     });
-    console.log("User added succesfully to database");
   } catch (error) {
     console.error("Error", error);
   } finally {
