@@ -49,26 +49,28 @@ export const Header = () => {
         <IconsWrapper>
           <Icon>
             <Link href="/" style={hyperLinksStyle}>
-              <HomeOutlinedIcon />
+              <HomeOutlinedIcon color="primary" />
             </Link>
           </Icon>
           <Icon>
-            <AddAPhotoOutlinedIcon onClick={() => setOpenModal(true)} />
+            <AddAPhotoOutlinedIcon
+              onClick={() => setOpenModal(true)}
+              color="primary"
+            />
           </Icon>
           <Icon>
             <Link href="/pages/notifications" style={hyperLinksStyle}>
-              <FavoriteBorderOutlinedIcon />
+              <FavoriteBorderOutlinedIcon color="primary" />
             </Link>
           </Icon>
           <Icon>
             <Link href="/pages/inbox" style={hyperLinksStyle}>
-              <MailOutlinedIcon />
+              <MailOutlinedIcon color="primary" />
             </Link>
           </Icon>
         </IconsWrapper>
-
-        <Button onClick={() => signOut()}>Sign out</Button>
         <AvatarWrapper>
+          <Button onClick={() => signOut()}>Sign out</Button>
           <Link href="/pages/profile">
             <Avatar>
               <Image
