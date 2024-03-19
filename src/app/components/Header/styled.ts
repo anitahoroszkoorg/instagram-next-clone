@@ -50,5 +50,12 @@ export const Icon = styled.div`
 export const AvatarWrapper = styled.div`
   display: flex;
   margin-right: 2rem;
-  padding: 1rem;
+  padding: 1remś;
+`;
+
+export const Button = styled.button`
+  height: 2rem;
+  border-radius: 5px;
+  border: none;
+  margin: 15px;
 `;

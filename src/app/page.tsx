@@ -4,7 +4,7 @@ import Header from "./components/Header/Header";
 import HomePage from "./components/Home/page";
 import LoginPage from "./pages/login/page";
 import StyledComponentsRegistry from "./registry";
-import { SessionProvider, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   const { data: session } = useSession();

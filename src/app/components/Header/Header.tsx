@@ -17,6 +17,7 @@ import Link from "next/link";
 import Create from "../Create/Create";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
+import { Button } from "./styled";
 
 export const Header = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -65,8 +66,9 @@ export const Header = () => {
             </Link>
           </Icon>
         </IconsWrapper>
+
+        <Button onClick={() => signOut()}>Sign out</Button>
         <AvatarWrapper>
-          <button onClick={() => signOut()}>Sign out</button>
           <Link href="/pages/profile">
             <Avatar>
               <Image
