@@ -42,7 +42,9 @@ export const Avatar = styled.div`
   height: 50px;
   overflow-y: hidden;
   overflow-x: hidden;
+  margin: 10px;
 `;
+
 export const Icon = styled.div`
   margin: 25px;
 `;
@@ -50,5 +52,13 @@ export const Icon = styled.div`
 export const AvatarWrapper = styled.div`
   display: flex;
   margin-right: 2rem;
-  padding: 1rem;
+  padding: 1remś;
+  justify-content: space-around;
+`;
+
+export const Button = styled.button`
+  height: 2rem;
+  border-radius: 5px;
+  border: none;
+  margin-top: 20px;
 `;

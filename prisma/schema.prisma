@@ -44,12 +44,14 @@ model instagram_user {
   bio                                                           String?          @db.VarChar(255)
   profile_image_url                                             String?          @db.VarChar(100)
   created_at                                                    DateTime?        @default(now()) @db.Timestamp(6)
+  is_active                                                     Boolean          @default(false)
   comment                                                       comment[]
   follower_follower_follower_instagram_user_idToinstagram_user  follower[]       @relation("follower_follower_instagram_user_idToinstagram_user")
   follower_follower_following_instagram_user_idToinstagram_user follower[]       @relation("follower_following_instagram_user_idToinstagram_user")
   instagram_like                                                instagram_like[]
   post                                                          post[]
 }
+
 
 model post {
   post_id           Int              @id @default(autoincrement())
