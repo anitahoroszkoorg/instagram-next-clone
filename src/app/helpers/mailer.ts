@@ -1,17 +1,23 @@
+import { NewUser } from "@/globals";
 import bcrypt from "bcrypt";
 const nodemailer = require("nodemailer");
 
+export const sendEmail = async ({ email, username }: any) => {
+  try {
+    const hashedToken = await bcrypt.hash(username, 10);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 const transporter = nodemailer.createTransport({
-  host: "smtp.ethereal.email",
-  port: 587,
-  secure: false, // Use `true` for port 465, `false` for all other ports
+  service: "gmail",
   auth: {
-    user: "maddison53@ethereal.email",
-    pass: "jn7jnAPss4f63QBp6D",
+    user: "your-email@gmail.com",
+    pass: "your-password",
   },
 });
 
-// async..await is not allowed in global scope, must use a wrapper
 async function main() {
   // send mail with defined transport object
   const info = await transporter.sendMail({
@@ -25,5 +31,3 @@ async function main() {
   console.log("Message sent: %s", info.messageId);
   // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
 }
-
-main().catch(console.error);
