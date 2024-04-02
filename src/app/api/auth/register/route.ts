@@ -4,23 +4,30 @@ import { addUser } from "@/app/db/users";
 import { NewUser } from "@/globals";
 import { validateAddUserData } from "@/app/schemas/addUserSchema";
 import { PrismaClient } from "@prisma/client";
+
 const nodemailer = require("nodemailer");
 
-var transporter = nodemailer.createTransport({
-  host: "sandbox.smtp.mailtrap.io",
-  port: 2525,
-  auth: {
-    user: process.env.MAILTRAP_USER,
-    pass: process.env.MAILTRAP_PASS,
-  },
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
   secure: true,
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
+  },
 });
 
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {
-    const { email, password, username, full_name } = await request.json();
+    const requestData = await request.json();
+    const email = requestData?.email; // Check if email is null
+    if (!email) {
+      throw new Error("Email is required.");
+    }
+
+    const { password, username, full_name } = requestData;
     const checkExistingUser = await prisma.instagram_user.findFirst({
       where: {
         OR: [
@@ -34,10 +41,10 @@ export async function POST(request: Request) {
       },
     });
     if (checkExistingUser) {
-      return NextResponse.redirect("/pages/login");
+      console.log("user already exists");
     } else {
       const info = await transporter.sendMail({
-        from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>',
+        from: '"Maddison Foo Koch 👻" <yourgmail@gmail.com>',
         to: email,
         subject: "Hello ✔",
         text: "Hello world?",
