@@ -1,12 +1,10 @@
 "use client";
-
 import { FormEvent } from "react";
 import { Button, Input } from "../login/styled";
 import { useRouter } from "next/navigation";
 
 export default function Form() {
   const router = useRouter();
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -17,11 +15,13 @@ export default function Form() {
         password: formData.get("password"),
         username: formData.get("username"),
         full_name: formData.get("full_name"),
+        // isActive: false,
       }),
     });
     if (response.ok) {
       router.push("/pages/login");
     }
+    console.log(response);
   };
 
   return (

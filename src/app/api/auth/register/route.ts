@@ -22,12 +22,15 @@ const prisma = new PrismaClient();
 export async function POST(request: Request) {
   try {
     const requestData = await request.json();
-    const email = requestData?.email; // Check if email is null
+    console.log(requestData);
+    if (!requestData) {
+      throw new Error("Request data is missing.");
+    }
+    const { email, password, username, full_name } = requestData;
     if (!email) {
       throw new Error("Email is required.");
     }
 
-    const { password, username, full_name } = requestData;
     const checkExistingUser = await prisma.instagram_user.findFirst({
       where: {
         OR: [
@@ -41,17 +44,22 @@ export async function POST(request: Request) {
       },
     });
     if (checkExistingUser) {
-      console.log("user already exists");
+      return new NextResponse(
+        JSON.stringify({ error: "user already exists" }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
     } else {
-      const info = await transporter.sendMail({
-        from: '"Maddison Foo Koch 👻" <yourgmail@gmail.com>',
+      await transporter.sendMail({
+        from: "Instagram.com",
         to: email,
-        subject: "Hello ✔",
-        text: "Hello world?",
-        html: "<b>Hello world?</b>",
+        subject: "Welcome to Instagram ✔",
+        text: "You are now one step away from becoming a member of our community here at Instagram",
+        html: "<b>To start your journey, please confirm the activation of your account</b>",
       });
-      console.log("Message sent: %s", info.messageId);
-
       const hashedPassword = await hash(password, 10);
       const user: NewUser = {
         email: email,
@@ -59,7 +67,6 @@ export async function POST(request: Request) {
         username: username,
         full_name: full_name,
       };
-
       const { error, values } = validateAddUserData(user);
       if (error) {
         console.error(error);
