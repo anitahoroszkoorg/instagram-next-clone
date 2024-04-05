@@ -44,12 +44,12 @@ export async function POST(request: Request) {
       },
     });
     if (checkExistingUser) {
-      return new NextResponse(
-        JSON.stringify({ error: "user already exists" }),
+      return NextResponse.json(
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          message: "Please enter title",
+        },
+        {
+          status: 409,
         },
       );
     } else {
