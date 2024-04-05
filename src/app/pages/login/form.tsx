@@ -14,10 +14,11 @@ export default function Form() {
       password: formData.get("password"),
       redirect: false,
     });
-    if (!response?.error) {
-      router.push("/");
-      router.refresh();
-    }
+    console.log(response);
+    // Zrob tak zeby to dzialalo
+    // router.replace(JSON.stringify(response?.url));
+    router.push("/");
+    router.refresh();
   };
   return (
     <form onSubmit={handleSubmit}>

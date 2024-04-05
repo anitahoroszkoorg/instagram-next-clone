@@ -10,6 +10,6 @@ export const addUserSchema = Joi.object({
 });
 
 export const validateAddUserData = (newUser: NewUser) => {
-  const { error, values } = addUserSchema.validate(newUser);
-  return { error, values };
+  // console.log(newUser);
+  return addUserSchema.validate(newUser);
 };

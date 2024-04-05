@@ -20,62 +20,53 @@ const transporter = nodemailer.createTransport({
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
-  try {
-    const requestData = await request.json();
-    console.log(requestData);
-    if (!requestData) {
-      throw new Error("Request data is missing.");
-    }
-    const { email, password, username, full_name } = requestData;
-    if (!email) {
-      throw new Error("Email is required.");
-    }
-
-    const checkExistingUser = await prisma.instagram_user.findFirst({
-      where: {
-        OR: [
-          {
-            email: email,
-          },
-          {
-            username: username,
-          },
-        ],
-      },
-    });
-    if (checkExistingUser) {
-      return NextResponse.json(
-        {
-          message: "Please enter title",
-        },
-        {
-          status: 409,
-        },
-      );
-    } else {
-      await transporter.sendMail({
-        from: "Instagram.com",
-        to: email,
-        subject: "Welcome to Instagram ✔",
-        text: "You are now one step away from becoming a member of our community here at Instagram",
-        html: "<b>To start your journey, please confirm the activation of your account</b>",
-      });
-      const hashedPassword = await hash(password, 10);
-      const user: NewUser = {
-        email: email,
-        password_hash: hashedPassword,
-        username: username,
-        full_name: full_name,
-      };
-      const { error, values } = validateAddUserData(user);
-      if (error) {
-        console.error(error);
-      } else {
-        addUser(values);
-      }
-    }
-  } catch (e) {
-    console.error("Error:", e);
+  const requestData = await request.json();
+  if (!requestData) {
+    throw new Error("Request data is missing.");
   }
+  const { email, password, username, full_name } = requestData;
+
+  const hashedPassword = await hash(password, 10);
+
+  const user: NewUser = {
+    email: email,
+    password_hash: hashedPassword,
+    username: username,
+    full_name: full_name,
+  };
+  // sprawdz dlaczego undefined
+  const { error, values } = validateAddUserData(user);
+  if (error) {
+    return NextResponse.json(
+      {
+        message: error.message,
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+
+  try {
+    await addUser(user);
+  } catch (error: any) {
+    return NextResponse.json(
+      {
+        message: error.message,
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+
+  await transporter.sendMail({
+    from: "Instagram.com",
+    to: email,
+    subject: "Welcome to Instagram ✔",
+    text: "You are now one step away from becoming a member of our community here at Instagram",
+    html: "<b>To start your journey, please confirm the activation of your account</b>",
+  });
+
   return NextResponse.json({ message: "success" });
 }

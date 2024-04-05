@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
 import { compare } from "bcrypt";
+import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
@@ -17,19 +18,28 @@ const handler = NextAuth({
         password: {},
       },
       async authorize(credentials, req): Promise<any> {
-        const response = await prisma.instagram_user.findUniqueOrThrow({
+        const user = await prisma.instagram_user.findUniqueOrThrow({
           where: {
             email: credentials?.email,
           },
         });
         const passwordCorrect = await compare(
           credentials?.password || "",
-          response?.password_hash,
+          user?.password_hash,
         );
+        console.log(user);
+        if (!user.is_active) {
+          throw new Error(
+            JSON.stringify({
+              errors: "USer is not active",
+              status: 401,
+            }),
+          );
+        }
         if (passwordCorrect) {
           return {
-            username: response.username,
-            email: response.email,
+            username: user.username,
+            email: user.email,
           };
         }
         return null;
