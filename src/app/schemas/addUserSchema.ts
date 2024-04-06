@@ -7,6 +7,7 @@ export const addUserSchema = Joi.object({
   password_hash: Joi.string(),
   username: Joi.string(),
   full_name: Joi.string(),
+  custom_id: Joi.string(),
 });
 
 export const validateAddUserData = (newUser: NewUser) => {

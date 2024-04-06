@@ -4,4 +4,5 @@ export interface NewUser {
   username: string;
   full_name: string;
   isActive?: boolean;
+  custom_id: string;
 }

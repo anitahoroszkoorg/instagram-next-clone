@@ -4,8 +4,8 @@ import { addUser } from "@/app/db/users";
 import { NewUser } from "@/globals";
 import { validateAddUserData } from "@/app/schemas/addUserSchema";
 import { PrismaClient } from "@prisma/client";
-
-const nodemailer = require("nodemailer");
+import { v4 as uuidv4 } from "uuid";
+import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -16,25 +16,21 @@ const transporter = nodemailer.createTransport({
     pass: process.env.GMAIL_PASS,
   },
 });
-
-const prisma = new PrismaClient();
-
 export async function POST(request: Request) {
   const requestData = await request.json();
   if (!requestData) {
     throw new Error("Request data is missing.");
   }
   const { email, password, username, full_name } = requestData;
-
   const hashedPassword = await hash(password, 10);
-
   const user: NewUser = {
     email: email,
     password_hash: hashedPassword,
     username: username,
     full_name: full_name,
+    custom_id: uuidv4(),
   };
-  // sprawdz dlaczego undefined
+  // check why undefined
   const { error, values } = validateAddUserData(user);
   if (error) {
     return NextResponse.json(
@@ -46,9 +42,9 @@ export async function POST(request: Request) {
       },
     );
   }
-
+  let createdUser: any;
   try {
-    await addUser(user);
+    createdUser = await addUser(user);
   } catch (error: any) {
     return NextResponse.json(
       {
@@ -65,8 +61,10 @@ export async function POST(request: Request) {
     to: email,
     subject: "Welcome to Instagram ✔",
     text: "You are now one step away from becoming a member of our community here at Instagram",
-    html: "<b>To start your journey, please confirm the activation of your account</b>",
+    html: `<b>To start your journey, please confirm the activation of your account</b> <a href=https://localhost:3000/activate/${createdUser.custom_id}>`,
   });
+  // FE widok activate/?id=xxxx + useeffect robi post /api/activate_user
+  // BE endpoint /api/activate_user {"id":xxxx}, be wyszkuje usera z tym id i zmienia mu na active
 
   return NextResponse.json({ message: "success" });
 }
