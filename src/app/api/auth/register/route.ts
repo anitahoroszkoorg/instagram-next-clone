@@ -23,12 +23,13 @@ export async function POST(request: Request) {
   }
   const { email, password, username, full_name } = requestData;
   const hashedPassword = await hash(password, 10);
+  var custom_id = uuidv4();
   const user: NewUser = {
     email: email,
     password_hash: hashedPassword,
     username: username,
     full_name: full_name,
-    custom_id: uuidv4(),
+    custom_id: custom_id,
   };
   // check why undefined
   const { error, values } = validateAddUserData(user);
@@ -56,12 +57,12 @@ export async function POST(request: Request) {
     );
   }
 
-  await transporter.sendMail({
+  transporter.sendMail({
     from: "Instagram.com",
     to: email,
     subject: "Welcome to Instagram ✔",
     text: "You are now one step away from becoming a member of our community here at Instagram",
-    html: `<b>To start your journey, please confirm the activation of your account</b> <a href=https://localhost:3000/activate/${createdUser.custom_id}>`,
+    html: `<b>To start your journey, please confirm the activation of your account</b><a href=https://localhost:3000/pages/confirmActivation/${custom_id}>potwierdz</a>`,
   });
   // FE widok activate/?id=xxxx + useeffect robi post /api/activate_user
   // BE endpoint /api/activate_user {"id":xxxx}, be wyszkuje usera z tym id i zmienia mu na active

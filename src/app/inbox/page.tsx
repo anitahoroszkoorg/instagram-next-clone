@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import DMPage from "../../components/DMs/DMPage";
+import DMPage from "../components/DMs/DMPage";
 
 const page = () => {
   return (
