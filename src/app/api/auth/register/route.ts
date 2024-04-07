@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     to: email,
     subject: "Welcome to Instagram ✔",
     text: "You are now one step away from becoming a member of our community here at Instagram",
-    html: `<b>To start your journey, please confirm the activation of your account</b><a href=https://localhost:3000/pages/confirmActivation/${custom_id}>potwierdz</a>`,
+    html: `<b>To start your journey, please confirm the activation of your account</b><a href=http://localhost:3000/activate/${custom_id}><b/>ACTIVATE</a>`,
   });
   // FE widok activate/?id=xxxx + useeffect robi post /api/activate_user
   // BE endpoint /api/activate_user {"id":xxxx}, be wyszkuje usera z tym id i zmienia mu na active

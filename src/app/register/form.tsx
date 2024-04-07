@@ -19,7 +19,7 @@ export default function Form() {
       }),
     });
     if (response.ok) {
-      router.push("/pages/login");
+      router.push("/login");
     } else {
       console.log(response.json());
     }

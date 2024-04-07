@@ -31,7 +31,7 @@ const handler = NextAuth({
         if (!user.is_active) {
           throw new Error(
             JSON.stringify({
-              errors: "USer is not active",
+              errors: "User is not active",
               status: 401,
             }),
           );

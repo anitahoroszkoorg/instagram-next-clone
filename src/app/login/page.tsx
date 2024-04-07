@@ -9,7 +9,7 @@ export default function LoginPage() {
         <Card>
           <Title>Log in to Instagram</Title>
           <Form />
-          <SignUp href="/pages/register">Dont have an account? Sign up</SignUp>
+          <SignUp href="/register">Dont have an account? Sign up</SignUp>
         </Card>
       </Container>
     </>
