@@ -7,8 +7,7 @@ export async function POST(request: Request) {
   if (!requestData) {
     throw new Error("Request data is missing.");
   }
-  //validate
-  activateUser(requestData);
+  await activateUser(requestData.custom_id);
 
   return NextResponse.json({ message: "success" });
 }
