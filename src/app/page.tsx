@@ -5,6 +5,8 @@ import HomePage from "./components/Home/page";
 import LoginPage from "./login/page";
 import StyledComponentsRegistry from "./registry";
 import { useSession } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -13,6 +15,7 @@ export default function Home() {
 
   return (
     <StyledComponentsRegistry>
+      <ToastContainer />{" "}
       <AppWrapper>
         {isLoggedIn ? (
           <>

@@ -2,6 +2,8 @@
 import { FormEvent } from "react";
 import { Button, Input } from "../login/styled";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Form() {
   const router = useRouter();
@@ -15,47 +17,27 @@ export default function Form() {
         password: formData.get("password"),
         username: formData.get("username"),
         full_name: formData.get("full_name"),
-        // isActive: false,
       }),
     });
     if (response.ok) {
-      router.push("/login");
+      router.push("/verifyEmail");
     } else {
-      console.log(response.json());
+      const errorMessage = await response.json();
+      console.log(errorMessage);
+      toast.error(errorMessage.message || "An error occurred");
     }
-    console.log(response);
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-2 mx-auto max-w-md mt-10"
-    >
-      <Input
-        placeholder="email"
-        name="email"
-        className="border border-black text-black"
-        type="email"
-      />
-      <Input
-        name="password"
-        className="border border-black  text-black"
-        type="password"
-        placeholder="password"
-      />
-      <Input
-        name="username"
-        className="border border-black  text-black"
-        type="text"
-        placeholder="user name"
-      />
-      <Input
-        name="full_name"
-        className="border border-black  text-black"
-        type="text"
-        placeholder="full name"
-      />
-      <Button type="submit">Register</Button>
-    </form>
+    <>
+      <ToastContainer />
+      <form onSubmit={handleSubmit}>
+        <Input placeholder="email" name="email" type="email" />
+        <Input name="password" type="password" placeholder="password" />
+        <Input name="username" type="text" placeholder="user name" />
+        <Input name="full_name" type="text" placeholder="full name" />
+        <Button type="submit">Register</Button>
+      </form>
+    </>
   );
 }

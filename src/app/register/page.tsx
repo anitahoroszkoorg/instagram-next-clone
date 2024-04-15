@@ -1,23 +1,8 @@
 "use client";
-
-import { ChangeEvent, FormEvent, useState } from "react";
-import {
-  Button,
-  Card,
-  Container,
-  ErrorMessage,
-  Input,
-  SignUp,
-  Title,
-} from "../login/styled";
+import { Card, Container, SignUp, Title } from "../login/styled";
 import Form from "./form";
 
 const Register = () => {
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-  });
-
   return (
     <Container>
       <Card>

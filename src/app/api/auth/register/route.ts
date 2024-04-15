@@ -3,7 +3,6 @@ import { hash } from "bcrypt";
 import { addUser } from "@/app/db/users";
 import { NewUser } from "@/globals";
 import { validateAddUserData } from "@/app/schemas/addUserSchema";
-import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
 
@@ -56,7 +55,6 @@ export async function POST(request: Request) {
       },
     );
   }
-
   transporter.sendMail({
     from: "Instagram.com",
     to: email,
@@ -64,8 +62,6 @@ export async function POST(request: Request) {
     text: "You are now one step away from becoming a member of our community here at Instagram",
     html: `<b>To start your journey, please confirm the activation of your account</b><a href=http://localhost:3000/activate/${custom_id}><b/>ACTIVATE</a>`,
   });
-  // FE widok activate/?id=xxxx + useeffect robi post /api/activate_user
-  // BE endpoint /api/activate_user {"id":xxxx}, be wyszkuje usera z tym id i zmienia mu na active
 
   return NextResponse.json({ message: "success" });
 }

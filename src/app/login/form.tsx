@@ -1,7 +1,7 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import { Button, Input } from "./styled";
 
 export default function Form() {
@@ -14,9 +14,6 @@ export default function Form() {
       password: formData.get("password"),
       redirect: false,
     });
-    console.log(response);
-    // Zrob tak zeby to dzialalo
-    // router.replace(JSON.stringify(response?.url));
     router.push("/");
     router.refresh();
   };
