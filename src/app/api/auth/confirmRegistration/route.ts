@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const requestData = await request.json();
-  console.log(requestData);
   if (!requestData) {
     throw new Error("Request data is missing.");
   }
