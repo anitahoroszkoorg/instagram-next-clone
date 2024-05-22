@@ -1,7 +1,7 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import { Button, Input } from "./styled";
 
 export default function Form() {
@@ -14,10 +14,8 @@ export default function Form() {
       password: formData.get("password"),
       redirect: false,
     });
-    if (!response?.error) {
-      router.push("/");
-      router.refresh();
-    }
+    router.push("/");
+    router.refresh();
   };
   return (
     <form onSubmit={handleSubmit}>
