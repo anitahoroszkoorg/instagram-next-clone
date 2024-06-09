@@ -6,8 +6,8 @@ import SideBar from "@/app/components/Sidebar/SideBar";
 const ProfilePage = () => {
   return (
     <>
-      <Profile />
-      <SideBar />
+      {/* <Profile />
+      <SideBar /> */}
     </>
   );
 };

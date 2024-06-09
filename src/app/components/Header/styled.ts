@@ -5,7 +5,7 @@ export const HeaderWrapper = styled.header`
   display: flex;
   background-color: white;
   width: 100%;
-  height: 14vh;
+  height: 12vh;
   margin-left: 2rem;
   align-items: space-around;
   justify-content: space-between;

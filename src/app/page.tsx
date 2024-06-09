@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <StyledComponentsRegistry>
-      <ToastContainer />{" "}
+      <ToastContainer />
       <AppWrapper>
         {isLoggedIn ? (
           <>

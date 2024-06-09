@@ -8,22 +8,23 @@ import AspectRatioOutlinedIcon from "@mui/icons-material/AspectRatioOutlined";
 
 const SideBar = () => {
   return (
-    <SideBarWrapper>
-      <SideIconsWrapper>
-        <Icon>
-          <GridOnIcon />
-        </Icon>
-        <Icon>
-          <WindowOutlinedIcon />
-        </Icon>
-        <Icon>
-          <AspectRatioOutlinedIcon />
-        </Icon>
-        <Icon>
-          <TurnedInNotIcon />
-        </Icon>
-      </SideIconsWrapper>
-    </SideBarWrapper>
+    // <SideBarWrapper>
+    //   <SideIconsWrapper>
+    //     <Icon>
+    //       <GridOnIcon />
+    //     </Icon>
+    //     <Icon>
+    //       <WindowOutlinedIcon />
+    //     </Icon>
+    //     <Icon>
+    //       <AspectRatioOutlinedIcon />
+    //     </Icon>
+    //     <Icon>
+    //       <TurnedInNotIcon />
+    //     </Icon>
+    //   </SideIconsWrapper>
+    // </SideBarWrapper>
+    <></>
   );
 };
 

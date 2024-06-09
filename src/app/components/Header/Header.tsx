@@ -59,19 +59,19 @@ export const Header = () => {
             />
           </Icon>
           <Icon>
-            <Link href="/pages/notifications" style={hyperLinksStyle}>
+            <Link href="" style={hyperLinksStyle}>
               <FavoriteBorderOutlinedIcon color="primary" />
             </Link>
           </Icon>
           <Icon>
-            <Link href="/pages/inbox" style={hyperLinksStyle}>
+            <Link href="" style={hyperLinksStyle}>
               <MailOutlinedIcon color="primary" />
             </Link>
           </Icon>
         </IconsWrapper>
         <AvatarWrapper>
           <Button onClick={() => signOut()}>Sign out</Button>
-          <Link href="/pages/profile">
+          <Link href="profile">
             <Avatar>
               <Image
                 src="/avatar.jpeg"
