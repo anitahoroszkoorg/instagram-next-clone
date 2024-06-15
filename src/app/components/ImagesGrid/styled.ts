@@ -9,6 +9,8 @@ export const FeedWrapper = styled.div`
   flex-wrap: wrap;
   padding-bottom: 20px;
   margin: 0rem 2rem 0rem 5rem;
+  overflow: scroll !important;
+  position: absolute;
 `;
 
 export const Photobox = styled.img`
@@ -16,4 +18,5 @@ export const Photobox = styled.img`
   width: 300px;
   height: 300px;
   padding: 5px;
+  position: relative;
 `;

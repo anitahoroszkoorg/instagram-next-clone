@@ -11,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 export default function Home() {
   const { data: session } = useSession();
   const isLoggedIn = session?.user;
-  console.log(isLoggedIn);
 
   return (
     <StyledComponentsRegistry>

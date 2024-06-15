@@ -1,9 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FeedWrapper, Photobox } from "./styled";
+import { Post } from "../Post/Post";
 
 export const ImagesGrid = () => {
   const [images, setImages] = useState<string[]>([]);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<string>("");
 
   const fetchImages = async () => {
     try {
@@ -21,11 +24,25 @@ export const ImagesGrid = () => {
     fetchImages();
   }, []);
 
+  const handlePhotoBoxClick = (imageSrc: string) => {
+    setSelectedImage(imageSrc);
+    setModalVisible(true);
+  };
+
   return (
-    <FeedWrapper>
-      {images.map((image) => (
-        <Photobox src={image} key={image} />
-      ))}
-    </FeedWrapper>
+    <>
+      <Post
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        selectedImage={selectedImage}
+      />
+      <FeedWrapper>
+        {images.map((image, index) => (
+          <div onClick={() => handlePhotoBoxClick(image)} key={index}>
+            <Photobox src={image} key={index} />
+          </div>
+        ))}
+      </FeedWrapper>
+    </>
   );
 };
