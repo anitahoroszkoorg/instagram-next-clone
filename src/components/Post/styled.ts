@@ -35,12 +35,13 @@ export const BackDropContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
-  z-index: 2;
+  z-index: 5;
 `;
 
 export const PhotoboxFrame = styled.div`
-  width: 55vw;
-  height: 65vh;
+  position: relative;
+  width: 800px;
+  height: 500px;
   background-color: white;
   display: flex;
   justify-content: center;

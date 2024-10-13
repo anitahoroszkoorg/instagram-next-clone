@@ -15,6 +15,8 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 
+//instead of navigating them to the page, you can show a modal keeping the other products in the background and in my opinion creating a smoother experience. Now you can use a client-side modal for this, but if your customer tries to share the URL of your product by copying it from the search bar, it will only navigate them to the products page instead of the actual product.
+
 interface Props {
   modalVisible?: boolean;
   setModalVisible?: (modalVisible: boolean) => void;
@@ -57,7 +59,7 @@ export const Post: React.FC<Props> = ({
             <BookmarkBorderOutlinedIcon />
             {likesCount}
           </LikeSection>
-          <CommentsSection>comment</CommentsSection>
+          <CommentsSection>comment xd</CommentsSection>
         </PhotoDetails>
       </PhotoboxFrame>
     </BackDropContainer>

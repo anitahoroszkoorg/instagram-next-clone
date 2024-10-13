@@ -20,9 +20,9 @@ import { signOut } from "next-auth/react";
 import { Button } from "./styled";
 
 export const Header = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [openCreateWizard, setOpenCreateWizard] = useState(false);
   const closeModal = () => {
-    setOpenModal(false);
+    setOpenCreateWizard(false);
   };
 
   const hyperLinksStyle = {
@@ -54,7 +54,7 @@ export const Header = () => {
           </Icon>
           <Icon>
             <AddAPhotoOutlinedIcon
-              onClick={() => setOpenModal(true)}
+              onClick={() => setOpenCreateWizard(true)}
               color="primary"
             />
           </Icon>
@@ -83,7 +83,7 @@ export const Header = () => {
           </Link>
         </AvatarWrapper>
       </HeaderWrapper>
-      <Create openModal={openModal} closeModal={closeModal} />
+      <Create openModal={openCreateWizard} closeModal={closeModal} />
     </>
   );
 };

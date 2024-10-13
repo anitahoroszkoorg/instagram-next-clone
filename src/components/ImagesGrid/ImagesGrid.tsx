@@ -39,7 +39,7 @@ export const ImagesGrid = () => {
       <FeedWrapper>
         {images.map((image, index) => (
           <div onClick={() => handlePhotoBoxClick(image)} key={index}>
-            <Photobox src={image} key={index} />
+            <Photobox className="photobox" src={image} key={index} />
           </div>
         ))}
       </FeedWrapper>
