@@ -1,11 +1,4 @@
-interface Message {
-  id: number;
-  text: string;
-  sender: string;
-  read: boolean;
-  avatar?: string;
-  picked?: boolean;
-}
+import { Message } from "@/globals";
 
 export const messages: Message[] = [
   {

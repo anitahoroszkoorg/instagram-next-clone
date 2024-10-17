@@ -20,9 +20,9 @@ import { signOut } from "next-auth/react";
 import { Button } from "./styled";
 
 export const Header = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [openCreateWizard, setOpenCreateWizard] = useState(false);
   const closeModal = () => {
-    setOpenModal(false);
+    setOpenCreateWizard(false);
   };
 
   const hyperLinksStyle = {
@@ -54,24 +54,24 @@ export const Header = () => {
           </Icon>
           <Icon>
             <AddAPhotoOutlinedIcon
-              onClick={() => setOpenModal(true)}
+              onClick={() => setOpenCreateWizard(true)}
               color="primary"
             />
           </Icon>
           <Icon>
-            <Link href="/pages/notifications" style={hyperLinksStyle}>
+            <Link href="" style={hyperLinksStyle}>
               <FavoriteBorderOutlinedIcon color="primary" />
             </Link>
           </Icon>
           <Icon>
-            <Link href="/pages/inbox" style={hyperLinksStyle}>
+            <Link href="" style={hyperLinksStyle}>
               <MailOutlinedIcon color="primary" />
             </Link>
           </Icon>
         </IconsWrapper>
         <AvatarWrapper>
           <Button onClick={() => signOut()}>Sign out</Button>
-          <Link href="/pages/profile">
+          <Link href="profile">
             <Avatar>
               <Image
                 src="/avatar.jpeg"
@@ -83,7 +83,7 @@ export const Header = () => {
           </Link>
         </AvatarWrapper>
       </HeaderWrapper>
-      <Create openModal={openModal} closeModal={closeModal} />
+      <Create openModal={openCreateWizard} closeModal={closeModal} />
     </>
   );
 };

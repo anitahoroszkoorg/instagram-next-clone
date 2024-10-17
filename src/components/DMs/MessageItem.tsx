@@ -1,7 +1,6 @@
 import React from "react";
 import { MessageItem, UserAvatar, MessageItemText } from "./styled";
-
-import { Message } from "../../utils/types";
+import { Message } from "@/globals";
 
 export const MessageItemComponent: React.FC<{ message: Message }> = ({
   message,

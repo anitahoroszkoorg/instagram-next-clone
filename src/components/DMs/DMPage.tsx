@@ -18,7 +18,7 @@ import {
   ColumnTwo,
 } from "./styled";
 import SendIcon from "@mui/icons-material/Send";
-import { messages } from "../../utils/messages";
+import { messages } from "@/app/utils/mockMessages";
 
 const DMPage: React.FC = () => {
   const count = useMemo(

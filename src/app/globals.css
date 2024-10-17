@@ -1,6 +1,25 @@
+:root {
+  --ig-purple: #833ab4;
+  --ig-red: #fd1d1d;
+  --ig-orange: #f77737;
+  --ig-yellow: #fcaf45;
+  --ig-pink: #e1306c;
+
+  --ig-black: #262626;
+  --ig-white: #ffffff;
+
+  --ig-blue: #3897f0;
+  --ig-light-grey: #b2b2b2;
+  --ig-medium-grey: #dbdbdb;
+  --ig-background-default: #fafafa;
+  --ig-divider-grey: #efefef;
+
+  --ig-backdrop: rgba(0, 0, 0, 0.65);
+}
+
 body {
   margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
 }

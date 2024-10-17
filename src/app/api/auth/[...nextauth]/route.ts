@@ -27,7 +27,6 @@ const handler = NextAuth({
           credentials?.password || "",
           user?.password_hash,
         );
-        console.log(user);
         if (!user.is_active) {
           throw new Error(
             JSON.stringify({

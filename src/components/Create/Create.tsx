@@ -16,8 +16,8 @@ import upload from "../../assets/images/upload-image-icon.png";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {
-  openModal: boolean;
-  closeModal: () => void;
+  openModal?: boolean;
+  closeModal?: () => void;
 }
 
 export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
@@ -30,7 +30,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const close = () => {
     setSelectedFile(null);
     setCaption("");
-    closeModal();
+    closeModal && closeModal();
   };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +67,6 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
       });
       if (response.ok) {
         close();
-        closeModal();
       }
     } catch (error) {
       console.error(error);

@@ -4,16 +4,19 @@ export const FeedWrapper = styled.div`
   display: flex;
   font-size: 1em;
   border-radius: 3px;
-  width: 75vw;
+  width: 90%;
   height: 100%;
   flex-wrap: wrap;
-  overflow-y: auto;
-  padding-bottom: 20px;
+  margin: 5rem 2rem 5rem 5rem;
+  overflow: auto;
+  padding: 1rem;
 `;
 
 export const Photobox = styled.img`
   margin: 2px;
-  padding: 1rem;
-  width: 250px;
-  height: 250px;
+  width: 300px;
+  height: 300px;
+  padding: 5px;
+  position: relative;
+  z-indec: 4;
 `;

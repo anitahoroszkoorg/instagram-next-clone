@@ -23,7 +23,6 @@ export default function Form() {
       router.push("/verifyEmail");
     } else {
       const errorMessage = await response.json();
-      console.log(errorMessage);
       toast.error(errorMessage.message || "An error occurred");
     }
   };
