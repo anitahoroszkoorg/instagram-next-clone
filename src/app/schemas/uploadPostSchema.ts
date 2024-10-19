@@ -12,7 +12,10 @@ export const imageSchema = Joi.object({
 
 export const validateUploadPostData = (formData: FormData) => {
   const data = Object.fromEntries(formData.entries());
+  console.log("validatepostdata", data);
+  console.log("data", data);
   const { error: uploadPostError, values } = uploadPostSchema.validate(data);
+  console.log("values", values);
   const image = values.image;
   const { error: imageError, _ } = imageSchema.validate({
     size: image.size,
