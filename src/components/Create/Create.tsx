@@ -15,6 +15,7 @@ import {
 import upload from "../../assets/images/upload-image-icon.png";
 import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 interface Props {
   openModal?: boolean;
@@ -25,6 +26,8 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
   const [caption, setCaption] = useState<string>("");
+  const { data: session, status } = useSession();
+  console.log(session);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -55,19 +58,13 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   };
 
   const onSubmit = async () => {
-    console.log(inputRef);
-    console.log(inputRef.current);
-
-    console.log(selectedFile);
     let data = new FormData();
-
     if (!selectedFile || !caption) {
       return;
     }
     try {
       data.append("image", selectedFile);
       data.append("caption", caption);
-      console.log(data);
       const response = await fetch("/api/upload", {
         method: "POST",
         body: data,
@@ -90,23 +87,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
           </CloseButton>
         </ModalHeader>
         <p>Upload your pictures and movies here:</p>
-        {!selectedFile && (
-          <>
-            <ImgUpload src={upload.src} alt="Upload" />
-            <Input
-              ref={inputRef}
-              type="file"
-              onChange={handleFileInputChange}
-            />
-            <UploadBtn
-              isFileSelected={!!selectedFile}
-              onClick={handleButtonClick}
-            >
-              Choose from your device
-            </UploadBtn>
-          </>
-        )}
-        {selectedFile && (
+        {selectedFile ? (
           <CreateWizardContainer>
             <WizardImg>
               <Image
@@ -126,6 +107,22 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
               </UploadBtn>
             </CreateWizardActions>
           </CreateWizardContainer>
+        ) : (
+          <>
+            <ImgUpload src={upload.src} alt="Upload" />
+            <Input
+              ref={inputRef}
+              type="file"
+              onChange={handleFileInputChange}
+              accept="image/png, image/jpeg"
+            />
+            <UploadBtn
+              isFileSelected={!!selectedFile}
+              onClick={handleButtonClick}
+            >
+              Choose from your device
+            </UploadBtn>
+          </>
         )}
       </ModalContent>
     </ModalOverlay>

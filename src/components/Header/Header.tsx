@@ -78,6 +78,7 @@ export const Header = () => {
                 alt="User Avatar"
                 width={300}
                 height={300}
+                priority
               />
             </Avatar>
           </Link>
