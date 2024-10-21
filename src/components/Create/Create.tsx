@@ -26,9 +26,8 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
   const [caption, setCaption] = useState<string>("");
-  const { data: session, status } = useSession();
-  console.log(session);
-
+  const { data: session } = useSession();
+  const email = session?.user?.email;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const close = () => {
@@ -59,21 +58,29 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
 
   const onSubmit = async () => {
     let data = new FormData();
-    if (!selectedFile || !caption) {
+    if (!selectedFile || !caption || !email) {
       return;
     }
-    try {
-      data.append("image", selectedFile);
-      data.append("caption", caption);
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: data,
-      });
-      if (response.ok) {
-        close();
+    data.append("image", selectedFile);
+    data.append("caption", caption);
+    data.append("instagram_user_id", email);
+    if (
+      data.has("image") &&
+      data.has("caption") &&
+      data.has("instagram_user_id")
+    ) {
+      console.log(data);
+      try {
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: data,
+        });
+        if (response.ok) {
+          close();
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
   };
 
