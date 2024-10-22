@@ -1,6 +1,7 @@
 import { addPost } from "@/app/services/addPost";
 import { validateUploadPostData } from "@/app/schemas/uploadPostSchema";
 import Joi from "joi";
+import { getSession } from "next-auth/react";
 
 const formDataToObject = (formData: FormData) => {
   const obj: { [key: string]: any } = {};
@@ -16,7 +17,8 @@ const extractJoiErrors = (error: Joi.ValidationError): string => {
 
 export const POST = async (request: Request) => {
   const formData = await request.formData();
-
+  const session = await getSession();
+  const userId = session?.user?.name;
   const formValues = formDataToObject(formData);
 
   const { error, values } = validateUploadPostData(formValues);
