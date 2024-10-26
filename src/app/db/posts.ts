@@ -1,16 +1,21 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-export const insertUrltoDb = async (url: string, caption: string) => {
+export const insertImageToDb = async (
+  image: Buffer,
+  caption: string,
+  userId: number,
+) => {
   try {
     await prisma.post.create({
       data: {
-        image_url: url,
+        image: image,
         caption: caption,
+        instagram_user_id: userId,
       },
     });
   } catch (error) {
-    console.error("Error inserting URL and caption:", error);
+    console.error("Error inserting post", error);
   } finally {
     await prisma.$disconnect();
   }

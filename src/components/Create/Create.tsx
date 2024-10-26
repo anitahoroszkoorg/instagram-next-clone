@@ -63,13 +63,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     }
     data.append("image", selectedFile);
     data.append("caption", caption);
-    data.append("instagram_user_id", email);
-    if (
-      data.has("image") &&
-      data.has("caption") &&
-      data.has("instagram_user_id")
-    ) {
-      console.log(data);
+    if (data.has("image") && data.has("caption")) {
       try {
         const response = await fetch("/api/upload", {
           method: "POST",

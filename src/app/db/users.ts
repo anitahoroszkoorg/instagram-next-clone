@@ -14,3 +14,12 @@ export const addUser = async (data: NewUser) => {
     },
   });
 };
+
+export const getUserId = async (email: string) => {
+  const user = await prisma.instagram_user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  return user?.user_id;
+};

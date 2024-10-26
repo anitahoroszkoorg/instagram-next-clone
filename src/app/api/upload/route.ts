@@ -1,7 +1,8 @@
 import { addPost } from "@/app/services/addPost";
 import { validateUploadPostData } from "@/app/schemas/uploadPostSchema";
 import Joi from "joi";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { getUserId } from "@/app/db/users";
 
 const formDataToObject = (formData: FormData) => {
   const obj: { [key: string]: any } = {};
@@ -15,10 +16,14 @@ const extractJoiErrors = (error: Joi.ValidationError): string => {
   return error.details.map((detail) => detail.message).join(", ");
 };
 
-export const POST = async (request: Request) => {
-  const formData = await request.formData();
-  const session = await getSession();
-  const userId = session?.user?.name;
+export const POST = async (req: Request) => {
+  const formData = await req.formData();
+  const session = await getServerSession();
+  const email = session?.user?.email;
+  if (!email) {
+    throw new Error("No email present");
+  }
+  const id = await getUserId(email);
   const formValues = formDataToObject(formData);
 
   const { error, values } = validateUploadPostData(formValues);
@@ -37,7 +42,8 @@ export const POST = async (request: Request) => {
     return new Response(imageError, { status: 400 });
   }
 
-  await addPost(image, values.caption);
+  const imageBuffer = Buffer.from(await image.arrayBuffer());
+  await addPost(imageBuffer, values.caption, id);
   return new Response(JSON.stringify(values), { status: 200 });
 };
 

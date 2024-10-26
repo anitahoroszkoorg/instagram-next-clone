@@ -52,7 +52,7 @@ const handler = NextAuth({
       }
       return token;
     },
-    session: ({ session, token, user }) => {
+    session: ({ session, token }) => {
       return {
         ...session,
         user: {
