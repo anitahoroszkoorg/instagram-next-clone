@@ -20,3 +20,23 @@ export const insertImageToDb = async (
     await prisma.$disconnect();
   }
 };
+
+export const getAllPosts = async (userId: number) => {
+  const posts = await prisma.post.findMany({
+    where: {
+      instagram_user: {
+        follower_follower_following_instagram_user_idToinstagram_user: {
+          some: {
+            follower_instagram_user_id: userId,
+          },
+        },
+      },
+    },
+    include: {
+      instagram_user: true,
+      comment: true,
+      instagram_like: true,
+    },
+  });
+  return posts;
+};

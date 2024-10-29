@@ -14,6 +14,7 @@ export const ImagesGrid = () => {
       if (response.ok) {
         const data = await response.json();
         setImages(data);
+        console.log(images);
       }
     } catch (error) {
       console.error(error);
@@ -37,11 +38,12 @@ export const ImagesGrid = () => {
         selectedImage={selectedImage}
       />
       <FeedWrapper>
-        {images.map((image, index) => (
-          <div onClick={() => handlePhotoBoxClick(image)} key={index}>
-            <Photobox className="photobox" src={image} key={index} />
-          </div>
-        ))}
+        {images.length > 0 &&
+          images.map((image, index) => (
+            <div onClick={() => handlePhotoBoxClick(image)} key={index}>
+              <Photobox className="photobox" src={image} key={index} />
+            </div>
+          ))}
       </FeedWrapper>
     </>
   );
