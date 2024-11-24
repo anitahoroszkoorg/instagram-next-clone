@@ -1,6 +1,6 @@
 # **Instagram Clone with Next.js**
 
-A feature-rich Instagram-like application built with **Next.js**, designed for social interaction, content sharing, and seamless communication. Leveraging the full potential of Next.js, including its cutting-edge features such as server-side rendering, static site generation, and API routes."
+A feature-rich Instagram-like application built with **Next.js**, designed for social interaction, content sharing, and seamless communication. Leveraging the full potential of Next.js, including its cutting-edge features such as server-side rendering, static site generation, and API routes.
 
 ---
 
