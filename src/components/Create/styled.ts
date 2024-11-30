@@ -68,20 +68,22 @@ export const Input = styled.input`
   display: none;
 `;
 
-interface ButtonProps {
-  isFileSelected: boolean;
+interface UploadBtnProps {
+  $isFileSelected: boolean;
 }
 
-export const UploadBtn = styled.button<ButtonProps>`
+export const UploadBtn = styled.button.attrs<UploadBtnProps>((props) => ({
+  $isFileSelected: props.$isFileSelected,
+}))`
   height: 2.2rem;
-  width: ${(props) => (props.isFileSelected ? "90%" : "40%")};
+  width: ${(props) => (props.$isFileSelected ? "90%" : "40%")};
   border-radius: 5px;
   justify-content: center;
   border: none;
   background-color: #4c68d7;
   color: white;
   padding: 5px;
-  margin-left: ${(props) => (props.isFileSelected ? "12px" : "10px")};
+  margin-left: ${(props) => (props.$isFileSelected ? "12px" : "10px")};
   margin-top: 12px;
 `;
 

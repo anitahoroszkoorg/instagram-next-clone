@@ -103,7 +103,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
                 onChange={handleCaptionChange}
                 placeholder="Add your caption"
               />
-              <UploadBtn onClick={onSubmit} isFileSelected>
+              <UploadBtn onClick={onSubmit} $isFileSelected>
                 Upload!
               </UploadBtn>
             </CreateWizardActions>
@@ -118,7 +118,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
               accept="image/png, image/jpeg"
             />
             <UploadBtn
-              isFileSelected={!!selectedFile}
+              $isFileSelected={!!selectedFile}
               onClick={handleButtonClick}
             >
               Choose from your device
