@@ -4,7 +4,7 @@ import { FeedWrapper, Photobox } from "./styled";
 import { Post } from "../Post/Post";
 
 export const ImagesGrid = () => {
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<{ image: string }[]>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>("");
 
@@ -13,14 +13,15 @@ export const ImagesGrid = () => {
       try {
         const response = await fetch("/api/getAllImages");
         if (!response.ok) {
-          console.error("Failed to fetch image data:", response.statusText);
+          console.error("Failed to fetch images. Status:", response.status);
           return;
         }
-        const blob = await response.blob();
-        const base64Image = await blobToBase64(blob);
-        const json = atob(base64Image.substring(29));
-        const result = JSON.parse(json);
-        setImages(result);
+        const data = await response.json();
+        if (data.posts && Array.isArray(data.posts)) {
+          setImages(data.posts);
+        } else {
+          console.error("Unexpected response structure:", data);
+        }
       } catch (error) {
         console.error("Error fetching images:", error);
       }
@@ -28,17 +29,6 @@ export const ImagesGrid = () => {
 
     fetchImages();
   }, []);
-
-  const blobToBase64 = (blob: Blob): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        resolve(reader.result as string);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  };
 
   const handlePhotoBoxClick = (imageSrc: string) => {
     setSelectedImage(imageSrc);
@@ -53,18 +43,21 @@ export const ImagesGrid = () => {
         selectedImage={selectedImage}
       />
       <FeedWrapper>
-        {images.length > 0 &&
+        {images.length > 0 ? (
           images.map((image, index) => (
-            <div onClick={() => handlePhotoBoxClick(image)} key={index}>
+            <div onClick={() => handlePhotoBoxClick(image.image)} key={index}>
               <Photobox
                 className="photobox"
-                src={image}
+                src={image.image}
                 alt={`Image ${index}`}
-                width={500}
-                height={500}
+                // width={500}
+                // height={500}
               />
             </div>
-          ))}
+          ))
+        ) : (
+          <p>No images found</p>
+        )}
       </FeedWrapper>
     </>
   );

@@ -21,34 +21,14 @@ export const insertImageToDb = async (
 };
 
 export const getAllPosts = async () => {
-  try {
-    const posts = await prisma.post.findMany({
-      select: {
-        image: true,
-      },
-    });
-    console.log(posts);
-    // const postsWithBase64Images = posts.map((post) => {
-    //   const base64Image = post.image
-    //     ? `data:image/jpeg;base64,${Buffer.from(post.image).toString("base64")}`
-    //     : null;
-    //   return {
-    //     ...post,
-    //     image: base64Image,
-    //   };
-    // });
-    // return postsWithBase64Images;
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-    return [];
-  }
-};
-
-export const getAllFollowedPosts = async (userId: any) => {
-  const followedUserIds = await prisma.follower.findMany({
-    where: {
-      follower_instagram_user_id: userId,
+  const posts = await prisma.post.findMany({
+    select: {
+      image: true,
     },
   });
-  const userIds = followedUserIds.map((f) => f.following_instagram_user_id);
+  const formattedPosts = posts.map((post) => ({
+    ...post,
+    image: `data:image/jpeg;base64,${post?.image?.toString("base64")}`,
+  }));
+  return formattedPosts;
 };
