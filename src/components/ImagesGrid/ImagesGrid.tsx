@@ -8,22 +8,37 @@ export const ImagesGrid = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>("");
 
-  const fetchImages = async () => {
-    try {
-      const response = await fetch("/api/getAllImages");
-      if (response.ok) {
-        const data = await response.json();
-        setImages(data);
-        console.log(images);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
+    async function fetchImages() {
+      try {
+        const response = await fetch("/api/getAllImages");
+        if (!response.ok) {
+          console.error("Failed to fetch image data:", response.statusText);
+          return;
+        }
+        const blob = await response.blob();
+        const base64Image = await blobToBase64(blob);
+        const json = atob(base64Image.substring(29));
+        const result = JSON.parse(json);
+        setImages(result);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    }
+
     fetchImages();
   }, []);
+
+  const blobToBase64 = (blob: Blob): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve(reader.result as string);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
 
   const handlePhotoBoxClick = (imageSrc: string) => {
     setSelectedImage(imageSrc);
@@ -41,7 +56,13 @@ export const ImagesGrid = () => {
         {images.length > 0 &&
           images.map((image, index) => (
             <div onClick={() => handlePhotoBoxClick(image)} key={index}>
-              <Photobox className="photobox" src={image} key={index} />
+              <Photobox
+                className="photobox"
+                src={image}
+                alt={`Image ${index}`}
+                width={500}
+                height={500}
+              />
             </div>
           ))}
       </FeedWrapper>
