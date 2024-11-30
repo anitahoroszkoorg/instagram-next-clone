@@ -1,11 +1,9 @@
 import { getAllFollowedPosts } from "@/app/db/posts";
 import { getUserId } from "@/app/db/users";
-import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
-  const prisma = new PrismaClient();
   const session = await getServerSession();
   const email = session?.user?.email;
 
@@ -22,7 +20,5 @@ export const GET = async () => {
     return NextResponse.json(posts);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
   }
 };

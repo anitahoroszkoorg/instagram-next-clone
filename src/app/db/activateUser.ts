@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../api/_base";
 
 export const activateUser = async (custom_id: string) => {
-  const prisma = new PrismaClient();
   try {
     const user = await prisma.instagram_user.findUnique({
       where: {

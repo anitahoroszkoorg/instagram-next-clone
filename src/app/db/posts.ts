@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../api/_base";
 
 export const insertImageToDb = async (
   image: Buffer,
@@ -28,16 +27,17 @@ export const getAllPosts = async () => {
         image: true,
       },
     });
-    const postsWithBase64Images = posts.map((post) => {
-      const base64Image = post.image
-        ? `data:image/jpeg;base64,${Buffer.from(post.image).toString("base64")}`
-        : null;
-      return {
-        ...post,
-        image: base64Image,
-      };
-    });
-    return postsWithBase64Images;
+    console.log(posts);
+    // const postsWithBase64Images = posts.map((post) => {
+    //   const base64Image = post.image
+    //     ? `data:image/jpeg;base64,${Buffer.from(post.image).toString("base64")}`
+    //     : null;
+    //   return {
+    //     ...post,
+    //     image: base64Image,
+    //   };
+    // });
+    // return postsWithBase64Images;
   } catch (error) {
     console.error("Error fetching posts:", error);
     return [];
