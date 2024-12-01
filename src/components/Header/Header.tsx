@@ -25,30 +25,17 @@ export const Header = () => {
     setOpenCreateWizard(false);
   };
 
-  const hyperLinksStyle = {
-    textDecoration: "none!important",
-    color: "black!important",
-    "&:hover": {
-      textDecoration: "none!important",
-      color: "black!important",
-    },
-    "&:visited": {
-      textDecoration: "none!important",
-      color: "black!important",
-    },
-  };
-
   return (
     <>
       <HeaderWrapper>
         <LogoWrapper>
-          <Link href="/" style={hyperLinksStyle}>
+          <Link href="/">
             <Logo src="/logo.png" alt="logo" />
           </Link>
         </LogoWrapper>
         <IconsWrapper>
           <Icon>
-            <Link href="/" style={hyperLinksStyle}>
+            <Link href="/">
               <HomeOutlinedIcon color="primary" />
             </Link>
           </Icon>
@@ -59,12 +46,12 @@ export const Header = () => {
             />
           </Icon>
           <Icon>
-            <Link href="" style={hyperLinksStyle}>
+            <Link href="">
               <FavoriteBorderOutlinedIcon color="primary" />
             </Link>
           </Icon>
           <Icon>
-            <Link href="" style={hyperLinksStyle}>
+            <Link href="/">
               <MailOutlinedIcon color="primary" />
             </Link>
           </Icon>
@@ -78,6 +65,7 @@ export const Header = () => {
                 alt="User Avatar"
                 width={300}
                 height={300}
+                priority
               />
             </Avatar>
           </Link>

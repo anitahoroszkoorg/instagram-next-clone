@@ -1,10 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from "@prisma/client";
 import { compare } from "bcrypt";
-import { NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../_base";
 
 const handler = NextAuth({
   session: {
@@ -45,6 +42,23 @@ const handler = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        return { ...token, id: user.id };
+      }
+      return token;
+    },
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+        },
+      };
+    },
+  },
 });
 
 export { handler as GET, handler as POST };

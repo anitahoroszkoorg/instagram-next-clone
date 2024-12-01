@@ -1,6 +1,5 @@
 import { NewUser } from "@/globals";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../api/_base";
 
 export const addUser = async (data: NewUser) => {
   const { email, password_hash, username, full_name, custom_id } = data;
@@ -13,4 +12,42 @@ export const addUser = async (data: NewUser) => {
       custom_id: custom_id,
     },
   });
+};
+
+export const getUserId = async (email: string) => {
+  const user = await prisma.instagram_user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  return user?.user_id;
+};
+export const getFollowedUsers = async (email: string) => {
+  const user = await prisma.instagram_user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  const id = user?.user_id;
+  const followedUsers = await prisma.follower.findMany({
+    where: {
+      follower_instagram_user_id: id,
+    },
+  });
+  return followedUsers;
+};
+
+export const getFollowingUsers = async (email: string) => {
+  const user = await prisma.instagram_user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  const id = user?.user_id;
+  const followingUsers = await prisma.follower.findMany({
+    where: {
+      following_instagram_user_id: id,
+    },
+  });
+  return followingUsers;
 };

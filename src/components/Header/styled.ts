@@ -3,11 +3,10 @@ import styled from "styled-components";
 export const HeaderWrapper = styled.header`
   position: fixed;
   display: flex;
-  background-color: white;
-  width: 100vw;
-  height: 120px;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
+  background-color: white;
+  height: 120px;
   overflow: hidden;
   left: 0;
   right: 0;
@@ -17,14 +16,12 @@ export const HeaderWrapper = styled.header`
 
 export const LogoWrapper = styled.div`
   display: flex;
-  align-items: space-around;
-  overflow: hidden;
+  position: absolute;
+  left: 1rem;
 `;
 export const IconsWrapper = styled.div`
   display: flex;
-  align-items: space-between;
-  overflow: hidden;
-  margin-right: 5rem;
+  align-items: center;
 `;
 
 export const Logo = styled.img`
@@ -47,7 +44,8 @@ export const Button = styled.button`
 
 export const AvatarWrapper = styled.div`
   display: flex;
-  margin: 2rem;
+  position: absolute;
+  right: 1rem;
   padding: 1rem;
   justify-content: space-around;
 `;

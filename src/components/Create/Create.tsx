@@ -14,6 +14,8 @@ import {
 } from "./styled";
 import upload from "../../assets/images/upload-image-icon.png";
 import CloseIcon from "@mui/icons-material/Close";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 interface Props {
   openModal?: boolean;
@@ -24,8 +26,9 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
   const [caption, setCaption] = useState<string>("");
-
-  const inputRef = useRef<HTMLInputElement>();
+  const { data: session } = useSession();
+  const email = session?.user?.email;
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const close = () => {
     setSelectedFile(null);
@@ -54,22 +57,24 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   };
 
   const onSubmit = async () => {
-    if (!selectedFile || !caption) {
+    let data = new FormData();
+    if (!selectedFile || !caption || !email) {
       return;
     }
-    try {
-      let data = new FormData();
-      data.append("image", selectedFile);
-      data.append("caption", caption);
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: data,
-      });
-      if (response.ok) {
-        close();
+    data.append("image", selectedFile);
+    data.append("caption", caption);
+    if (data.has("image") && data.has("caption")) {
+      try {
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: data,
+        });
+        if (response.ok) {
+          close();
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -83,31 +88,14 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
           </CloseButton>
         </ModalHeader>
         <p>Upload your pictures and movies here:</p>
-        {!selectedFile && (
-          <>
-            <ImgUpload src={upload.src} alt="Upload" />
-            <Input
-              ref={(e) => {
-                inputRef.current = e as HTMLInputElement;
-              }}
-              type="file"
-              onChange={handleFileInputChange}
-            />
-            <UploadBtn
-              isFileSelected={!!selectedFile}
-              onClick={handleButtonClick}
-            >
-              Choose from your device
-            </UploadBtn>
-          </>
-        )}
-        {selectedFile && (
+        {selectedFile ? (
           <CreateWizardContainer>
             <WizardImg>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={URL.createObjectURL(selectedFile)}
                 alt="selected image"
+                width={300}
+                height={300}
               />
             </WizardImg>
             <CreateWizardActions>
@@ -115,11 +103,27 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
                 onChange={handleCaptionChange}
                 placeholder="Add your caption"
               />
-              <UploadBtn onClick={onSubmit} isFileSelected>
+              <UploadBtn onClick={onSubmit} $isFileSelected>
                 Upload!
               </UploadBtn>
             </CreateWizardActions>
           </CreateWizardContainer>
+        ) : (
+          <>
+            <ImgUpload src={upload.src} alt="Upload" />
+            <Input
+              ref={inputRef}
+              type="file"
+              onChange={handleFileInputChange}
+              accept="image/png, image/jpeg"
+            />
+            <UploadBtn
+              $isFileSelected={!!selectedFile}
+              onClick={handleButtonClick}
+            >
+              Choose from your device
+            </UploadBtn>
+          </>
         )}
       </ModalContent>
     </ModalOverlay>

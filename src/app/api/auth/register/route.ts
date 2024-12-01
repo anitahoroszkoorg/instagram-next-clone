@@ -30,8 +30,7 @@ export async function POST(request: Request) {
     full_name: full_name,
     custom_id: custom_id,
   };
-  // check why undefined
-  const { error, values } = validateAddUserData(user);
+  const { error } = validateAddUserData(user);
   if (error) {
     return NextResponse.json(
       {
