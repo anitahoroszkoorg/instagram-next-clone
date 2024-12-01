@@ -11,7 +11,7 @@ export const ImagesGrid = () => {
   useEffect(() => {
     async function fetchImages() {
       try {
-        const response = await fetch("/api/getAllImages");
+        const response = await fetch("/api/getAllImagesByFollowedUsers");
         if (!response.ok) {
           console.error("Failed to fetch images. Status:", response.status);
           return;
@@ -50,8 +50,8 @@ export const ImagesGrid = () => {
                 className="photobox"
                 src={image.image}
                 alt={`Image ${index}`}
-                // width={500}
-                // height={500}
+                width={500}
+                height={500}
               />
             </div>
           ))

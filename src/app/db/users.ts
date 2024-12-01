@@ -22,3 +22,32 @@ export const getUserId = async (email: string) => {
   });
   return user?.user_id;
 };
+export const getFollowedUsers = async (email: string) => {
+  const user = await prisma.instagram_user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  const id = user?.user_id;
+  const followedUsers = await prisma.follower.findMany({
+    where: {
+      follower_instagram_user_id: id,
+    },
+  });
+  return followedUsers;
+};
+
+export const getFollowingUsers = async (email: string) => {
+  const user = await prisma.instagram_user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  const id = user?.user_id;
+  const followingUsers = await prisma.follower.findMany({
+    where: {
+      following_instagram_user_id: id,
+    },
+  });
+  return followingUsers;
+};
