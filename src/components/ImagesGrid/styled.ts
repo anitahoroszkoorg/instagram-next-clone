@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export const FeedWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   font-size: 1em;
   border-radius: 3px;
   width: 90%;
@@ -13,9 +16,9 @@ export const FeedWrapper = styled.div`
 `;
 
 export const Photobox = styled.img`
-  margin: 2px;
-  width: 300px;
-  height: 300px;
+  margin: 5rem;
+  width: 600px;
+  height: 600px;
   padding: 5px;
   position: relative;
   z-indec: 4;

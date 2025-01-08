@@ -3,10 +3,20 @@ import React, { useEffect, useState } from "react";
 import { FeedWrapper, Photobox } from "./styled";
 import { Post } from "../Post/Post";
 
-export const ImagesGrid = () => {
-  const [images, setImages] = useState<{ image: string }[]>([]);
+interface ImageDetails {
+  caption?: string;
+  tags?: string[];
+  userId: number;
+  createdAt: string;
+  postId: number;
+  image: string;
+}
+
+export const ImagesGrid: React.FC = () => {
+  const [images, setImages] = useState<ImageDetails[]>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>("");
+  const [imageDetails, setImageDetails] = useState<ImageDetails | null>(null);
 
   useEffect(() => {
     async function fetchImages() {
@@ -30,8 +40,9 @@ export const ImagesGrid = () => {
     fetchImages();
   }, []);
 
-  const handlePhotoBoxClick = (imageSrc: string) => {
-    setSelectedImage(imageSrc);
+  const handlePhotoBoxClick = (image: ImageDetails) => {
+    setSelectedImage(image.image);
+    setImageDetails(image);
     setModalVisible(true);
   };
 
@@ -41,11 +52,12 @@ export const ImagesGrid = () => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         selectedImage={selectedImage}
+        details={imageDetails}
       />
       <FeedWrapper>
         {images.length > 0 ? (
           images.map((image, index) => (
-            <div onClick={() => handlePhotoBoxClick(image.image)} key={index}>
+            <div onClick={() => handlePhotoBoxClick(image)} key={index}>
               <Photobox
                 className="photobox"
                 src={image.image}

@@ -13,18 +13,25 @@ import {
 } from "./styled";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
-import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 
 interface Props {
   modalVisible?: boolean;
   setModalVisible?: (modalVisible: boolean) => void;
   selectedImage: string;
+  details: {
+    caption?: string;
+    tags?: string[];
+    userId: number;
+    createdAt: string;
+    postId: number;
+  } | null;
 }
 
 export const Post: React.FC<Props> = ({
   modalVisible,
   setModalVisible,
   selectedImage,
+  details,
 }) => {
   const handleBackdropClick = () => {
     if (setModalVisible) {
@@ -51,8 +58,7 @@ export const Post: React.FC<Props> = ({
             <Username>user45532</Username>
           </PhotoDescription>
           <PhotoDescription>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam,
-            exercitationem vero? Quam vero quia facilis necessitatibus expedita!
+            {details?.caption ? details?.caption : null}
           </PhotoDescription>
           <TagsContainer>#lkn#ljndfljn#ibsfkjb#kjbsdjbc</TagsContainer>
           <LikeSection>
@@ -60,10 +66,8 @@ export const Post: React.FC<Props> = ({
             {likesCount}
             <SmsOutlinedIcon />
             {likesCount}
-            <BookmarkBorderOutlinedIcon />
-            {likesCount}
           </LikeSection>
-          <CommentsSection>comment xd</CommentsSection>
+          <CommentsSection>comment</CommentsSection>
         </PhotoDetails>
       </PhotoboxFrame>
     </BackDropContainer>
