@@ -1,7 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FeedWrapper, Photobox } from "./styled";
-import { Post } from "../Post/Post";
+import { FeedWrapper } from "./styled";
+import { Avatar } from "@mui/material";
+import {
+  PhotoboxFrame,
+  Photo,
+  PhotoDetails,
+  PhotoDescription,
+  Username,
+  TagsContainer,
+  LikeSection,
+  CommentsSection,
+} from "./styled";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
 
 interface ImageDetails {
   caption?: string;
@@ -48,23 +60,28 @@ export const ImagesGrid: React.FC = () => {
 
   return (
     <>
-      <Post
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        selectedImage={selectedImage}
-        details={imageDetails}
-      />
       <FeedWrapper>
         {images.length > 0 ? (
           images.map((image, index) => (
             <div onClick={() => handlePhotoBoxClick(image)} key={index}>
-              <Photobox
-                className="photobox"
-                src={image.image}
-                alt={`Image ${index}`}
-                width={500}
-                height={500}
-              />
+              <PhotoboxFrame>
+                <Photo src={image.image} alt="photo" />
+                <PhotoDetails>
+                  <PhotoDescription>
+                    <Avatar src="" />
+                    <Username>user45532</Username>
+                  </PhotoDescription>
+                  <PhotoDescription>
+                    {imageDetails?.caption ? imageDetails?.caption : null}
+                  </PhotoDescription>
+                  <TagsContainer>#lkn#ljndfljn#ibsfkjb#kjbsdjbc</TagsContainer>
+                  <LikeSection>
+                    <FavoriteBorderIcon />
+                    <SmsOutlinedIcon />
+                  </LikeSection>
+                  <CommentsSection>comment</CommentsSection>
+                </PhotoDetails>
+              </PhotoboxFrame>
             </div>
           ))
         ) : (
