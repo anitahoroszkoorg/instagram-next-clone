@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
-
   const sendConfirmation = async () => {
     const response = await fetch("/api/auth/confirmRegistration", {
       method: "POST",
@@ -14,7 +13,7 @@ export const Page = ({ params }: { params: { id: string } }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        custom_id: params?.id,
+        user_id: params?.id,
       }),
     });
     if (response.ok) {

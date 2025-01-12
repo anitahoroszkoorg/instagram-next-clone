@@ -4,7 +4,6 @@ export interface NewUser {
   username: string;
   full_name: string;
   isActive?: boolean;
-  user_id: string;
 }
 
 export interface Message {

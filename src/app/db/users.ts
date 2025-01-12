@@ -2,17 +2,13 @@ import { NewUser } from "@/globals";
 import { prisma } from "../api/_base";
 
 export const addUser = async (data: NewUser) => {
-  const { email, password_hash, username, full_name, user_id } = data;
-  console.log("add user");
-  console.log(data);
-
-  await prisma.user.create({
+  const { email, password_hash, username, full_name } = data;
+  return await prisma.user.create({
     data: {
       email: email,
       password_hash: password_hash,
       username: username,
       full_name: full_name,
-      user_id: user_id,
     },
   });
 };
