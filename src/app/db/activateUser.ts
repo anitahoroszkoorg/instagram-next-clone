@@ -1,5 +1,6 @@
 import { prisma } from "../api/_base";
 import { UserDoesntExistError, UserIsAlreadyActiveError } from "./errors";
+export const dummyFunction =  () => {return 1}
 
 
 export const activateUser = async (user_id: string) => {
