@@ -7,61 +7,116 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model comment {
-  comment_id        Int             @id @default(autoincrement())
-  instagram_user_id Int?
-  post_id           Int?
-  comment_text      String?         @db.VarChar(100)
-  created_at        DateTime?       @default(now()) @db.Timestamp(6)
-  instagram_user    instagram_user? @relation(fields: [instagram_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-  post              post?           @relation(fields: [post_id], references: [post_id], onDelete: NoAction, onUpdate: NoAction)
+model User {
+  user_id       String    @id @default(uuid()) // UUID as primary key
+  username      String    @unique
+  email         String    @unique
+  password_hash String
+  full_name     String
+  bio           String?
+  created_at    DateTime  @default(now())
+  is_active     Boolean   @default(true)
+
+  // Relations
+  posts         Post[]
+  comments      Comment[]
+  likes         Like[]
+  follows       Follow[] @relation("Following")
+  followers     Follow[] @relation("Followers")
+  sentMessages  Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+  notifications Notification[]
+
+  @@map("user")
 }
 
-model follower {
-  follower_id                                                         Int             @id @default(autoincrement())
-  follower_instagram_user_id                                          Int?
-  following_instagram_user_id                                         Int?
-  created_at                                                          DateTime?       @default(now()) @db.Timestamp(6)
-  instagram_user_follower_follower_instagram_user_idToinstagram_user  instagram_user? @relation("follower_follower_instagram_user_idToinstagram_user", fields: [follower_instagram_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-  instagram_user_follower_following_instagram_user_idToinstagram_user instagram_user? @relation("follower_following_instagram_user_idToinstagram_user", fields: [following_instagram_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+model Post {
+  post_id    String   @id @default(uuid()) // UUID for post ID
+  user_id    String
+  caption    String
+  image      Bytes?
+  created_at DateTime @default(now())
 
-  @@unique([follower_instagram_user_id, following_instagram_user_id], map: "unique_follow")
+  // Relations
+  user       User     @relation(fields: [user_id], references: [user_id])
+  comments   Comment[]
+  likes      Like[]
+  notifications Notification[]
+
+  @@map("post")
 }
 
-model instagram_like {
-  like_id           Int             @id @default(autoincrement())
-  instagram_user_id Int?
-  post_id           Int?
-  created_at        DateTime?       @default(now()) @db.Timestamp(6)
-  instagram_user    instagram_user? @relation(fields: [instagram_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-  post              post?           @relation(fields: [post_id], references: [post_id], onDelete: NoAction, onUpdate: NoAction)
+model Comment {
+  comment_id  String   @id @default(uuid())
+  user_id     String
+  post_id     String
+  comment_text String
+  created_at  DateTime @default(now())
+
+  // Relations
+  user        User   @relation(fields: [user_id], references: [user_id])
+  post        Post   @relation(fields: [post_id], references: [post_id])
+  notifications Notification[]
+
+  @@map("comment")
 }
 
-model instagram_user {
-  user_id                                                       Int              @id @default(autoincrement())
-  username                                                      String           @unique @db.VarChar(50)
-  email                                                         String           @unique @db.VarChar(100)
-  password_hash                                                 String           @db.VarChar(100)
-  full_name                                                     String           @db.VarChar(100)
-  bio                                                           String?          @db.VarChar(255)
-  profile_image_url                                             String?          @db.VarChar(100)
-  created_at                                                    DateTime?        @default(now()) @db.Timestamp(6)
-  is_active                                                     Boolean          @default(false)
-  custom_id                                                     String?          @unique @db.VarChar(255)
-  comment                                                       comment[]
-  follower_follower_follower_instagram_user_idToinstagram_user  follower[]       @relation("follower_follower_instagram_user_idToinstagram_user")
-  follower_follower_following_instagram_user_idToinstagram_user follower[]       @relation("follower_following_instagram_user_idToinstagram_user")
-  instagram_like                                                instagram_like[]
-  post                                                          post[]
+model Like {
+  like_id    String   @id @default(uuid())
+  user_id    String
+  post_id    String
+  created_at DateTime @default(now())
+
+  // Relations
+  user       User    @relation(fields: [user_id], references: [user_id])
+  post       Post    @relation(fields: [post_id], references: [post_id])
+  notifications Notification[]
+
+  @@map("like")
 }
 
-model post {
-  post_id           Int              @id @default(autoincrement())
-  instagram_user_id Int?
-  caption           String?          @db.VarChar(255)
-  created_at        DateTime?        @default(now()) @db.Timestamp(6)
-  image             Bytes?
-  comment           comment[]
-  instagram_like    instagram_like[]
-  instagram_user    instagram_user?  @relation(fields: [instagram_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+model Follow {
+  follow_id         String   @id @default(uuid())
+  following_user_id String
+  followed_user_id  String
+  created_at        DateTime @default(now())
+
+  // Relations
+  follower   User @relation("Following", fields: [following_user_id], references: [user_id])
+  followed   User @relation("Followers", fields: [followed_user_id], references: [user_id])
+
+  @@map("follow")
+}
+
+model Message {
+  message_id   String   @id @default(uuid())
+  sender_id    String
+  receiver_id  String
+  message_text String
+  created_at   DateTime @default(now())
+  read_status  Boolean  @default(false)
+
+  // Relations
+  sender    User @relation("SentMessages", fields: [sender_id], references: [user_id])
+  receiver  User @relation("ReceivedMessages", fields: [receiver_id], references: [user_id])
+
+  @@map("message")
+}
+
+model Notification {
+  notification_id String   @id @default(uuid())
+  user_id         String
+  like_id         String?  // Can be linked to a "like" or "comment"
+  comment_id      String?
+  post_id         String?
+  created_at      DateTime @default(now())
+  is_read         Boolean  @default(false)
+
+  // Relations
+  user       User   @relation(fields: [user_id], references: [user_id])
+  like       Like?  @relation(fields: [like_id], references: [like_id])
+  comment    Comment? @relation(fields: [comment_id], references: [comment_id])
+  post       Post?  @relation(fields: [post_id], references: [post_id])
+
+  @@map("notification")
 }
