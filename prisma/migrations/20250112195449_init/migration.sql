@@ -1,83 +1,3 @@
-/*
-  Warnings:
-
-  - The primary key for the `comment` table will be changed. If it partially fails, the table could be left without primary key constraint.
-  - You are about to drop the column `instagram_user_id` on the `comment` table. All the data in the column will be lost.
-  - The primary key for the `post` table will be changed. If it partially fails, the table could be left without primary key constraint.
-  - You are about to drop the column `image_url` on the `post` table. All the data in the column will be lost.
-  - You are about to drop the column `instagram_user_id` on the `post` table. All the data in the column will be lost.
-  - You are about to drop the `follower` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `instagram_like` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `instagram_user` table. If the table is not empty, all the data it contains will be lost.
-  - Added the required column `user_id` to the `comment` table without a default value. This is not possible if the table is not empty.
-  - Made the column `post_id` on table `comment` required. This step will fail if there are existing NULL values in that column.
-  - Made the column `comment_text` on table `comment` required. This step will fail if there are existing NULL values in that column.
-  - Made the column `created_at` on table `comment` required. This step will fail if there are existing NULL values in that column.
-  - Added the required column `user_id` to the `post` table without a default value. This is not possible if the table is not empty.
-  - Made the column `caption` on table `post` required. This step will fail if there are existing NULL values in that column.
-  - Made the column `created_at` on table `post` required. This step will fail if there are existing NULL values in that column.
-
-*/
--- DropForeignKey
-ALTER TABLE "comment" DROP CONSTRAINT "comment_instagram_user_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "comment" DROP CONSTRAINT "comment_post_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "follower" DROP CONSTRAINT "follower_follower_instagram_user_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "follower" DROP CONSTRAINT "follower_following_instagram_user_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "instagram_like" DROP CONSTRAINT "instagram_like_instagram_user_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "instagram_like" DROP CONSTRAINT "instagram_like_post_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "post" DROP CONSTRAINT "post_instagram_user_id_fkey";
-
--- AlterTable
-ALTER TABLE "comment" DROP CONSTRAINT "comment_pkey",
-DROP COLUMN "instagram_user_id",
-ADD COLUMN     "user_id" TEXT NOT NULL,
-ALTER COLUMN "comment_id" DROP DEFAULT,
-ALTER COLUMN "comment_id" SET DATA TYPE TEXT,
-ALTER COLUMN "post_id" SET NOT NULL,
-ALTER COLUMN "post_id" SET DATA TYPE TEXT,
-ALTER COLUMN "comment_text" SET NOT NULL,
-ALTER COLUMN "comment_text" SET DATA TYPE TEXT,
-ALTER COLUMN "created_at" SET NOT NULL,
-ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP(3),
-ADD CONSTRAINT "comment_pkey" PRIMARY KEY ("comment_id");
-DROP SEQUENCE "comment_comment_id_seq";
-
--- AlterTable
-ALTER TABLE "post" DROP CONSTRAINT "post_pkey",
-DROP COLUMN "image_url",
-DROP COLUMN "instagram_user_id",
-ADD COLUMN     "image" BYTEA,
-ADD COLUMN     "user_id" TEXT NOT NULL,
-ALTER COLUMN "post_id" DROP DEFAULT,
-ALTER COLUMN "post_id" SET DATA TYPE TEXT,
-ALTER COLUMN "caption" SET NOT NULL,
-ALTER COLUMN "caption" SET DATA TYPE TEXT,
-ALTER COLUMN "created_at" SET NOT NULL,
-ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP(3),
-ADD CONSTRAINT "post_pkey" PRIMARY KEY ("post_id");
-DROP SEQUENCE "post_post_id_seq";
-
--- DropTable
-DROP TABLE "follower";
-
--- DropTable
-DROP TABLE "instagram_like";
-
--- DropTable
-DROP TABLE "instagram_user";
-
 -- CreateTable
 CREATE TABLE "user" (
     "user_id" TEXT NOT NULL,
@@ -90,6 +10,28 @@ CREATE TABLE "user" (
     "is_active" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("user_id")
+);
+
+-- CreateTable
+CREATE TABLE "post" (
+    "post_id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "caption" TEXT NOT NULL,
+    "image" BYTEA,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "post_pkey" PRIMARY KEY ("post_id")
+);
+
+-- CreateTable
+CREATE TABLE "comment" (
+    "comment_id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "post_id" TEXT NOT NULL,
+    "comment_text" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "comment_pkey" PRIMARY KEY ("comment_id")
 );
 
 -- CreateTable
