@@ -15,7 +15,7 @@ const handler = NextAuth({
         password: {},
       },
       async authorize(credentials, req): Promise<any> {
-        const user = await prisma.instagram_user.findUniqueOrThrow({
+        const user = await prisma.user.findUniqueOrThrow({
           where: {
             email: credentials?.email,
           },
