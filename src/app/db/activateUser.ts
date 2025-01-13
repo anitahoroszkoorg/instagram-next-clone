@@ -1,7 +1,5 @@
 import { prisma } from "../api/_base";
 import { UserDoesntExistError, UserIsAlreadyActiveError } from "./errors";
-export const dummyFunction =  () => {return 1}
-
 
 export const activateUser = async (user_id: string) => {
   try {
@@ -13,7 +11,7 @@ export const activateUser = async (user_id: string) => {
         is_active: true,
       },
     });
-    if (user === null){
+    if (user === null) {
       throw new UserDoesntExistError("User doesn't exist");
     }
     if (user.is_active) {
@@ -27,7 +25,6 @@ export const activateUser = async (user_id: string) => {
         is_active: true,
       },
     });
-
   } catch (error) {
     throw error;
   } finally {

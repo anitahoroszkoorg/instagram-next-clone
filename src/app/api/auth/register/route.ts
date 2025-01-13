@@ -3,7 +3,6 @@ import { hash } from "bcrypt";
 import { addUser } from "@/app/db/users";
 import { NewUser } from "@/globals";
 import { validateAddUserData } from "@/app/schemas/addUserSchema";
-import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
