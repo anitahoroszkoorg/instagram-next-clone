@@ -3,10 +3,22 @@ services:
   db:
     image: postgres:13
     restart: always
-    container_name: integration-tests-prisma
+    container_name: insta-db
     ports:
       - "5433:5432"
     environment:
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma
       POSTGRES_DB: tests
+  app:
+    depends_on:
+      - db
+    build: .
+    ports: 
+      - "3000:3000"
+    volumes:
+      - .:/app
+
+volumes:
+  app:
+    external: true
