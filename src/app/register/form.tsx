@@ -1,6 +1,6 @@
 "use client";
 import { FormEvent } from "react";
-import { Button, Input } from "../login/styled";
+import { Button, Input, StyledForm } from "../login/styled";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,13 +30,13 @@ export default function Form() {
   return (
     <>
       <ToastContainer />
-      <form onSubmit={handleSubmit}>
+      <StyledForm onSubmit={handleSubmit}>
         <Input placeholder="email" name="email" type="email" />
         <Input name="password" type="password" placeholder="password" />
         <Input name="username" type="text" placeholder="user name" />
         <Input name="full_name" type="text" placeholder="full name" />
         <Button type="submit">Register</Button>
-      </form>
+      </StyledForm>
     </>
   );
 }
