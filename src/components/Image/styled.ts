@@ -102,3 +102,41 @@ export const CommentsSection = styled.div`
   font-size: 0.9rem;
   color: #999;
 `;
+
+export const CommentItem = styled.div`
+  background-color: #f1f1f1;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+`;
+
+export const CommentsInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+`;
+
+export const StyledTextField = styled.input`
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+export const StyledButton = styled.button`
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #007aff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: flex-end;
+  &:hover {
+    background-color: #005bb5;
+  }
+`;

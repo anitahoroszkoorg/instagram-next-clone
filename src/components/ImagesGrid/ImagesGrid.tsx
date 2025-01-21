@@ -2,12 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import { FeedWrapper } from "./styled";
-import { Image } from "../Image/Image";
+import { ImageComponent } from "../Image/Image";
 import { ImageDetails } from "@/shared/types/image";
 
 export const ImagesGrid: React.FC = () => {
   const [images, setImages] = useState<ImageDetails[]>([]);
-  const [selectedImage, setSelectedImage] = useState<ImageDetails | null>(null);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -19,7 +18,14 @@ export const ImagesGrid: React.FC = () => {
         }
         const data = await response.json();
         if (data.posts && Array.isArray(data.posts)) {
-          setImages(data.posts);
+          const mappedImages: ImageDetails[] = data.posts.map(
+            (post: ImageDetails) => ({
+              imageUrl: post.image,
+              caption: post.caption,
+              createdAt: post.createdAt,
+            }),
+          );
+          setImages(mappedImages);
         } else {
           console.error("Unexpected response structure:", data);
         }
@@ -31,16 +37,12 @@ export const ImagesGrid: React.FC = () => {
     fetchImages();
   }, []);
 
-  const handlePhotoBoxClick = (image: ImageDetails) => {
-    setSelectedImage(image);
-  };
-
   return (
     <FeedWrapper>
       {images.length > 0 ? (
         images.map((image) => (
-          <div key={image.postId} onClick={() => handlePhotoBoxClick(image)}>
-            <Image imageDetails={selectedImage} />
+          <div key={image.postId}>
+            <ImageComponent imageDetails={image} />
           </div>
         ))
       ) : (
