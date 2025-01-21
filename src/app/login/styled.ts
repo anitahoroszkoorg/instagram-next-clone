@@ -100,8 +100,8 @@ export const ErrorMessage = styled.p`
 `;
 
 export const StyledForm = styled.form`
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column
-`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;

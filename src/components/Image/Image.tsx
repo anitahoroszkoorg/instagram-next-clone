@@ -1,47 +1,91 @@
-import React from "react";
-import { Avatar } from "@mui/material";
+import React, { useState } from "react";
 import {
   PhotoboxFrame,
-  Photo,
   PhotoDetails,
   PhotoDescription,
-  Username,
-  TagsContainer,
   LikeSection,
   CommentsSection,
+  CommentItem,
+  CommentsInputContainer,
+  Avatar,
+  Photo,
+  Username,
+  Input,
+  Button,
 } from "./styled";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { ImageDetails } from "@/shared/types/image";
+import Link from "next/link";
 
 interface ImageComponentProps {
   imageDetails: ImageDetails | null;
 }
 
-export const Image: React.FC<ImageComponentProps> = ({ imageDetails }) => {
-  if (!imageDetails) {
-    return null;
-  }
+export const ImageComponent: React.FC<ImageComponentProps> = ({
+  imageDetails,
+}) => {
+  const [likes, setLikes] = useState<number>(0);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [comments, setComments] = useState<string[]>([]);
+  const [newComment, setNewComment] = useState<string>("");
 
-  const { image, caption, tags } = imageDetails;
+  if (!imageDetails) return null;
+
+  const handleLikeToggle = () => {
+    setIsLiked(!isLiked);
+    setLikes((prevLikes) => (isLiked ? prevLikes - 1 : prevLikes + 1));
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim() !== "") {
+      setComments((prevComments) => [...prevComments, newComment.trim()]);
+      setNewComment("");
+    }
+  };
 
   return (
     <PhotoboxFrame>
-      <Photo src={image} alt={caption || "Image"} />
+      <Photo
+        src={imageDetails.imageUrl}
+        alt={imageDetails.caption || "Image"}
+      />
       <PhotoDetails>
         <PhotoDescription>
-          <Avatar src="" alt="User Avatar" />
-          <Username>{`user${imageDetails.userId}`}</Username>
+          <Link href="/userid/profile">
+            <Avatar src={imageDetails.imageUrl} />
+          </Link>
         </PhotoDescription>
-        {caption && <PhotoDescription>{caption}</PhotoDescription>}
-        <TagsContainer>
-          {tags?.map((tag: string) => `#${tag}`).join(" ")}
-        </TagsContainer>
+        <Username>username</Username>
         <LikeSection>
-          <FavoriteBorderIcon />
-          <SmsOutlinedIcon />
+          {isLiked ? (
+            <FavoriteIcon
+              onClick={handleLikeToggle}
+              style={{ color: "red", cursor: "pointer" }}
+            />
+          ) : (
+            <FavoriteBorderIcon
+              onClick={handleLikeToggle}
+              style={{ cursor: "pointer" }}
+            />
+          )}
+          <span>
+            {likes} {likes === 1 ? "like" : "likes"}
+          </span>
         </LikeSection>
-        <CommentsSection>Comments Section</CommentsSection>
+        <CommentsSection>
+          {comments.length > 0 &&
+            comments.map((comment, index) => (
+              <CommentItem key={index}>{comment}</CommentItem>
+            ))}
+          <CommentsInputContainer>
+            <Input
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+            <Button onClick={handleAddComment}>publish</Button>
+          </CommentsInputContainer>
+        </CommentsSection>
       </PhotoDetails>
     </PhotoboxFrame>
   );

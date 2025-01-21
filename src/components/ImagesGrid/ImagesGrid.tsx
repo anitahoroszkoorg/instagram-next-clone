@@ -20,7 +20,7 @@ export const ImagesGrid: React.FC = () => {
         if (data.posts && Array.isArray(data.posts)) {
           const mappedImages: ImageDetails[] = data.posts.map(
             (post: ImageDetails) => ({
-              imageUrl: post.image,
+              imageUrl: post.imageUrl,
               caption: post.caption,
               createdAt: post.createdAt,
             }),

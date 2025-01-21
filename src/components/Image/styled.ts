@@ -119,14 +119,6 @@ export const CommentsInputContainer = styled.div`
   gap: 8px;
 `;
 
-export const StyledTextField = styled.input`
-  width: 100%;
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
 export const StyledButton = styled.button`
   padding: 6px 12px;
   font-size: 14px;
@@ -139,4 +131,38 @@ export const StyledButton = styled.button`
   &:hover {
     background-color: #005bb5;
   }
+`;
+export const Input = styled.input`
+  width: 90%;
+  height: 30px;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  font-size: 16px;
+  font-weight: 300;
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid #2196f3;
+  }
+  margin: 10px;
+`;
+
+export const Button = styled.button`
+  width: 10%;
+  border: none;
+  height: 45px;
+  border-radius: 3px;
+  background-color: #2196f3;
+  color: white;
+  font-size: 16px;
+  font-weight: 300;
+  cursor: pointer;
+  &:hover {
+    background-color: #0d8bf2;
+  }
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
