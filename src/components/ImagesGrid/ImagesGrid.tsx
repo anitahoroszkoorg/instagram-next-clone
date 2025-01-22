@@ -20,7 +20,7 @@ export const ImagesGrid: React.FC = () => {
         if (data.posts && Array.isArray(data.posts)) {
           const mappedImages: ImageDetails[] = data.posts.map(
             (post: ImageDetails) => ({
-              imageUrl: post.imageUrl,
+              imageUrl: post.image,
               caption: post.caption,
               createdAt: post.createdAt,
             }),
@@ -33,7 +33,6 @@ export const ImagesGrid: React.FC = () => {
         console.error("Error fetching images:", error);
       }
     };
-
     fetchImages();
   }, []);
 

@@ -17,6 +17,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { ImageDetails } from "@/shared/types/image";
 import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
 
 interface ImageComponentProps {
   imageDetails: ImageDetails | null;
@@ -32,9 +33,36 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
 
   if (!imageDetails) return null;
 
-  const handleLikeToggle = () => {
-    setIsLiked(!isLiked);
-    setLikes((prevLikes) => (isLiked ? prevLikes - 1 : prevLikes + 1));
+  const handleLikeToggle = async () => {
+    if (!isLiked) {
+      try {
+        await likePost();
+        setIsLiked(true);
+        setLikes((prevLikes) => prevLikes + 1);
+      } catch (error) {
+        console.error("Failed to like the post:", error);
+      }
+    } else {
+      setIsLiked(false);
+      setLikes((prevLikes) => prevLikes - 1);
+    }
+  };
+
+  const likePost = async () => {
+    const response = await fetch("/api/like", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        post_id: imageDetails?.postId,
+        user_id: imageDetails?.userId,
+      }),
+    });
+    if (!response.ok) {
+      toast.error("Unable to like");
+    }
+    return response.json();
   };
 
   const handleAddComment = () => {
@@ -45,48 +73,51 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
   };
 
   return (
-    <PhotoboxFrame>
-      <Photo
-        src={imageDetails.imageUrl}
-        alt={imageDetails.caption || "Image"}
-      />
-      <PhotoDetails>
-        <PhotoDescription>
-          <Link href="/userid/profile">
-            <Avatar src={imageDetails.imageUrl} />
-          </Link>
-        </PhotoDescription>
-        <Username>username</Username>
-        <LikeSection>
-          {isLiked ? (
-            <FavoriteIcon
-              onClick={handleLikeToggle}
-              style={{ color: "red", cursor: "pointer" }}
-            />
-          ) : (
-            <FavoriteBorderIcon
-              onClick={handleLikeToggle}
-              style={{ cursor: "pointer" }}
-            />
-          )}
-          <span>
-            {likes} {likes === 1 ? "like" : "likes"}
-          </span>
-        </LikeSection>
-        <CommentsSection>
-          {comments.length > 0 &&
-            comments.map((comment, index) => (
-              <CommentItem key={index}>{comment}</CommentItem>
-            ))}
-          <CommentsInputContainer>
-            <Input
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-            />
-            <Button onClick={handleAddComment}>publish</Button>
-          </CommentsInputContainer>
-        </CommentsSection>
-      </PhotoDetails>
-    </PhotoboxFrame>
+    <>
+      <ToastContainer />
+      <PhotoboxFrame>
+        <Photo
+          src={imageDetails.imageUrl}
+          alt={imageDetails.caption || "Image"}
+        />
+        <PhotoDetails>
+          <PhotoDescription>
+            <Link href="/userid/profile">
+              <Avatar src={imageDetails.imageUrl} />
+            </Link>
+          </PhotoDescription>
+          <Username>username</Username>
+          <LikeSection>
+            {isLiked ? (
+              <FavoriteIcon
+                onClick={handleLikeToggle}
+                style={{ color: "red", cursor: "pointer" }}
+              />
+            ) : (
+              <FavoriteBorderIcon
+                onClick={handleLikeToggle}
+                style={{ cursor: "pointer" }}
+              />
+            )}
+            <span>
+              {likes} {likes === 1 ? "like" : "likes"}
+            </span>
+          </LikeSection>
+          <CommentsSection>
+            {comments.length > 0 &&
+              comments.map((comment, index) => (
+                <CommentItem key={index}>{comment}</CommentItem>
+              ))}
+            <CommentsInputContainer>
+              <Input
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+              <Button onClick={handleAddComment}>publish</Button>
+            </CommentsInputContainer>
+          </CommentsSection>
+        </PhotoDetails>
+      </PhotoboxFrame>
+    </>
   );
 };
