@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import {
   PhotoboxFrame,
@@ -49,20 +50,20 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
   };
 
   const likePost = async () => {
-    const response = await fetch("/api/like", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        post_id: imageDetails?.postId,
-        user_id: imageDetails?.userId,
-      }),
-    });
-    if (!response.ok) {
-      toast.error("Unable to like");
+    try {
+      const response = await fetch("/api/like", {
+        method: "POST",
+        body: JSON.stringify({
+          post_id: imageDetails?.post_id,
+          user_id: imageDetails?.user_id,
+        }),
+      });
+      if (!response.ok) {
+        toast.error("Unable to like");
+      }
+    } catch (error) {
+      console.error(error);
     }
-    return response.json();
   };
 
   const handleAddComment = () => {
@@ -76,14 +77,11 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
     <>
       <ToastContainer />
       <PhotoboxFrame>
-        <Photo
-          src={imageDetails.imageUrl}
-          alt={imageDetails.caption || "Image"}
-        />
+        <Photo src={imageDetails.image} alt={imageDetails.caption || "Image"} />
         <PhotoDetails>
           <PhotoDescription>
             <Link href="/userid/profile">
-              <Avatar src={imageDetails.imageUrl} />
+              <Avatar src={imageDetails.image} />
             </Link>
           </PhotoDescription>
           <Username>username</Username>

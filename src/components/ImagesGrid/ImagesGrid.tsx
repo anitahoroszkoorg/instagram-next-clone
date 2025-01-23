@@ -1,9 +1,8 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
-import { FeedWrapper } from "./styled";
-import { ImageComponent } from "../Image/Image";
 import { ImageDetails } from "@/shared/types/image";
+import { ImageComponent } from "../Image/Image";
+import { FeedWrapper } from "./styled";
+import { useEffect, useState } from "react";
 
 export const ImagesGrid: React.FC = () => {
   const [images, setImages] = useState<ImageDetails[]>([]);
@@ -18,18 +17,9 @@ export const ImagesGrid: React.FC = () => {
         }
         const data = await response.json();
         if (data.posts && Array.isArray(data.posts)) {
-          const mappedImages: ImageDetails[] = data.posts.map(
-            (post: ImageDetails) => ({
-              imageUrl: post.image,
-              caption: post.caption,
-              createdAt: post.createdAt,
-            }),
-          );
-          setImages(mappedImages);
-        } else {
-          console.error("Unexpected response structure:", data);
+          setImages(data.posts);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching images:", error);
       }
     };
@@ -39,8 +29,8 @@ export const ImagesGrid: React.FC = () => {
   return (
     <FeedWrapper>
       {images.length > 0 ? (
-        images.map((image) => (
-          <div key={image.postId}>
+        images.map((image: ImageDetails | null) => (
+          <div key={image?.post_id}>
             <ImageComponent imageDetails={image} />
           </div>
         ))

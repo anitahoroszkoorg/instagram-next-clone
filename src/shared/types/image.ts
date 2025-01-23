@@ -1,8 +1,7 @@
 export interface ImageDetails {
-  imageUrl: string | undefined;
-  caption?: string;
-  tags?: string[];
-  userId: number;
-  createdAt: string;
-  postId: number;
+  caption: string;
+  created_at: string;
+  image: string;
+  post_id: string;
+  user_id: string;
 }
