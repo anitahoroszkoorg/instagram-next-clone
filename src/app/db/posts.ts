@@ -1,17 +1,16 @@
 import { prisma } from "../api/_base";
-import { getFollowedUsers } from "./users";
 
 export const insertImageToDb = async (
   image: Buffer,
   caption: string,
-  userId: number,
+  userId: string,
 ) => {
   try {
     await prisma.post.create({
       data: {
         image: image,
         caption: caption,
-        instagram_user_id: userId,
+        user_id: userId,
       },
     });
   } catch (error) {
@@ -21,32 +20,28 @@ export const insertImageToDb = async (
   }
 };
 
-export const getAllPosts = async () => {
-  const posts = await prisma.post.findMany({
-    select: {
-      image: true,
-    },
-  });
-  const formattedPosts = posts.map((post) => ({
-    ...post,
-    image: `data:image/jpeg;base64,${post?.image?.toString("base64")}`,
-  }));
-  return formattedPosts;
-};
-
 export const getAllPostsByFollowedUsers = async (email: string) => {
-  const followedUsers = await getFollowedUsers(email);
-  const followedUsersId = followedUsers
-    .map((followedUser) => followedUser.following_instagram_user_id)
-    .filter((id): id is number => id !== null);
   const posts = await prisma.post.findMany({
     where: {
-      instagram_user_id: { in: followedUsersId },
+      user: {
+        followers: {
+          some: {
+            follower: {
+              email,
+            },
+          },
+        },
+      },
     },
   });
+
   const formattedPosts = posts.map((post) => ({
     ...post,
-    image: `data:image/jpeg;base64,${post?.image?.toString("base64")}`,
+    image:
+      post.image && Buffer.from(post.image).toString("base64")
+        ? `data:image/jpeg;base64,${Buffer.from(post.image).toString("base64")}`
+        : null,
   }));
+
   return formattedPosts;
 };

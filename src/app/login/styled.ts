@@ -54,9 +54,9 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 100% !important;
-  height: 45px;
+  width: 90%;
   border: none;
+  height: 45px;
   border-radius: 3px;
   background-color: #2196f3;
   color: white;
@@ -67,6 +67,10 @@ export const Button = styled.button`
     background-color: #0d8bf2;
   }
   margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ForgotPassword = styled.a`
@@ -93,4 +97,11 @@ export const ErrorMessage = styled.p`
   font-size: 10px;
   color: red;
   margin-top: 10px;
+`;
+
+export const StyledForm = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;

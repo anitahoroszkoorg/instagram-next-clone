@@ -15,7 +15,7 @@ model User {
   full_name     String
   bio           String?
   created_at    DateTime  @default(now())
-  is_active     Boolean   @default(true)
+  is_active     Boolean   @default(false)
 
   // Relations
   posts         Post[]

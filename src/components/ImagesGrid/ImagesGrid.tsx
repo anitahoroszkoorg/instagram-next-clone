@@ -1,64 +1,42 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { FeedWrapper, Photobox } from "./styled";
-import { Post } from "../Post/Post";
+import { ImageDetails } from "@/shared/types/image";
+import { ImageComponent } from "../Image/Image";
+import { FeedWrapper } from "./styled";
+import { useEffect, useState } from "react";
 
-export const ImagesGrid = () => {
-  const [images, setImages] = useState<{ image: string }[]>([]);
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [selectedImage, setSelectedImage] = useState<string>("");
+export const ImagesGrid: React.FC = () => {
+  const [images, setImages] = useState<ImageDetails[]>([]);
 
   useEffect(() => {
-    async function fetchImages() {
+    const fetchImages = async () => {
       try {
         const response = await fetch("/api/getAllImagesByFollowedUsers");
         if (!response.ok) {
-          console.error("Failed to fetch images. Status:", response.status);
+          console.error(`Failed to fetch images. Status: ${response.status}`);
           return;
         }
         const data = await response.json();
         if (data.posts && Array.isArray(data.posts)) {
           setImages(data.posts);
-        } else {
-          console.error("Unexpected response structure:", data);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching images:", error);
       }
-    }
-
+    };
     fetchImages();
   }, []);
 
-  const handlePhotoBoxClick = (imageSrc: string) => {
-    setSelectedImage(imageSrc);
-    setModalVisible(true);
-  };
-
   return (
-    <>
-      <Post
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        selectedImage={selectedImage}
-      />
-      <FeedWrapper>
-        {images.length > 0 ? (
-          images.map((image, index) => (
-            <div onClick={() => handlePhotoBoxClick(image.image)} key={index}>
-              <Photobox
-                className="photobox"
-                src={image.image}
-                alt={`Image ${index}`}
-                width={500}
-                height={500}
-              />
-            </div>
-          ))
-        ) : (
-          <p>No images found</p>
-        )}
-      </FeedWrapper>
-    </>
+    <FeedWrapper>
+      {images.length > 0 ? (
+        images.map((image: ImageDetails | null) => (
+          <div key={image?.post_id}>
+            <ImageComponent imageDetails={image} />
+          </div>
+        ))
+      ) : (
+        <p>No images found</p>
+      )}
+    </FeedWrapper>
   );
 };

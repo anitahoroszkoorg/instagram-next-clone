@@ -3,7 +3,6 @@ import { hash } from "bcrypt";
 import { addUser } from "@/app/db/users";
 import { NewUser } from "@/globals";
 import { validateAddUserData } from "@/app/schemas/addUserSchema";
-import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
@@ -22,13 +21,11 @@ export async function POST(request: Request) {
   }
   const { email, password, username, full_name } = requestData;
   const hashedPassword = await hash(password, 10);
-  var custom_id = uuidv4();
   const user: NewUser = {
     email: email,
     password_hash: hashedPassword,
     username: username,
     full_name: full_name,
-    custom_id: custom_id,
   };
   const { error } = validateAddUserData(user);
   if (error) {
@@ -59,7 +56,7 @@ export async function POST(request: Request) {
     to: email,
     subject: "Welcome to Instagram ✔",
     text: "You are now one step away from becoming a member of our community here at Instagram",
-    html: `<b>To start your journey, please confirm the activation of your account</b><a href=http://localhost:3000/activate/${custom_id}><b/>ACTIVATE</a>`,
+    html: `<b>To start your journey, please confirm the activation of your account</b><a href=http://localhost:3000/activate/${createdUser.user_id}><b/>ACTIVATE</a>`,
   });
 
   return NextResponse.json({ message: "success" });
