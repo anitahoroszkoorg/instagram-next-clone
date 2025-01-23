@@ -33,9 +33,6 @@ export const getAllPostsByFollowedUsers = async (email: string) => {
         },
       },
     },
-    include: {
-      user: true,
-    },
   });
 
   const formattedPosts = posts.map((post) => ({

@@ -35,31 +35,21 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
   if (!imageDetails) return null;
 
   const handleLikeToggle = async () => {
-    if (!isLiked) {
-      try {
-        await likePost();
-        setIsLiked(true);
-        setLikes((prevLikes) => prevLikes + 1);
-      } catch (error) {
-        console.error("Failed to like the post:", error);
-      }
-    } else {
-      setIsLiked(false);
-      setLikes((prevLikes) => prevLikes - 1);
-    }
+    setIsLiked(false);
   };
 
-  const likePost = async () => {
+  const likePost = async (post_id: string) => {
     try {
       const response = await fetch("/api/like", {
         method: "POST",
         body: JSON.stringify({
-          post_id: imageDetails?.post_id,
-          user_id: imageDetails?.user_id,
+          post_id: post_id,
         }),
       });
+      setIsLiked(true);
       if (!response.ok) {
         toast.error("Unable to like");
+        setIsLiked(false);
       }
     } catch (error) {
       console.error(error);
@@ -93,7 +83,7 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
               />
             ) : (
               <FavoriteBorderIcon
-                onClick={handleLikeToggle}
+                onClick={() => likePost(imageDetails.post_id)}
                 style={{ cursor: "pointer" }}
               />
             )}
