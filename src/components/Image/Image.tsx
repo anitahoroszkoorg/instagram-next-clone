@@ -16,32 +16,33 @@ import {
 } from "./styled";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { ImageDetails } from "@/shared/types/image";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
+import { PostDetails } from "@/shared/types/post";
 
 interface ImageComponentProps {
-  imageDetails: ImageDetails | null;
+  postDetails: PostDetails | null;
 }
 
 export const ImageComponent: React.FC<ImageComponentProps> = ({
-  imageDetails,
+  postDetails,
 }) => {
   const [likes, setLikes] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [comments, setComments] = useState<string[]>([]);
   const [newComment, setNewComment] = useState<string>("");
 
-  if (!imageDetails) return null;
+  if (!postDetails) return null;
 
-  const handleLikeToggle = async () => {
-    setIsLiked(false);
-  };
+  const { image, caption, post_id } = postDetails;
 
   const likePost = async (post_id: string) => {
     try {
       const response = await fetch("/api/like", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           post_id: post_id,
         }),
@@ -71,10 +72,9 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
           post_id: post_id,
         }),
       });
-      setIsLiked(true);
+      setIsLiked(false);
       if (!response.ok) {
         toast.error("Unable to like");
-        setIsLiked(false);
       }
     } catch (error) {
       console.error(error);
@@ -85,23 +85,23 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
     <>
       <ToastContainer />
       <PhotoboxFrame>
-        <Photo src={imageDetails.image} alt={imageDetails.caption || "Image"} />
+        <Photo src={image} alt={caption || "Image"} />
         <PhotoDetails>
           <PhotoDescription>
             <Link href="/userid/profile">
-              <Avatar src={imageDetails.image} />
+              <Avatar src={image} />
             </Link>
           </PhotoDescription>
           <Username>username</Username>
           <LikeSection>
             {isLiked ? (
               <FavoriteIcon
-                onClick={() => unlike(imageDetails.post_id)}
+                onClick={() => unlike(post_id)}
                 style={{ color: "red", cursor: "pointer" }}
               />
             ) : (
               <FavoriteBorderIcon
-                onClick={() => likePost(imageDetails.post_id)}
+                onClick={() => likePost(post_id)}
                 style={{ cursor: "pointer" }}
               />
             )}
