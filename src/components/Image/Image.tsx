@@ -63,6 +63,24 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
     }
   };
 
+  const unlike = async (post_id: string) => {
+    try {
+      const response = await fetch("/api/like", {
+        method: "DELETE",
+        body: JSON.stringify({
+          post_id: post_id,
+        }),
+      });
+      setIsLiked(true);
+      if (!response.ok) {
+        toast.error("Unable to like");
+        setIsLiked(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <ToastContainer />
@@ -78,7 +96,7 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
           <LikeSection>
             {isLiked ? (
               <FavoriteIcon
-                onClick={handleLikeToggle}
+                onClick={() => unlike(imageDetails.post_id)}
                 style={{ color: "red", cursor: "pointer" }}
               />
             ) : (
