@@ -3,6 +3,7 @@ import { ImageDetails } from "@/shared/types/image";
 import { ImageComponent } from "../Image/Image";
 import { FeedWrapper } from "./styled";
 import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 export const ImagesGrid: React.FC = () => {
   const [images, setImages] = useState<ImageDetails[]>([]);
@@ -12,7 +13,7 @@ export const ImagesGrid: React.FC = () => {
       try {
         const response = await fetch("/api/getAllImagesByFollowedUsers");
         if (!response.ok) {
-          console.error(`Failed to fetch images. Status: ${response.status}`);
+          toast.error("Unable to get images");
           return;
         }
         const data = await response.json();
@@ -28,6 +29,7 @@ export const ImagesGrid: React.FC = () => {
 
   return (
     <FeedWrapper>
+      <ToastContainer />
       {images.length > 0 ? (
         images.map((image: ImageDetails | null) => (
           <div key={image?.post_id}>
