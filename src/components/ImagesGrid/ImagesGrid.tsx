@@ -3,7 +3,7 @@ import { Post } from "@/shared/types/post";
 import { ImageComponent } from "../Image/Image";
 import { FeedWrapper } from "./styled";
 import { ToastContainer, toast } from "react-toastify";
-import useFetch from "@/hooks/useFetch";
+import useFetch from "@/lib/hooks/useFetch";
 
 export const ImagesGrid: React.FC = () => {
   const { data, loading, error } = useFetch<Post>(

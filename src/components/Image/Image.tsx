@@ -13,12 +13,14 @@ import {
   Username,
   Input,
   Button,
+  Caption,
 } from "./styled";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import { PostDetails } from "@/shared/types/post";
+import { fetchData } from "@/lib/fetchData";
 
 interface ImageComponentProps {
   postDetails: PostDetails | null;
@@ -38,19 +40,10 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
 
   const likePost = async (post_id: string) => {
     try {
-      const response = await fetch("/api/like", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          post_id: post_id,
-        }),
-      });
+      const response = await fetchData("/api/like", "POST", { post_id });
       setIsLiked(true);
-      if (!response.ok) {
+      if (response.status !== 200) {
         toast.error("Unable to like");
-        setIsLiked(false);
       }
     } catch (error) {
       console.error(error);
@@ -66,18 +59,29 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
 
   const unlike = async (post_id: string) => {
     try {
-      const response = await fetch("/api/like", {
-        method: "DELETE",
-        body: JSON.stringify({
-          post_id: post_id,
-        }),
-      });
+      const response = await fetchData("/api/like", "DELETE", { post_id });
       setIsLiked(false);
-      if (!response.ok) {
-        toast.error("Unable to like");
+      console.log(response);
+      if (response.status !== 200) {
+        toast.error("Unable to unlike");
       }
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const addComment = async (post_id: string) => {
+    try {
+      const response = await fetch("/api/like", {
+        method: "POST",
+        body: JSON.stringify({
+          post_id: post_id,
+          comment: newComment,
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+      toast;
     }
   };
 
@@ -88,11 +92,12 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
         <Photo src={image} alt={caption || "Image"} />
         <PhotoDetails>
           <PhotoDescription>
-            <Link href="/userid/profile">
+            <Link href={`/profile/${"username"}`}>
               <Avatar src={image} />
+              <Username>{"username"}</Username>
             </Link>
+            <Caption>{caption}</Caption>
           </PhotoDescription>
-          <Username>username</Username>
           <LikeSection>
             {isLiked ? (
               <FavoriteIcon

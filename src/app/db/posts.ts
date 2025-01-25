@@ -33,6 +33,10 @@ export const getAllPostsByFollowedUsers = async (email: string) => {
         },
       },
     },
+    include: {
+      likes: true,
+      comments: true,
+    },
   });
 
   const formattedPosts = posts.map((post) => ({
