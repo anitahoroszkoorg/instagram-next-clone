@@ -21,6 +21,16 @@ export const getUserId = async (email: string) => {
   });
   return user?.user_id;
 };
+
+export const getUserDetails = async (email: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  return user;
+};
+
 export const getFollowedUsers = async (email: string) => {
   const user = await prisma.user.findUnique({
     where: {

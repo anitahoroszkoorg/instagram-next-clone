@@ -34,8 +34,29 @@ export const getAllPostsByFollowedUsers = async (email: string) => {
       },
     },
     include: {
-      likes: true,
-      comments: true,
+      user: {
+        select: {
+          username: true,
+        },
+      },
+      likes: {
+        include: {
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      },
+      comments: {
+        include: {
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      },
     },
   });
 
