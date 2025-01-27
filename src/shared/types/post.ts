@@ -8,7 +8,7 @@ export interface Like {
 
 export interface Comment {
   comment_text: string;
-  comment_id: string;
+  comment_id?: string;
   created_at: string;
   user_id: string;
   user: {
