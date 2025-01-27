@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   PhotoboxFrame,
   PhotoDetails,
@@ -19,8 +19,10 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
-import { PostDetails } from "@/shared/types/post";
+import { Like, PostDetails, Comment } from "@/shared/types/post";
 import { fetchData } from "@/lib/fetchData";
+import { useUser } from "@/lib/hooks/userContext";
+import { formatDate } from "@/app/utils/formatDate";
 
 interface ImageComponentProps {
   postDetails: PostDetails | null;
@@ -29,59 +31,127 @@ interface ImageComponentProps {
 export const ImageComponent: React.FC<ImageComponentProps> = ({
   postDetails,
 }) => {
-  const [likes, setLikes] = useState<number>(0);
+  const { user } = useUser();
   const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [comments, setComments] = useState<string[]>([]);
   const [newComment, setNewComment] = useState<string>("");
+  const [currentComments, setComments] = useState<Comment[]>([]);
+  const [currentLikes, setLikes] = useState<number>(0);
 
   if (!postDetails) return null;
 
-  const { image, caption, post_id } = postDetails;
+  const { image, caption, post_id, comments, likes } = postDetails;
 
-  const likePost = async (post_id: string) => {
+  useEffect(() => {
+    setComments(comments);
+    setLikes(likes?.length || 0);
+    if (likes && user) {
+      const userHasLiked = likes.some(
+        (like: Like) => like.user_id === user.user_id,
+      );
+      setIsLiked(userHasLiked);
+    }
+  }, [comments, likes, user]);
+
+  const refreshLikes = async () => {
+    try {
+      const response = await fetchData(`/api/post/${post_id}`, "GET");
+      const responseData = response.data as { likes: Like[] };
+      if (response.status === 200 && responseData.likes) {
+        setLikes(responseData.likes.length);
+      } else {
+        console.error("Failed to fetch likes: Invalid response structure");
+      }
+    } catch (error) {
+      console.error("Failed to refresh likes:", error);
+    }
+  };
+
+  const likePost = async () => {
+    setIsLiked(true);
+    setLikes((prev) => prev + 1);
     try {
       const response = await fetchData("/api/like", "POST", { post_id });
-      setIsLiked(true);
       if (response.status !== 200) {
         toast.error("Unable to like");
+        setIsLiked(false);
+        setLikes((prev) => prev - 1);
+      } else {
+        refreshLikes();
       }
     } catch (error) {
       console.error(error);
+      setIsLiked(false);
+      setLikes((prev) => prev - 1);
     }
   };
 
-  const handleAddComment = () => {
-    if (newComment.trim() !== "") {
-      setComments((prevComments) => [...prevComments, newComment.trim()]);
-      setNewComment("");
-    }
-  };
-
-  const unlike = async (post_id: string) => {
+  const unlike = async () => {
+    setIsLiked(false);
+    setLikes((prev) => prev - 1);
     try {
       const response = await fetchData("/api/like", "DELETE", { post_id });
-      setIsLiked(false);
-      console.log(response);
       if (response.status !== 200) {
         toast.error("Unable to unlike");
+        setIsLiked(true);
+        setLikes((prev) => prev + 1);
+      } else {
+        refreshLikes();
       }
     } catch (error) {
       console.error(error);
+      setIsLiked(true);
+      setLikes((prev) => prev + 1);
+    }
+  };
+  const refreshComments = async () => {
+    try {
+      const response = await fetchData(`/api/post/${post_id}`, "GET");
+      const responseData = response.data as { comments: Comment[] };
+      if (response.status === 200 && responseData.comments) {
+        setComments(responseData.comments);
+      } else {
+        console.error("Failed to fetch comments: Invalid response structure");
+      }
+    } catch (error) {
+      console.error("Failed to refresh comments:", error);
     }
   };
 
-  const addComment = async (post_id: string) => {
-    try {
-      const response = await fetch("/api/like", {
-        method: "POST",
-        body: JSON.stringify({
-          post_id: post_id,
-          comment: newComment,
-        }),
-      });
-    } catch (error) {
-      console.error(error);
-      toast;
+  const handleAddComment = async () => {
+    if (user) {
+      if (!newComment.trim()) return;
+      const optimisticComment: Comment = {
+        comment_text: newComment,
+        comment_id: Math.random().toString(36).substring(7),
+        created_at: new Date().toISOString(),
+        user_id: user.user_id,
+        user: { username: user.username },
+      };
+      setComments((prevComments) => [optimisticComment, ...prevComments]);
+      setNewComment("");
+      try {
+        const response = await fetchData("/api/comment", "POST", {
+          post_id,
+          comment_text: newComment,
+        });
+        if (response.status !== 200) {
+          toast.error("Failed to add comment.");
+          setComments((prevComments) =>
+            prevComments.filter(
+              (comment) => comment.comment_id !== optimisticComment.comment_id,
+            ),
+          );
+        } else {
+          refreshComments();
+        }
+      } catch (error) {
+        console.error("Error adding comment:", error);
+        setComments((prevComments) =>
+          prevComments.filter(
+            (comment) => comment.comment_id !== optimisticComment.comment_id,
+          ),
+        );
+      }
     }
   };
 
@@ -92,39 +162,47 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
         <Photo src={image} alt={caption || "Image"} />
         <PhotoDetails>
           <PhotoDescription>
-            <Link href={`/profile/${"username"}`}>
+            <Link
+              href={`/profile/${postDetails.user.username}/${postDetails.user_id}`}
+            >
               <Avatar src={image} />
-              <Username>{"username"}</Username>
+              <Username>{postDetails.user.username}</Username>
             </Link>
             <Caption>{caption}</Caption>
           </PhotoDescription>
           <LikeSection>
             {isLiked ? (
               <FavoriteIcon
-                onClick={() => unlike(post_id)}
+                onClick={unlike}
                 style={{ color: "red", cursor: "pointer" }}
               />
             ) : (
               <FavoriteBorderIcon
-                onClick={() => likePost(post_id)}
+                onClick={likePost}
                 style={{ cursor: "pointer" }}
               />
             )}
             <span>
-              {likes} {likes === 1 ? "like" : "likes"}
+              {currentLikes} {currentLikes === 1 ? "like" : "likes"}
             </span>
           </LikeSection>
           <CommentsSection>
-            {comments.length > 0 &&
-              comments.map((comment, index) => (
-                <CommentItem key={index}>{comment}</CommentItem>
-              ))}
+            {currentComments.map((comment) => (
+              <CommentItem key={comment.comment_id}>
+                <p>{comment.user.username}</p>
+                <p>{comment.comment_text}</p>
+                <p>{formatDate(comment.created_at)}</p>
+              </CommentItem>
+            ))}
             <CommentsInputContainer>
               <Input
+                required
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
               />
-              <Button onClick={handleAddComment}>publish</Button>
+              <Button disabled={!newComment} onClick={handleAddComment}>
+                publish
+              </Button>
             </CommentsInputContainer>
           </CommentsSection>
         </PhotoDetails>

@@ -59,7 +59,7 @@ export const getAllPostsByFollowedUsers = async (email: string) => {
       },
     },
   });
-
+  prisma.$disconnect;
   const formattedPosts = posts.map((post) => ({
     ...post,
     image:
