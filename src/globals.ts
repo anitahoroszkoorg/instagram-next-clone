@@ -6,6 +6,12 @@ export interface NewUser {
   isActive?: boolean;
 }
 
+export interface User extends NewUser {
+  user_id: string;
+  bio: string | null;
+  created_at: Date;
+}
+
 export interface Message {
   id: number;
   text: string;

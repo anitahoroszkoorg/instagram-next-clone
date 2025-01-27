@@ -1,4 +1,5 @@
 "use client";
+import { UserProvider } from "@/lib/hooks/userContext";
 import "./globals.css";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -20,7 +21,9 @@ export default function RootLayout({ children, params: { session } }: Props) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider session={session}>
+          <UserProvider>{children}</UserProvider>
+        </SessionProvider>
       </body>
     </html>
   );

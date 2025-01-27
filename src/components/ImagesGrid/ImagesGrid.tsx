@@ -1,37 +1,25 @@
 "use client";
-import { ImageDetails } from "@/shared/types/image";
+import { Post } from "@/shared/types/post";
 import { ImageComponent } from "../Image/Image";
 import { FeedWrapper } from "./styled";
-import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import useFetch from "@/lib/hooks/useFetch";
 
 export const ImagesGrid: React.FC = () => {
-  const [images, setImages] = useState<ImageDetails[]>([]);
+  const { data, loading, error } = useFetch<Post>(
+    "/api/getAllImagesByFollowedUsers",
+  );
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await fetch("/api/getAllImagesByFollowedUsers");
-        if (!response.ok) {
-          console.error(`Failed to fetch images. Status: ${response.status}`);
-          return;
-        }
-        const data = await response.json();
-        if (data.posts && Array.isArray(data.posts)) {
-          setImages(data.posts);
-        }
-      } catch (error: any) {
-        console.error("Error fetching images:", error);
-      }
-    };
-    fetchImages();
-  }, []);
+  if (loading) return <p>Loading...</p>;
+  if (error) return toast.error(error.message);
 
   return (
     <FeedWrapper>
-      {images.length > 0 ? (
-        images.map((image: ImageDetails | null) => (
-          <div key={image?.post_id}>
-            <ImageComponent imageDetails={image} />
+      <ToastContainer />
+      {!!data && data.posts.length > 0 ? (
+        data.posts.map((postDetails) => (
+          <div key={postDetails.post_id}>
+            <ImageComponent postDetails={postDetails} />
           </div>
         ))
       ) : (

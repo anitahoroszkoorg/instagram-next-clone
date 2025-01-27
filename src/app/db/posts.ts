@@ -33,8 +33,33 @@ export const getAllPostsByFollowedUsers = async (email: string) => {
         },
       },
     },
+    include: {
+      user: {
+        select: {
+          username: true,
+        },
+      },
+      likes: {
+        include: {
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      },
+      comments: {
+        include: {
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      },
+    },
   });
-
+  prisma.$disconnect;
   const formattedPosts = posts.map((post) => ({
     ...post,
     image:
