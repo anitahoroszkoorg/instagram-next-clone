@@ -20,8 +20,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import { Like, PostDetails, Comment } from "@/shared/types/post";
-import { fetchData } from "@/lib/fetchData";
-import { useUser } from "@/lib/hooks/userContext";
+import { fetchData } from "@/app/lib/fetchData";
+import { useUser } from "@/app/lib/hooks/userContext";
 import { formatDate } from "@/app/utils/formatDate";
 
 interface ImageComponentProps {
@@ -177,9 +177,7 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
         <Photo src={postDetails.image} alt={postDetails.caption || "Image"} />
         <PhotoDetails>
           <PhotoDescription>
-            <Link
-              href={`/profile/${postDetails.user.username}/${postDetails.user_id}`}
-            >
+            <Link href={`/profile/${postDetails.user.username}`}>
               <Avatar src={postDetails.image} />
               <Username>{postDetails.user.username}</Username>
             </Link>

@@ -1,9 +1,10 @@
 "use client";
-import { UserProvider } from "@/lib/hooks/userContext";
+import { UserProvider } from "@/app/lib/hooks/userContext";
 import "./globals.css";
 import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import { Inter } from "next/font/google";
+import { Header } from "@/components/Header/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +23,23 @@ export default function RootLayout({ children, params: { session } }: Props) {
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
-          <UserProvider>{children}</UserProvider>
+          <UserProvider>
+            <LayoutWithHeader>{children}</LayoutWithHeader>
+          </UserProvider>
         </SessionProvider>
       </body>
     </html>
+  );
+}
+
+function LayoutWithHeader({ children }: { children: React.ReactNode }) {
+  const { data: sessionData } = useSession();
+  const isLoggedIn = sessionData?.user;
+
+  return (
+    <>
+      {isLoggedIn && <Header />}
+      {children}
+    </>
   );
 }
