@@ -67,9 +67,6 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
       try {
         const response = await fetch("/api/upload", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
           body: data,
         });
         if (response.ok) {
