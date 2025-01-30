@@ -3,18 +3,19 @@ import styled from "styled-components";
 export const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: white;
   font-size: 1em;
-  border-radius: 3px;
-  width: 10vw%;
-  height: 100%;
+  width: 28vw;
   overflow: hidden;
   position: fixed;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 `;
 
 export const Username = styled.div`
   font-weight: bold;
   font-size: 14px;
+  margin-left: 10px;
 `;
 
 export const ProfilePictureContainer = styled.div`
@@ -57,6 +58,9 @@ export const StatsContainer = styled.div`
 
 export const Stats = styled.p`
   font-size: 14px;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const ButtonsContainer = styled.div`
@@ -70,8 +74,10 @@ interface ButtonProps {
 
 export const FollowButton = styled.button<ButtonProps>`
   height: 2rem;
-  background-color: ${(props) => (props.isFollowing ? "lightgrey" : "#458eff")};
-  color: ${(props) => (props.isFollowing ? "black" : "white")};
+  background-color: ${(props) =>
+    props.isFollowing ? "var( --ig-light-grey)" : "var(--ig-blue)"};
+  color: ${(props) =>
+    props.isFollowing ? "var(--ig-black)" : " var(--ig-white)"};
   margin: 1rem;
   border-radius: 5px;
   justify-content: center;
@@ -81,8 +87,8 @@ export const FollowButton = styled.button<ButtonProps>`
 
 export const MessageButton = styled.button`
   height: 2rem;
-  background-color: lightgrey;
-  color: white;
+  background-color: var(--ig-light-grey);
+  color: var(--ig-black);
   margin: 1rem;
   border-radius: 5px;
   justify-content: center;
@@ -98,19 +104,41 @@ export const ProfilePicture = styled.img`
 
 export const InstaStoriesContainer = styled.div`
   display: flex;
-  width: 22vw;
+  width: 100%;
   flex-wrap: wrap;
-  overflow-y: auto;
-  margin: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-height: 20vh;
+  padding: 10px 0px;
+  justify-content: space-between;
 `;
 
 export const Instastory = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+export const InstastoryImg = styled.img`
+  display: flex;
   width: 60px;
   height: 60px;
-  background-color: lightblue;
   border-radius: 100%;
   margin: 0.5rem;
 `;
 
-export const InstastoryCaption = styled.p``;
+export const Bio = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+`;
+
+export const Name = styled.p`
+  margin: 10px 0px 0px 0px;
+`;
+
+export const ProfileDescription = styled.p`
+  font-weight: light;
+  margin: 20px 0px;
+`;
