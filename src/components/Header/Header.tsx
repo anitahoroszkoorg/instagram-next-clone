@@ -16,16 +16,20 @@ import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import Link from "next/link";
 import Create from "../Create/Create";
 import Image from "next/image";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { Button } from "./styled";
 
 export const Header = () => {
+  const { data: session } = useSession();
+  const isLoggedIn = session?.user;
   const [openCreateWizard, setOpenCreateWizard] = useState(false);
   const closeModal = () => {
     setOpenCreateWizard(false);
   };
 
-  return (
+  return !isLoggedIn ? (
+    <></>
+  ) : (
     <>
       <HeaderWrapper>
         <LogoWrapper>

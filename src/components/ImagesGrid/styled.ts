@@ -2,13 +2,10 @@ import styled from "styled-components";
 
 export const FeedWrapper = styled.div`
   display: flex;
-  font-size: 1em;
-  border-radius: 3px;
   width: 90%;
   height: 80%;
   flex-wrap: wrap;
   overflow-x: hidden;
-  padding: 1rem;
 `;
 import { keyframes } from "styled-components";
 
@@ -25,12 +22,11 @@ const myAnim = keyframes`
 `;
 
 export const Photobox = styled.img`
-  margin: 10px;
+  margin: 0rem 0rem 1rem 1rem;
   width: 250px;
   height: 250px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  background: white;
   border-radius: 10px;
   display: flex;
   &:hover {

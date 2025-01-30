@@ -4,7 +4,6 @@ export const ProfileContainer = styled.div`
   margin-top: 20vh;
   height: 100%;
   width: 100%;
-  background-color: #fafafa;
   left: 0;
   right: 0;
   top: 0;
@@ -15,7 +14,6 @@ export const InfoContainer = styled.div`
   display: flex;
   height: 100%;
   width: 50%;
-  background-color: white;
   justify-content: center;
 `;
 
@@ -23,5 +21,4 @@ export const ContentContainer = styled.div`
   display: flex;
   height: 100%;
   width: 100%;
-  background-color: #fafafa;
 `;

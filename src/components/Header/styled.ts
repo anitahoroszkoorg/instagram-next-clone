@@ -6,7 +6,7 @@ export const HeaderWrapper = styled.header`
   justify-content: center;
   align-items: center;
   background-color: white;
-  height: 120px;
+  height: 100px;
   overflow: hidden;
   left: 0;
   right: 0;
