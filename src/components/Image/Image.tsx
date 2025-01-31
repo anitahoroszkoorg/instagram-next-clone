@@ -177,7 +177,7 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
         <Photo src={postDetails.image} alt={postDetails.caption || "Image"} />
         <PhotoDetails>
           <PhotoDescription>
-            <Link href={`/profile/${postDetails.user.username}`}>
+            <Link href={`/profile/${postDetails.user_id}`}>
               <Avatar src={postDetails.image} />
               <Username>{postDetails.user.username}</Username>
             </Link>

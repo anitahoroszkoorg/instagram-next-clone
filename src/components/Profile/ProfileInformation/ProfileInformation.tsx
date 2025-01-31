@@ -16,9 +16,27 @@ import {
   Name,
   ProfileDescription,
 } from "./styled";
+import useFetch from "@/app/lib/hooks/useFetch";
+
+interface UserDetails {
+  username: string;
+  full_name: string;
+  bio: string;
+}
+
+interface UserDetailsResponse {
+  userDetails: UserDetails;
+  message: string;
+}
 
 export const ProfileInfo = ({ slug }: any) => {
   const [isFollowing, setIsFollowing] = useState(false);
+
+  const { data, loading, error } = useFetch<UserDetailsResponse>(
+    `/api/userId/${slug}`,
+  );
+
+  const userDetails = data?.userDetails;
 
   return (
     <ProfileContainer>
@@ -27,7 +45,7 @@ export const ProfileInfo = ({ slug }: any) => {
           <img src="/avatar.jpeg" alt="User Avatar" width={300} height={300} />
         </Avatar>
       </ProfilePictureContainer>
-      <Username>@{slug}</Username>
+      <Username>@{userDetails?.username}</Username>
       <StatsContainer>
         <Stats>6 Posts</Stats>
         <Stats>60 Followers</Stats>
@@ -43,8 +61,10 @@ export const ProfileInfo = ({ slug }: any) => {
         <MessageButton>Message</MessageButton>
       </ButtonsContainer>
       <Bio>
-        <Name>Anita Victoria</Name>
-        <ProfileDescription>🌎 TRAVELLER 🌍 </ProfileDescription>
+        <Name>{userDetails?.full_name}</Name>
+        {userDetails?.bio && (
+          <ProfileDescription>{userDetails.bio}</ProfileDescription>
+        )}
       </Bio>
       <InstaStoriesContainer>
         <Instastory>
