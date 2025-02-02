@@ -10,7 +10,6 @@ export const GET = async (
     if (!id) {
       return NextResponse.json({ message: "No ID provided" }, { status: 400 });
     }
-
     const userDetails = await getUserDetailsById(id);
     return NextResponse.json({ message: "ok", userDetails }, { status: 200 });
   } catch (error: any) {

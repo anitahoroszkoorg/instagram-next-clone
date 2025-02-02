@@ -15,11 +15,13 @@ import {
 } from "./styled";
 import useFetch from "@/app/lib/hooks/useFetch";
 import { Stories } from "../Stories/Stories";
+import { useUser } from "@/app/lib/hooks/userContext";
 
 interface UserDetails {
   username: string;
   full_name: string;
   bio: string;
+  user_id: string;
 }
 
 interface UserDetailsResponse {
@@ -27,14 +29,26 @@ interface UserDetailsResponse {
   message: string;
 }
 
-export const ProfileInfo = ({ slug }: any) => {
+interface ProfileInfoProps {
+  slug: string;
+  setActiveTab: (tab: "followers" | "following" | "posts") => void;
+}
+
+export const ProfileInfo: React.FC<ProfileInfoProps> = ({
+  slug,
+  setActiveTab,
+}) => {
   const [isFollowing, setIsFollowing] = useState(false);
 
   const { data, loading, error } = useFetch<UserDetailsResponse>(
     `/api/userId/${slug}`,
   );
 
+  const { user } = useUser();
+
   const userDetails = data?.userDetails;
+
+  const isProfileOwner = data?.userDetails.user_id === user?.user_id;
 
   return (
     <ProfileContainer>
@@ -45,18 +59,27 @@ export const ProfileInfo = ({ slug }: any) => {
       </ProfilePictureContainer>
       <Username>@{userDetails?.username}</Username>
       <StatsContainer>
-        <Stats>6 Posts</Stats>
-        <Stats>60 Followers</Stats>
-        <Stats>345 Following</Stats>
+        <Stats onClick={() => setActiveTab("posts")}>6 Posts</Stats>
+        <Stats onClick={() => setActiveTab("followers")}>60 Followers</Stats>
+        <Stats onClick={() => setActiveTab("following")}>345 Following</Stats>
       </StatsContainer>
       <ButtonsContainer>
-        <FollowButton
-          isFollowing={isFollowing}
-          onClick={() => setIsFollowing(!isFollowing)}
-        >
-          {isFollowing ? "Following" : "Follow"}
-        </FollowButton>
-        <MessageButton>Message</MessageButton>
+        {!isProfileOwner ? (
+          <>
+            <FollowButton
+              isFollowing={isFollowing}
+              onClick={() => setIsFollowing(!isFollowing)}
+            >
+              {isFollowing ? "Following" : "Follow"}
+            </FollowButton>
+            <MessageButton>Message</MessageButton>
+          </>
+        ) : (
+          <>
+            <FollowButton isFollowing={true}>Edit</FollowButton>
+            <MessageButton>Settings</MessageButton>
+          </>
+        )}
       </ButtonsContainer>
       <Bio>
         <Name>{userDetails?.full_name}</Name>
@@ -64,7 +87,7 @@ export const ProfileInfo = ({ slug }: any) => {
           <ProfileDescription>{userDetails.bio}</ProfileDescription>
         )}
       </Bio>
-      <Stories />
+      <Stories isProfileOwner={isProfileOwner} />
     </ProfileContainer>
   );
 };

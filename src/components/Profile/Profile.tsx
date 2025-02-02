@@ -1,21 +1,26 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProfileInfo from "./ProfileInformation/ProfileInformation";
 import { ContentContainer, InfoContainer, ProfileContainer } from "./styled";
 import { ImagesGrid } from "../ImagesGrid/ImagesGrid";
+import FollowList from "./FollowList/Followlist";
 
 export const ProfileComponent = ({ slug }: any) => {
   useEffect(() => {
     window.scroll(0, 0);
   });
+  const [activeTab, setActiveTab] = useState<
+    "followers" | "following" | "posts"
+  >("posts");
   return (
     <>
       <ProfileContainer>
         <InfoContainer>
-          <ProfileInfo slug={slug} />`
+          <ProfileInfo slug={slug} setActiveTab={setActiveTab} />
         </InfoContainer>
         <ContentContainer>
-          <ImagesGrid />
+          {activeTab === "posts" && <ImagesGrid />}
+          <FollowList setActiveTab={setActiveTab} activeTab={activeTab} />
         </ContentContainer>
       </ProfileContainer>
     </>

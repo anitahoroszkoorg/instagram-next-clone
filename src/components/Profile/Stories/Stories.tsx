@@ -13,15 +13,18 @@ interface Story {
 
 interface StoriesProps {
   stories?: Story[];
+  isProfileOwner: boolean;
 }
 
-export const Stories = ({ stories = [] }: StoriesProps) => {
+export const Stories = ({ stories = [], isProfileOwner }: StoriesProps) => {
   return (
     <InstaStoriesContainer>
-      <Instastory>
-        <AddHighlight>+</AddHighlight>
-        <Label>Add</Label>
-      </Instastory>
+      {isProfileOwner && (
+        <Instastory>
+          <AddHighlight>+</AddHighlight>
+          <Label>Add</Label>
+        </Instastory>
+      )}
       {stories.length > 0 &&
         stories.map((story, index) => (
           <Instastory key={index}>

@@ -36,6 +36,12 @@ export const getUserDetailsById = async (id: string) => {
     where: {
       user_id: id,
     },
+    select: {
+      user_id: true,
+      full_name: true,
+      bio: true,
+      username: true,
+    },
   });
   return user;
 };

@@ -56,11 +56,12 @@ export const StatsContainer = styled.div`
   margin: 10px 0px;
 `;
 
-export const Stats = styled.p`
-  font-size: 14px;
+export const Stats = styled.button`
+  font-size: 12px;
   &:hover {
     text-decoration: underline;
   }
+  all: unset;
 `;
 
 export const ButtonsContainer = styled.div`
