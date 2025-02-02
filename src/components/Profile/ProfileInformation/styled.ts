@@ -102,32 +102,6 @@ export const ProfilePicture = styled.img`
   border-radius: 100%;
 `;
 
-export const InstaStoriesContainer = styled.div`
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  max-height: 20vh;
-  padding: 10px 0px;
-  justify-content: space-between;
-`;
-
-export const Instastory = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-
-export const InstastoryImg = styled.img`
-  display: flex;
-  width: 60px;
-  height: 60px;
-  border-radius: 100%;
-  margin: 0.5rem;
-`;
-
 export const Bio = styled.div`
   display: flex;
   flex-direction: column;
