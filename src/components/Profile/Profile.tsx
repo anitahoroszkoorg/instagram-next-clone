@@ -19,7 +19,7 @@ export const ProfileComponent = ({ slug }: any) => {
           <ProfileInfo slug={slug} setActiveTab={setActiveTab} />
         </InfoContainer>
         <ContentContainer>
-          {activeTab === "posts" && <ImagesGrid />}
+          {activeTab === "posts" && <ImagesGrid id={slug} />}
           <FollowList setActiveTab={setActiveTab} activeTab={activeTab} />
         </ContentContainer>
       </ProfileContainer>

@@ -70,3 +70,22 @@ export const getAllPostsByFollowedUsers = async (email: string) => {
 
   return formattedPosts;
 };
+
+export const getPostsByUserId = async (id: string) => {
+  const posts = await prisma.post.findMany({
+    where: {
+      user_id: id,
+    },
+  });
+  console.log(posts);
+  prisma.$disconnect;
+  const formattedPosts = posts.map((post) => ({
+    ...post,
+    image:
+      post.image && Buffer.from(post.image).toString("base64")
+        ? `data:image/jpeg;base64,${Buffer.from(post.image).toString("base64")}`
+        : null,
+  }));
+
+  return formattedPosts;
+};

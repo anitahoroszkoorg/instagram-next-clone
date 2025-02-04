@@ -55,10 +55,7 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
   const refreshLikes = async () => {
     if (!postDetails) return;
     try {
-      const response = await fetchData(
-        "/api/getAllImagesByFollowedUsers",
-        "GET",
-      );
+      const response = await fetchData("/api/images", "GET");
       const responseData = response.data as { likes: Like[] };
       if (response.status === 200 && responseData.likes) {
         setLikes(responseData.likes.length);
@@ -117,10 +114,7 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
   const refreshComments = async () => {
     if (!postDetails) return;
     try {
-      const response = await fetchData(
-        "/api/getAllImagesByFollowedUsers",
-        "GET",
-      );
+      const response = await fetchData("/api/images", "GET");
       const responseData = response.data as { comments: Comment[] };
       if (response.status === 200 && responseData.comments) {
         setComments(responseData.comments);

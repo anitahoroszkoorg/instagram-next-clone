@@ -6,9 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import useFetch from "@/app/lib/hooks/useFetch";
 
 export const Feed: React.FC = () => {
-  const { data, loading, error } = useFetch<Post>(
-    "/api/getAllImagesByFollowedUsers",
-  );
+  const { data, loading, error } = useFetch<Post>("/api/images");
 
   if (loading) return <p>Loading...</p>;
   if (error) return toast.error(error.message);
