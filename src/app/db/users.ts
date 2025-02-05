@@ -1,6 +1,17 @@
 import { NewUser } from "@/globals";
 import { prisma } from "../api/_base";
 
+export const getUsers = async () => {
+  return await prisma.user.findMany({
+    select: {
+      user_id: true,
+      full_name: true,
+      bio: true,
+      username: true,
+    },
+  });
+};
+
 export const addUser = async (data: NewUser) => {
   const { email, password_hash, username, full_name } = data;
   return await prisma.user.create({

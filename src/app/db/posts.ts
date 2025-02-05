@@ -77,7 +77,6 @@ export const getPostsByUserId = async (id: string) => {
       user_id: id,
     },
   });
-  console.log(posts);
   prisma.$disconnect;
   const formattedPosts = posts.map((post) => ({
     ...post,

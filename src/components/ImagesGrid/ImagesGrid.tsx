@@ -10,12 +10,13 @@ interface ImageGridProps {
 
 export const ImagesGrid: React.FC<ImageGridProps> = ({ id }) => {
   const { data, loading, error } = useFetch<Post>(`/api/images/${id}`);
-  console.log(data?.posts);
   return (
     <>
       <FeedWrapper>
         {!!data && data.posts.length > 0 ? (
-          data.posts.map((image) => <Photobox src={image.image} alt="photo" />)
+          data.posts.map((image) => (
+            <Photobox key={image.post_id} src={image.image} alt="photo" />
+          ))
         ) : (
           <></>
         )}

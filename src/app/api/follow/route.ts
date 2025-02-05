@@ -1,12 +1,12 @@
-import { addComment, deleteComment } from "@/app/db/comment";
+import { followUser, removeFollow } from "@/app/db/follow";
 import { getUserId } from "@/app/db/users";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export const POST = async (req: Request) => {
+export async function POST(req: Request) {
   const session = await getServerSession();
   const email = session?.user?.email;
-  const { post_id, comment_text } = await req.json();
+  const { user_id } = await req.json();
   if (!email) {
     return NextResponse.json(
       {
@@ -18,7 +18,7 @@ export const POST = async (req: Request) => {
     );
   } else {
     const id = await getUserId(email);
-    if (!id || !post_id) {
+    if (!id || !user_id) {
       return NextResponse.json(
         {
           message: "Data is missing",
@@ -29,7 +29,7 @@ export const POST = async (req: Request) => {
       );
     } else {
       try {
-        await addComment(post_id, id, comment_text);
+        await followUser(user_id, id);
         return NextResponse.json(
           {
             message: "ok",
@@ -50,28 +50,53 @@ export const POST = async (req: Request) => {
       }
     }
   }
-};
+}
 
 export const DELETE = async (req: Request) => {
-  const { comment_id } = await req.json();
-  try {
-    await deleteComment(comment_id);
+  const session = await getServerSession();
+  const email = session?.user?.email;
+  const { user_id } = await req.json();
+  if (!email) {
     return NextResponse.json(
       {
-        message: "ok",
+        message: "No email present",
       },
       {
-        status: 200,
+        status: 400,
       },
     );
-  } catch (error: any) {
-    return NextResponse.json(
-      {
-        message: error.message,
-      },
-      {
-        status: 500,
-      },
-    );
+  } else {
+    const id = await getUserId(email);
+    if (!id || !user_id) {
+      return NextResponse.json(
+        {
+          message: "Data is missing",
+        },
+        {
+          status: 400,
+        },
+      );
+    } else {
+      try {
+        await removeFollow(user_id, id);
+        return NextResponse.json(
+          {
+            message: "ok",
+          },
+          {
+            status: 200,
+          },
+        );
+      } catch (error: any) {
+        return NextResponse.json(
+          {
+            message: error.message,
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+    }
   }
 };

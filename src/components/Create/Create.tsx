@@ -65,7 +65,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     data.append("caption", caption);
     if (data.has("image") && data.has("caption")) {
       try {
-        const response = await fetch("/api/upload", {
+        const response = await fetch("/api/post", {
           method: "POST",
           body: data,
         });

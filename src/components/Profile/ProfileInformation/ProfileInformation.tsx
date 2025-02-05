@@ -16,6 +16,7 @@ import {
 import useFetch from "@/app/lib/hooks/useFetch";
 import { Stories } from "../Stories/Stories";
 import { useUser } from "@/app/lib/hooks/userContext";
+import { fetchData } from "@/app/lib/fetchData";
 
 interface UserDetails {
   username: string;
@@ -41,7 +42,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
   const [isFollowing, setIsFollowing] = useState(false);
 
   const { data, loading, error } = useFetch<UserDetailsResponse>(
-    `/api/userId/${slug}`,
+    `/api/user/${slug}`,
   );
 
   const { user } = useUser();
@@ -49,6 +50,16 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
   const userDetails = data?.userDetails;
 
   const isProfileOwner = data?.userDetails.user_id === user?.user_id;
+
+  const followUser = async () => {
+    try {
+      const response = await fetchData("/api/follow", "POST", {
+        user_id: slug,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <ProfileContainer>
@@ -68,7 +79,10 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
           <>
             <FollowButton
               isFollowing={isFollowing}
-              onClick={() => setIsFollowing(!isFollowing)}
+              onClick={() => {
+                setIsFollowing(!isFollowing);
+                followUser();
+              }}
             >
               {isFollowing ? "Following" : "Follow"}
             </FollowButton>
