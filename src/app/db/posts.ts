@@ -16,7 +16,21 @@ export const insertImageToDb = async (
   } catch (error) {
     console.error("Error inserting post", error);
   } finally {
-    await prisma.$disconnect();
+    prisma.$disconnect();
+  }
+};
+
+export const deleteImagefromDb = async (id: string) => {
+  try {
+    await prisma.post.delete({
+      where: {
+        post_id: id,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+  } finally {
+    prisma.$disconnect();
   }
 };
 

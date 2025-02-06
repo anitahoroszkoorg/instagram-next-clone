@@ -3,6 +3,8 @@ import { validateUploadPostData } from "@/app/schemas/uploadPostSchema";
 import Joi from "joi";
 import { getServerSession } from "next-auth";
 import { getUserId } from "@/app/db/users";
+import { NextResponse } from "next/server";
+import { deletePost } from "@/app/services/deletePost";
 
 const formDataToObject = (formData: FormData) => {
   const obj: { [key: string]: any } = {};
@@ -56,4 +58,28 @@ const validateImage = (image: File) => {
     return { error: "Image size exceeds 5MB." };
   }
   return { error: null };
+};
+
+export const DELETE = async (req: Request) => {
+  const { post_id } = await req.json();
+  try {
+    await deletePost(post_id);
+    return NextResponse.json(
+      {
+        message: "ok",
+      },
+      {
+        status: 200,
+      },
+    );
+  } catch (error: any) {
+    return NextResponse.json(
+      {
+        message: error.message,
+      },
+      {
+        status: 500,
+      },
+    );
+  }
 };

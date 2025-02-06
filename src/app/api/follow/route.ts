@@ -1,4 +1,4 @@
-import { followUser, removeFollow } from "@/app/db/follow";
+import { followUser, getFollowers, removeFollow } from "@/app/db/follow";
 import { getUserId } from "@/app/db/users";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";

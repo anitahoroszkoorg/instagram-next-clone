@@ -31,3 +31,23 @@ export const removeFollow = async (user_id: string, id: string) => {
     await prisma.$disconnect();
   }
 };
+
+export const getFollowers = async (id: string) => {
+  const followers = await prisma.follow.findMany({
+    where: {
+      followed_user_id: id,
+    },
+  });
+  prisma.$disconnect;
+  return followers;
+};
+
+export const getFollowed = async (id: string) => {
+  const followed = await prisma.follow.findMany({
+    where: {
+      following_user_id: id,
+    },
+  });
+  prisma.$disconnect;
+  return followed;
+};
