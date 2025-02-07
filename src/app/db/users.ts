@@ -52,6 +52,7 @@ export const getUserDetailsById = async (id: string) => {
       full_name: true,
       bio: true,
       username: true,
+      profile_picture: true,
     },
   });
   return user;
