@@ -1,4 +1,4 @@
-import { NewUser } from "@/globals";
+import { NewUser, User } from "@/globals";
 import { prisma } from "../api/_base";
 
 export const getUsers = async () => {
@@ -21,6 +21,19 @@ export const addUser = async (data: NewUser) => {
       username: username,
       full_name: full_name,
     },
+  });
+};
+
+export const editUser = async (
+  user_id: string,
+  data: Partial<Omit<User, "user_id" | "created_at">>,
+) => {
+  if (Object.keys(data).length === 0) {
+    throw new Error("No valid fields provided for update.");
+  }
+  return await prisma.user.update({
+    where: { user_id },
+    data,
   });
 };
 
