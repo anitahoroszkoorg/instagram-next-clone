@@ -1,10 +1,11 @@
-import { addPost } from "@/app/services/addPost";
+import { addPost } from "@/app/services/post/addPost";
 import { validateUploadPostData } from "@/app/schemas/uploadPostSchema";
 import Joi from "joi";
 import { getServerSession } from "next-auth";
 import { getUserId } from "@/app/db/users";
-import { NextResponse } from "next/server";
-import { deletePost } from "@/app/services/deletePost";
+import { NextRequest, NextResponse } from "next/server";
+import { deletePost } from "@/app/services/post/deletePost";
+import { editPost } from "@/app/services/post/editPost";
 
 const formDataToObject = (formData: FormData) => {
   const obj: { [key: string]: any } = {};
@@ -80,6 +81,30 @@ export const DELETE = async (req: Request) => {
       {
         status: 500,
       },
+    );
+  }
+};
+
+export const PATCH = async (req: NextRequest) => {
+  try {
+    const body = await req.json();
+    const { id, ...updateData } = body;
+    if (!id) {
+      return NextResponse.json({ message: "No ID provided" }, { status: 400 });
+    }
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json(
+        { message: "No data provided" },
+        { status: 400 },
+      );
+    }
+    await editPost(id, updateData);
+    return NextResponse.json({ message: "Ok" }, { status: 200 });
+  } catch (error: any) {
+    console.error("Error updating user:", error);
+    return NextResponse.json(
+      { message: error.message || "Internal Server Error" },
+      { status: 500 },
     );
   }
 };

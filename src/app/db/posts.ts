@@ -1,3 +1,4 @@
+import { PostDetails } from "@/shared/types/post";
 import { prisma } from "../api/_base";
 
 export const insertImageToDb = async (
@@ -31,6 +32,33 @@ export const deleteImagefromDb = async (id: string) => {
     console.error(error);
   } finally {
     prisma.$disconnect();
+  }
+};
+
+export const updatePostInDb = async (
+  post_id: string,
+  data: Partial<
+    Omit<
+      PostDetails,
+      | "created_at"
+      | "image"
+      | "post_id"
+      | "user_id"
+      | "likes"
+      | "comments"
+      | "user"
+    >
+  >,
+) => {
+  try {
+    const updatedPost = await prisma.post.update({
+      where: { post_id },
+      data,
+    });
+    return updatedPost;
+  } catch (error) {
+    console.error("Error updating post:", error);
+    throw new Error("Failed to update post");
   }
 };
 

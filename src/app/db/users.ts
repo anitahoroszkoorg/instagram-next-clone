@@ -31,9 +31,17 @@ export const editUser = async (
   if (Object.keys(data).length === 0) {
     throw new Error("No valid fields provided for update.");
   }
+
+  const updateData = {
+    ...data,
+    profile_picture: data.profile_picture
+      ? { set: Buffer.from(data.profile_picture, "base64") }
+      : undefined,
+  };
+
   return await prisma.user.update({
     where: { user_id },
-    data,
+    data: updateData,
   });
 };
 
