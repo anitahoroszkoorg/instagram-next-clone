@@ -70,15 +70,15 @@ export const ButtonsContainer = styled.div`
 `;
 
 interface ButtonProps {
-  isFollowing: boolean;
+  $isfollowing: boolean;
 }
 
 export const FollowButton = styled.button<ButtonProps>`
   height: 2rem;
   background-color: ${(props) =>
-    props.isFollowing ? "var( --ig-light-grey)" : "var(--ig-blue)"};
+    props.$isfollowing ? "var( --ig-light-grey)" : "var(--ig-blue)"};
   color: ${(props) =>
-    props.isFollowing ? "var(--ig-black)" : " var(--ig-white)"};
+    props.$isfollowing ? "var(--ig-black)" : " var(--ig-white)"};
   margin: 1rem;
   border-radius: 5px;
   justify-content: center;
