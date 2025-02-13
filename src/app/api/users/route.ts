@@ -1,7 +1,7 @@
 import { getUsers } from "@/app/db/users";
 import { NextResponse } from "next/server";
 
-export const GET = async () => {
+export async function GET() {
   try {
     const users = await getUsers();
     return NextResponse.json({ message: "ok", users }, { status: 200 });
@@ -13,4 +13,4 @@ export const GET = async () => {
       { status: 500 },
     );
   }
-};
+}

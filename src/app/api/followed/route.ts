@@ -1,28 +1,9 @@
-import { getFollowed, removeFollower } from "@/app/db/follow";
+import { removeFollower } from "@/app/db/follow";
 import { getUserId } from "@/app/db/users";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(
-  _: NextRequest,
-  { params }: { params: { id: string } },
-) {
-  const id = params.id;
-  if (!id) {
-    return NextResponse.json(
-      { message: "User ID is missing" },
-      { status: 400 },
-    );
-  }
-  try {
-    const followers = await getFollowed(id);
-    return NextResponse.json({ followers }, { status: 200 });
-  } catch (error: any) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
-  }
-}
-
-export const DELETE = async (req: Request) => {
+export async function DELETE(req: Request) {
   try {
     const session = await getServerSession();
     if (!session?.user?.email) {
@@ -44,4 +25,4 @@ export const DELETE = async (req: Request) => {
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
-};
+}

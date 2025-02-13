@@ -13,16 +13,15 @@ export const Tabs = styled.div`
   border-bottom: 2px solid var(--ig-divider-grey);
 `;
 
-export const Tab = styled.button<{ active: boolean }>`
+export const Tab = styled.button<{ $active: boolean }>`
   flex: 1;
   padding: 12px;
-  font-weight: bold;
   background: ${(props) =>
-    props.active ? "var(--ig-light-grey)" : "var(--ig-white)"};
+    props.$active ? "var(--ig-light-grey)" : "var(--ig-white)"};
   border: none;
   cursor: pointer;
   &:hover {
-    background: var(--ig-light-grey);
+    background: var(--ig-divider-grey);
   }
 `;
 
@@ -46,19 +45,23 @@ export const ProfileImage = styled.img`
 
 export const Username = styled.div`
   flex: 1;
-  font-weight: bold;
+  text-decoration: none !important;
 `;
 
-export const FollowButton = styled.button<{ following: boolean }>`
+export const FollowButton = styled.button<{ $following: boolean }>`
   padding: 6px 12px;
   border: none;
   background: ${(props) =>
-    props.following ? "var(--ig-red)" : "var(--ig-blue)"};
+    props.$following ? "var(--ig-red)" : "var(--ig-blue)"};
   color: var(--ig-white);
   border-radius: 5px;
   cursor: pointer;
   &:hover {
     background: ${(props) =>
-      props.following ? "#cc0000" : "var(--ig-dark-blue)"};
+      props.$following ? "#cc0000" : "var(--ig-dark-blue)"};
   }
+`;
+
+export const Button = styled.button`
+  all: unset;
 `;

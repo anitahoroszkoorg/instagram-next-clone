@@ -1,10 +1,10 @@
-import { editUser, getUserDetailsById } from "@/app/db/users";
+import { getUserDetailsById } from "@/app/db/users";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (
+export async function GET(
   _: NextRequest,
   { params }: { params: { id: string } },
-) => {
+) {
   try {
     const id = params.id;
     if (!id) {
@@ -19,4 +19,4 @@ export const GET = async (
       { status: 500 },
     );
   }
-};
+}

@@ -3,7 +3,7 @@ import { getUserId } from "@/app/db/users";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export const POST = async (req: Request) => {
+export async function POST(req: Request) {
   const session = await getServerSession();
   const email = session?.user?.email;
   const { post_id, comment_text } = await req.json();
@@ -50,9 +50,9 @@ export const POST = async (req: Request) => {
       }
     }
   }
-};
+}
 
-export const DELETE = async (req: Request) => {
+export async function DELETE(req: Request) {
   const { comment_id } = await req.json();
   try {
     await deleteComment(comment_id);
@@ -74,4 +74,4 @@ export const DELETE = async (req: Request) => {
       },
     );
   }
-};
+}

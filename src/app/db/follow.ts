@@ -58,11 +58,12 @@ export const getFollowers = async (id: string) => {
         select: {
           user_id: true,
           username: true,
+          profile_picture: true,
         },
       },
     },
   });
-  prisma.$disconnect;
+  prisma.$disconnect();
   return followers.map((f) => f.follower);
 };
 
@@ -76,6 +77,7 @@ export const getFollowed = async (id: string) => {
         select: {
           user_id: true,
           username: true,
+          profile_picture: true,
         },
       },
     },

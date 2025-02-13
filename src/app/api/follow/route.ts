@@ -52,7 +52,7 @@ export async function POST(req: Request) {
   }
 }
 
-export const DELETE = async (req: Request) => {
+export async function DELETE(req: Request) {
   try {
     const session = await getServerSession();
     if (!session?.user?.email) {
@@ -75,4 +75,4 @@ export const DELETE = async (req: Request) => {
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
-};
+}

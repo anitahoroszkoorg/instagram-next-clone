@@ -39,7 +39,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
   slug,
   setActiveTab,
 }) => {
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [isfollowing, setIsFollowing] = useState<boolean>(false);
 
   const { data, loading, error } = useFetch<UserDetailsResponse>(
     `/api/user/${slug}`,
@@ -78,19 +78,19 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
         {!isProfileOwner ? (
           <>
             <FollowButton
-              isFollowing={isFollowing}
+              $isfollowing={isfollowing}
               onClick={() => {
-                setIsFollowing(!isFollowing);
+                setIsFollowing(!isfollowing);
                 followUser();
               }}
             >
-              {isFollowing ? "Following" : "Follow"}
+              {isfollowing ? "Following" : "Follow"}
             </FollowButton>
             <MessageButton>Message</MessageButton>
           </>
         ) : (
           <>
-            <FollowButton isFollowing={true}>Edit</FollowButton>
+            <FollowButton $isfollowing={true}>Edit</FollowButton>
             <MessageButton>Settings</MessageButton>
           </>
         )}

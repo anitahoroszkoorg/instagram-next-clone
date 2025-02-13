@@ -2,7 +2,7 @@ import { editUser, getUserDetails } from "@/app/db/users";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async () => {
+export async function GET() {
   try {
     const session = await getServerSession();
     const email = session?.user?.email;
@@ -21,9 +21,9 @@ export const GET = async () => {
       { status: 500 },
     );
   }
-};
+}
 
-export const PATCH = async (req: NextRequest) => {
+export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
     const { id, ...updateData } = body;
@@ -45,4 +45,4 @@ export const PATCH = async (req: NextRequest) => {
       { status: 500 },
     );
   }
-};
+}

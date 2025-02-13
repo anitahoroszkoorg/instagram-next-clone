@@ -19,7 +19,7 @@ const extractJoiErrors = (error: Joi.ValidationError): string => {
   return error.details.map((detail) => detail.message).join(", ");
 };
 
-export const POST = async (req: Request) => {
+export async function POST(req: Request) {
   const formData = await req.formData();
   const session = await getServerSession();
   const email = session?.user?.email;
@@ -48,7 +48,7 @@ export const POST = async (req: Request) => {
   const imageBuffer = Buffer.from(await image.arrayBuffer());
   await addPost(imageBuffer, values.caption, id);
   return new Response(JSON.stringify(values), { status: 200 });
-};
+}
 
 const validateImage = (image: File) => {
   const allowedTypes = ["image/png", "image/jpeg"];
@@ -61,7 +61,7 @@ const validateImage = (image: File) => {
   return { error: null };
 };
 
-export const DELETE = async (req: Request) => {
+export async function DELETE(req: Request) {
   const { post_id } = await req.json();
   try {
     await deletePost(post_id);
@@ -83,9 +83,9 @@ export const DELETE = async (req: Request) => {
       },
     );
   }
-};
+}
 
-export const PATCH = async (req: NextRequest) => {
+export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
     const { id, ...updateData } = body;
@@ -107,4 +107,4 @@ export const PATCH = async (req: NextRequest) => {
       { status: 500 },
     );
   }
-};
+}
