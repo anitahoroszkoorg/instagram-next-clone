@@ -40,11 +40,10 @@ const FollowList: React.FC<FollowListProps> = ({
   const users =
     activeTab === "followers" ? data?.followers || [] : data?.following || [];
 
-  const handleDeletefollower = async () => {
+  const handleDeletefollower = async (id: string) => {
     try {
-      const response = await fetchData(`/api/followers/${id}`, "DELETE", {
-        user_id: id,
-      });
+      const response = await fetchData(`/api/followers/${id}`, "DELETE");
+
       if (response.status !== 200) {
         toast.error("Unable to remove follower.");
       }
@@ -86,7 +85,7 @@ const FollowList: React.FC<FollowListProps> = ({
               <FollowButton $following={activeTab === "following"}>
                 {activeTab === "following" ? "Unfollow" : "Follow"}
               </FollowButton>
-              <Button onClick={handleDeletefollower}>
+              <Button onClick={() => handleDeletefollower(user.user_id)}>
                 <DeleteOutlineIcon
                   style={{ color: "grey", padding: "0.2em" }}
                 />
