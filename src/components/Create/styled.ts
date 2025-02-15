@@ -56,6 +56,7 @@ export const ImgUpload = styled.img`
   width: 250px;
   padding: 10px;
   margin-right: 25px;
+  object-fit: cover;
 `;
 
 export const WizardImg = styled.div`

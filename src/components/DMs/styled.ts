@@ -40,6 +40,7 @@ export const UserAvatar = styled.img`
   height: 30px;
   width: 30px;
   padding: 5px;
+  object-fit: cover;
 `;
 
 export const MessageList = styled.div`

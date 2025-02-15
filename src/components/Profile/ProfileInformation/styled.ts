@@ -101,6 +101,7 @@ export const ProfilePicture = styled.img`
   width: 200px;
   height: 70px;
   border-radius: 100%;
+  object-fit: cover;
 `;
 
 export const Bio = styled.div`

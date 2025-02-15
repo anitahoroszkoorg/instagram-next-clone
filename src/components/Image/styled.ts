@@ -5,6 +5,7 @@ export const Photobox = styled.img`
   padding: 1rem;
   width: 250px;
   height: 250px;
+  object-fit: cover;
 `;
 
 export const PhotoDescription = styled.p`
@@ -46,6 +47,7 @@ export const Photo = styled.img.attrs((props) => ({
   height: 400px;
   object-fit: cover;
   background: var(--ig-medium-grey);
+  object-fit: cover;
 `;
 
 export const PhotoDetails = styled.div`
@@ -64,6 +66,7 @@ export const Avatar = styled.img`
   border-radius: 50%;
   background: var(--ig-background-default);
   margin-right: 0.5rem;
+  object-fit: cover;
 `;
 
 export const Username = styled.span`

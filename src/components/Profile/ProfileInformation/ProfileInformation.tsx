@@ -13,53 +13,39 @@ import {
   Name,
   ProfileDescription,
 } from "./styled";
-import useFetch from "@/app/lib/hooks/useFetch";
 import { Stories } from "../Stories/Stories";
-import { useUser } from "@/app/lib/hooks/userContext";
 import { fetchData } from "@/app/lib/fetchData";
-
-interface UserDetails {
-  username: string;
-  full_name: string;
-  bio: string;
-  user_id: string;
-}
-
-interface UserDetailsResponse {
-  userDetails: UserDetails;
-  message: string;
-}
+import { UserDetails } from "@/shared/types/user";
 
 interface ProfileInfoProps {
-  slug: string;
-  setActiveTab: (tab: "followers" | "following" | "posts") => void;
+  setActiveTab: (tab: "followers" | "followed" | "posts") => void;
+  isProfileOwner: boolean;
+  userData: UserDetails;
+  loading: boolean;
+  error: boolean;
 }
 
 export const ProfileInfo: React.FC<ProfileInfoProps> = ({
-  slug,
   setActiveTab,
+  isProfileOwner,
+  userData,
+  loading,
+  error,
 }) => {
-  const [isfollowing, setIsFollowing] = useState<boolean>(false);
-
-  const { data, loading, error } = useFetch<UserDetailsResponse>(
-    `/api/user/${slug}`,
-  );
-
-  const { user } = useUser();
-
-  const userDetails = data?.userDetails;
-
-  const isProfileOwner = data?.userDetails.user_id === user?.user_id;
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
   const followUser = async () => {
     try {
-      const response = await fetchData("/api/follow", "POST", {
-        user_id: slug,
-      });
+      await fetchData("/api/follow", "POST", { user_id: userData.user_id });
+      setIsFollowing(!isFollowing);
     } catch (error) {
-      console.error(error);
+      console.error("Error following user:", error);
     }
   };
+
+  if (loading) return <p>Loading profile...</p>;
+  if (error) return <p>Error loading profile</p>;
+  if (!userData) return <p>User not found</p>;
 
   return (
     <ProfileContainer>
@@ -68,23 +54,17 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
           <img src="/avatar.jpeg" alt="User Avatar" width={300} height={300} />
         </Avatar>
       </ProfilePictureContainer>
-      <Username>@{userDetails?.username}</Username>
+      <Username>@{userData.username}</Username>
       <StatsContainer>
         <Stats onClick={() => setActiveTab("posts")}>6 Posts</Stats>
         <Stats onClick={() => setActiveTab("followers")}>60 Followers</Stats>
-        <Stats onClick={() => setActiveTab("following")}>345 Following</Stats>
+        <Stats onClick={() => setActiveTab("followed")}>345 Following</Stats>
       </StatsContainer>
       <ButtonsContainer>
         {!isProfileOwner ? (
           <>
-            <FollowButton
-              $isfollowing={isfollowing}
-              onClick={() => {
-                setIsFollowing(!isfollowing);
-                followUser();
-              }}
-            >
-              {isfollowing ? "Following" : "Follow"}
+            <FollowButton $isfollowing={isFollowing} onClick={followUser}>
+              {isFollowing ? "Following" : "Follow"}
             </FollowButton>
             <MessageButton>Message</MessageButton>
           </>
@@ -96,9 +76,9 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
         )}
       </ButtonsContainer>
       <Bio>
-        <Name>{userDetails?.full_name}</Name>
-        {userDetails?.bio && (
-          <ProfileDescription>{userDetails.bio}</ProfileDescription>
+        <Name>{userData?.full_name}</Name>
+        {userData?.bio && (
+          <ProfileDescription>{userData.bio}</ProfileDescription>
         )}
       </Bio>
       <Stories isProfileOwner={isProfileOwner} />

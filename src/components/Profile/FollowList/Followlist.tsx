@@ -9,12 +9,14 @@ import {
   Tabs,
   List,
   Button,
+  EmptyRow,
 } from "./styled";
 import useFetch from "@/app/lib/hooks/useFetch";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Link from "next/link";
 import { fetchData } from "@/app/lib/fetchData";
 import { toast } from "react-toastify";
+import { useUser } from "@/app/lib/hooks/userContext";
 
 interface User {
   user_id: string;
@@ -23,36 +25,48 @@ interface User {
 }
 
 interface FollowListProps {
-  setActiveTab: (tab: "followers" | "following" | "posts") => void;
+  setActiveTab: (tab: "followers" | "followed" | "posts") => void;
   activeTab: string;
   id: string;
+  isProfileOwner: boolean;
 }
 
 const FollowList: React.FC<FollowListProps> = ({
   setActiveTab,
   activeTab,
   id,
+  isProfileOwner,
 }) => {
-  const { data } = useFetch<{ followers: User[]; following: User[] }>(
-    `/api/followers/${id}`,
-  );
+  const { data, loading, error } = useFetch<{
+    followers: User[];
+    following: User[];
+  }>(`/api/followers/${id}`);
+  const { user } = useUser();
 
   const users =
     activeTab === "followers" ? data?.followers || [] : data?.following || [];
 
-  const handleDeletefollower = async (id: string) => {
+  const handleDeleteFollower = async (userId: string) => {
+    if (!isProfileOwner) {
+      toast.error("You can only remove followers from your own profile.");
+      return;
+    }
     try {
-      const response = await fetchData(`/api/followers/${id}`, "DELETE");
-
+      const response = await fetchData(`/api/followers/${userId}`, "DELETE");
       if (response.status !== 200) {
         toast.error("Unable to remove follower.");
+      } else {
+        toast.success("Follower removed successfully.");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error removing follower:", error);
+      toast.error("Something went wrong.");
     }
   };
 
   if (activeTab === "posts") return null;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error fetching data.</p>;
 
   return (
     <Container>
@@ -65,14 +79,13 @@ const FollowList: React.FC<FollowListProps> = ({
         </Tab>
         <Tab
           $active={activeTab === "following"}
-          onClick={() => setActiveTab("following")}
+          onClick={() => setActiveTab("followed")}
         >
           Following
         </Tab>
       </Tabs>
       <List>
-        {users &&
-          users.length > 0 &&
+        {users.length > 0 ? (
           users.map((user) => (
             <UserRow key={user.user_id}>
               <ProfileImage
@@ -82,16 +95,24 @@ const FollowList: React.FC<FollowListProps> = ({
               <Username>
                 <Link href={`/profile/${user.user_id}/`}>@{user.username}</Link>
               </Username>
-              <FollowButton $following={activeTab === "following"}>
-                {activeTab === "following" ? "Unfollow" : "Follow"}
+              <FollowButton $following={activeTab === "followed"}>
+                {activeTab === "followed" ? "Unfollow" : "Follow"}
               </FollowButton>
-              <Button onClick={() => handleDeletefollower(user.user_id)}>
-                <DeleteOutlineIcon
-                  style={{ color: "grey", padding: "0.2em" }}
-                />
-              </Button>
+
+              {activeTab === "followers" && isProfileOwner && (
+                <Button onClick={() => handleDeleteFollower(user.user_id)}>
+                  <DeleteOutlineIcon
+                    style={{ color: "grey", padding: "0.2em" }}
+                  />
+                </Button>
+              )}
             </UserRow>
-          ))}
+          ))
+        ) : (
+          <EmptyRow>
+            {activeTab === "followers" ? "No followers." : "No followed users."}
+          </EmptyRow>
+        )}
       </List>
     </Container>
   );

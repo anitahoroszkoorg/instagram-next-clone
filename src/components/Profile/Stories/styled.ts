@@ -24,6 +24,7 @@ export const InstastoryImg = styled.img`
   height: 60px;
   border-radius: 100%;
   margin: 0.5rem;
+  object-fit: cover;
 `;
 
 export const AddHighlight = styled.div`

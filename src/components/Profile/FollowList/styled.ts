@@ -41,6 +41,7 @@ export const ProfileImage = styled.img`
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
+  object-fit: cover;
 `;
 
 export const Username = styled.div`
@@ -64,4 +65,12 @@ export const FollowButton = styled.button<{ $following: boolean }>`
 
 export const Button = styled.button`
   all: unset;
+`;
+
+export const EmptyRow = styled.div`
+  padding: 20px;
+  text-align: center;
+  color: var(--ig-dark-grey);
+  font-size: 14px;
+  border-bottom: 1px solid var(--ig-divider-grey);
 `;
