@@ -29,7 +29,6 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
   const { user } = useUser();
   const userDetails = data?.userDetails;
   const isProfileOwner = user?.user_id === userDetails?.user_id;
-  console.log("PROFILE", user?.user_id === userDetails?.user_id);
 
   const [activeTab, setActiveTab] = useState<
     "followers" | "followed" | "posts"
