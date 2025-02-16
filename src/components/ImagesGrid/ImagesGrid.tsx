@@ -9,7 +9,6 @@ import {
 } from "./styled";
 import useFetch from "@/app/lib/hooks/useFetch";
 import { Post, PostDetails } from "@/shared/types/post";
-import { fetchData } from "@/app/lib/fetchData";
 import {
   CloseButton,
   CreateWizardActions,
@@ -19,15 +18,18 @@ import {
 } from "../Create/styled";
 import { Caption } from "../Image/styled";
 import { Image } from "./styled";
+import { UserDetails } from "@/shared/types/user";
+
 interface ImageGridProps {
   id: string;
+  userDetails: UserDetails;
 }
 
-export const ImagesGrid: React.FC<ImageGridProps> = ({ id }) => {
+export const ImagesGrid: React.FC<ImageGridProps> = ({ id, userDetails }) => {
   const { data, loading, error } = useFetch<Post>(`/api/images/${id}`);
   const [selectedImage, setSelectedImage] = useState<PostDetails | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedCaption, setEditedCaption] = useState("");
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editedCaption, setEditedCaption] = useState<string>("");
 
   const openModal = (image: PostDetails) => {
     setSelectedImage(image);
@@ -95,7 +97,6 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({ id }) => {
             <ModalContent onClick={handleModalContentClick}>
               <CloseButton onClick={closeModal}>×</CloseButton>
               <Image src={selectedImage.image} alt="Selected" />
-
               <CreateWizardContainer>
                 <CreateWizardActions>
                   {isEditing ? (
@@ -106,13 +107,10 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({ id }) => {
                     />
                   ) : (
                     <Caption>
-                      <strong>
-                        @{selectedImage.user?.username || "Unknown"}
-                      </strong>
-                      : {selectedImage.caption}
+                      <strong>@{userDetails.username}</strong>:{" "}
+                      {selectedImage.caption}
                     </Caption>
                   )}
-
                   {isEditing ? (
                     <SaveButton onClick={handleSaveClick}>Save</SaveButton>
                   ) : (

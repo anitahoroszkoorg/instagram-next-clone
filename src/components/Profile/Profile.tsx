@@ -51,7 +51,10 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
       </InfoContainer>
       <ContentContainer>
         {activeTab === "posts" ? (
-          <ImagesGrid id={slug} />
+          <ImagesGrid
+            id={slug}
+            userDetails={userDetails ?? ({} as UserDetails)}
+          />
         ) : (
           <FollowList
             setActiveTab={setActiveTab}
