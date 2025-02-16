@@ -19,7 +19,7 @@ interface StoriesProps {
 export const Stories = ({ stories = [], isProfileOwner }: StoriesProps) => {
   return (
     <InstaStoriesContainer>
-      {isProfileOwner && (
+      {!!isProfileOwner && (
         <Instastory>
           <AddHighlight>+</AddHighlight>
           <Label>Add</Label>

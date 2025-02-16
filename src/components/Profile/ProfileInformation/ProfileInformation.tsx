@@ -20,7 +20,7 @@ import { UserDetails } from "@/shared/types/user";
 interface ProfileInfoProps {
   setActiveTab: (tab: "followers" | "followed" | "posts") => void;
   isProfileOwner: boolean;
-  userData: UserDetails;
+  userDetails: UserDetails;
   loading: boolean;
   error: boolean;
 }
@@ -28,7 +28,7 @@ interface ProfileInfoProps {
 export const ProfileInfo: React.FC<ProfileInfoProps> = ({
   setActiveTab,
   isProfileOwner,
-  userData,
+  userDetails,
   loading,
   error,
 }) => {
@@ -36,7 +36,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
 
   const followUser = async () => {
     try {
-      await fetchData("/api/follow", "POST", { user_id: userData.user_id });
+      await fetchData("/api/follow", "POST", { user_id: userDetails.user_id });
       setIsFollowing(!isFollowing);
     } catch (error) {
       console.error("Error following user:", error);
@@ -45,7 +45,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
 
   if (loading) return <p>Loading profile...</p>;
   if (error) return <p>Error loading profile</p>;
-  if (!userData) return <p>User not found</p>;
+  if (!userDetails) return <p>User not found</p>;
 
   return (
     <ProfileContainer>
@@ -54,7 +54,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
           <img src="/avatar.jpeg" alt="User Avatar" width={300} height={300} />
         </Avatar>
       </ProfilePictureContainer>
-      <Username>@{userData.username}</Username>
+      <Username>@{userDetails.username}</Username>
       <StatsContainer>
         <Stats onClick={() => setActiveTab("posts")}>6 Posts</Stats>
         <Stats onClick={() => setActiveTab("followers")}>60 Followers</Stats>
@@ -76,9 +76,9 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
         )}
       </ButtonsContainer>
       <Bio>
-        <Name>{userData?.full_name}</Name>
-        {userData?.bio && (
-          <ProfileDescription>{userData.bio}</ProfileDescription>
+        <Name>{userDetails?.full_name}</Name>
+        {userDetails?.bio && (
+          <ProfileDescription>{userDetails.bio}</ProfileDescription>
         )}
       </Bio>
       <Stories isProfileOwner={isProfileOwner} />
