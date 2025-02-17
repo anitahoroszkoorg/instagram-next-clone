@@ -7,6 +7,7 @@ import FollowList from "./FollowList/Followlist";
 import useFetch from "@/app/lib/hooks/useFetch";
 import { useUser } from "@/app/lib/hooks/userContext";
 import { UserDetails } from "@/shared/types/user";
+import { User } from "@/globals";
 
 interface UserDetailsResponse {
   userDetails: UserDetails;
@@ -18,9 +19,12 @@ interface ProfileComponentProps {
 }
 
 export const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const [activeTab, setActiveTab] = useState<
+    "followers" | "followed" | "posts"
+  >("posts");
+  const [postsLength, setPostsLength] = useState(0);
+  const [followersAmount, setFollowersAmount] = useState<number | null>(null);
+  const [followedAmount, setFollowedAmount] = useState<number | null>(null);
 
   const { data, loading, error } = useFetch<UserDetailsResponse>(
     `/api/user/${slug}`,
@@ -30,12 +34,23 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
   const userDetails = data?.userDetails;
   const isProfileOwner = user?.user_id === userDetails?.user_id;
 
-  const [activeTab, setActiveTab] = useState<
-    "followers" | "followed" | "posts"
-  >("posts");
+  const {
+    data: followData,
+    loading: followLoading,
+    error: followError,
+  } = useFetch<{ followers: User[]; following: User[] }>(
+    `/api/followers/${slug}`,
+  );
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error loading profile</p>;
+  useEffect(() => {
+    if (followData) {
+      setFollowersAmount(followData.followers?.length || 0);
+      setFollowedAmount(followData.following?.length || 0);
+    }
+  }, [followData]);
+
+  if (loading || followLoading) return <p>Loading...</p>;
+  if (error || followError) return <p>Error loading profile</p>;
 
   return (
     <ProfileContainer>
@@ -46,6 +61,9 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
           userDetails={userDetails ?? ({} as UserDetails)}
           loading={loading}
           error={error ?? false}
+          postsLength={postsLength}
+          followersAmount={followersAmount ?? 0}
+          followedAmount={followedAmount ?? 0}
         />
       </InfoContainer>
       <ContentContainer>
@@ -53,6 +71,8 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
           <ImagesGrid
             id={slug}
             userDetails={userDetails ?? ({} as UserDetails)}
+            setPostsLength={setPostsLength}
+            isProfileOwner={isProfileOwner}
           />
         ) : (
           <FollowList

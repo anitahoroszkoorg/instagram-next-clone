@@ -16,7 +16,6 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Link from "next/link";
 import { fetchData } from "@/app/lib/fetchData";
 import { toast } from "react-toastify";
-import { useUser } from "@/app/lib/hooks/userContext";
 
 interface User {
   user_id: string;
@@ -41,16 +40,11 @@ const FollowList: React.FC<FollowListProps> = ({
     followers: User[];
     following: User[];
   }>(`/api/followers/${id}`);
-  const { user } = useUser();
 
   const users =
     activeTab === "followers" ? data?.followers || [] : data?.following || [];
 
   const handleDeleteFollower = async (userId: string) => {
-    if (!isProfileOwner) {
-      toast.error("You can only remove followers from your own profile.");
-      return;
-    }
     try {
       const response = await fetchData(`/api/followers/${userId}`, "DELETE");
       if (response.status !== 200) {
@@ -63,7 +57,6 @@ const FollowList: React.FC<FollowListProps> = ({
       toast.error("Something went wrong.");
     }
   };
-
   if (activeTab === "posts") return null;
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error fetching data.</p>;
@@ -78,7 +71,7 @@ const FollowList: React.FC<FollowListProps> = ({
           Followers
         </Tab>
         <Tab
-          $active={activeTab === "following"}
+          $active={activeTab === "followed"}
           onClick={() => setActiveTab("followed")}
         >
           Following

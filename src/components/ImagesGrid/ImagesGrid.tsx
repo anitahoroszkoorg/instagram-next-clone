@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FeedWrapper,
   Photobox,
@@ -23,10 +23,20 @@ import { UserDetails } from "@/shared/types/user";
 interface ImageGridProps {
   id: string;
   userDetails: UserDetails;
+  setPostsLength: (length: number) => void;
+  isProfileOwner: boolean;
 }
 
-export const ImagesGrid: React.FC<ImageGridProps> = ({ id, userDetails }) => {
+export const ImagesGrid: React.FC<ImageGridProps> = ({
+  id,
+  userDetails,
+  setPostsLength,
+  isProfileOwner,
+}) => {
   const { data, loading, error } = useFetch<Post>(`/api/images/${id}`);
+  useEffect(() => {
+    setPostsLength(data?.posts?.length ?? 0);
+  }, [data]);
   const [selectedImage, setSelectedImage] = useState<PostDetails | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editedCaption, setEditedCaption] = useState<string>("");
@@ -111,11 +121,12 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({ id, userDetails }) => {
                       {selectedImage.caption}
                     </Caption>
                   )}
-                  {isEditing ? (
-                    <SaveButton onClick={handleSaveClick}>Save</SaveButton>
-                  ) : (
-                    <EditButton onClick={handleEditClick}>Edit</EditButton>
-                  )}
+                  {isProfileOwner &&
+                    (isEditing ? (
+                      <SaveButton onClick={handleSaveClick}>Save</SaveButton>
+                    ) : (
+                      <EditButton onClick={handleEditClick}>Edit</EditButton>
+                    ))}
                 </CreateWizardActions>
               </CreateWizardContainer>
             </ModalContent>

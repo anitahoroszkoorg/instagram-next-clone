@@ -23,6 +23,9 @@ interface ProfileInfoProps {
   userDetails: UserDetails;
   loading: boolean;
   error: boolean;
+  postsLength: number;
+  followersAmount: number;
+  followedAmount: number;
 }
 
 export const ProfileInfo: React.FC<ProfileInfoProps> = ({
@@ -31,6 +34,9 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
   userDetails,
   loading,
   error,
+  postsLength,
+  followersAmount,
+  followedAmount,
 }) => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
@@ -56,9 +62,13 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
       </ProfilePictureContainer>
       <Username>@{userDetails.username}</Username>
       <StatsContainer>
-        <Stats onClick={() => setActiveTab("posts")}>6 Posts</Stats>
-        <Stats onClick={() => setActiveTab("followers")}>60 Followers</Stats>
-        <Stats onClick={() => setActiveTab("followed")}>345 Following</Stats>
+        <Stats onClick={() => setActiveTab("posts")}>{postsLength} Posts</Stats>
+        <Stats onClick={() => setActiveTab("followers")}>
+          {followersAmount} Followers
+        </Stats>
+        <Stats onClick={() => setActiveTab("followed")}>
+          {followedAmount} Following
+        </Stats>
       </StatsContainer>
       <ButtonsContainer>
         {!isProfileOwner ? (
