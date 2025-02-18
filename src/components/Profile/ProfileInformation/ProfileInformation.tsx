@@ -16,6 +16,7 @@ import {
 import { Stories } from "../Stories/Stories";
 import { fetchData } from "@/app/lib/fetchData";
 import { UserDetails } from "@/shared/types/user";
+import ProfileEditModal from "@/components/ProfileInfoModal/ProfileInfoModal";
 
 interface ProfileInfoProps {
   setActiveTab: (tab: "followers" | "followed" | "posts") => void;
@@ -39,13 +40,15 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
   followedAmount,
 }) => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const followUser = async () => {
     try {
       await fetchData("/api/follow", "POST", { user_id: userDetails.user_id });
-      setIsFollowing(!isFollowing);
+      setIsFollowing(true);
     } catch (error) {
       console.error("Error following user:", error);
+      setIsFollowing(false);
     }
   };
 
@@ -53,11 +56,18 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
   if (error) return <p>Error loading profile</p>;
   if (!userDetails) return <p>User not found</p>;
 
+  console.log(userDetails);
+
   return (
     <ProfileContainer>
       <ProfilePictureContainer>
         <Avatar>
-          <img src="/avatar.jpeg" alt="User Avatar" width={300} height={300} />
+          <img
+            src={userDetails.profile_picture || "/avatar.jpeg"}
+            alt="User Avatar"
+            width={300}
+            height={300}
+          />
         </Avatar>
       </ProfilePictureContainer>
       <Username>@{userDetails.username}</Username>
@@ -80,7 +90,12 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
           </>
         ) : (
           <>
-            <FollowButton $isfollowing={true}>Edit</FollowButton>
+            <FollowButton
+              $isfollowing={true}
+              onClick={() => setIsEditing(true)}
+            >
+              Edit
+            </FollowButton>
             <MessageButton>Settings</MessageButton>
           </>
         )}
@@ -92,6 +107,18 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
         )}
       </Bio>
       <Stories isProfileOwner={isProfileOwner} />
+      {isEditing && (
+        <ProfileEditModal
+          userId={userDetails.user_id}
+          currentBio={userDetails.bio}
+          currentAvatar={userDetails.profile_picture}
+          onClose={() => setIsEditing(false)}
+          onUpdate={(updatedData) => {
+            userDetails.bio = updatedData.bio;
+            userDetails.profile_picture = updatedData.avatar;
+          }}
+        />
+      )}
     </ProfileContainer>
   );
 };
