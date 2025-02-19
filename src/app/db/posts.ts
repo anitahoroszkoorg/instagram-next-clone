@@ -149,6 +149,8 @@ export const getAllPublicPostsFromDb = async () => {
           user: {
             select: {
               username: true,
+              profile_picture: true,
+              user_id: true,
             },
           },
         },
