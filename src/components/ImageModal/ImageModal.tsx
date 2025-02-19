@@ -52,6 +52,19 @@ const ImageModal: React.FC<ImageModalProps> = ({
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const response = await fetchData(`/api/post/`, "DELETE", {
+        post_id: image.post_id,
+      });
+      if (response.status !== 200) {
+        toast.error("Unable to delete post. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Failed to delete post", error);
+    }
+  };
+
   return (
     <BackDropContainer visible={!!image} onClick={onClose}>
       <ModalOverlay>
@@ -75,7 +88,10 @@ const ImageModal: React.FC<ImageModalProps> = ({
                 (isEditing ? (
                   <SaveButton onClick={handleSaveClick}>Save</SaveButton>
                 ) : (
-                  <EditButton onClick={handleEditClick}>Edit</EditButton>
+                  <>
+                    <EditButton onClick={handleEditClick}>Edit</EditButton>
+                    <EditButton onClick={handleDelete}>Delete</EditButton>
+                  </>
                 ))}
             </CreateWizardActions>
           </CreateWizardContainer>
