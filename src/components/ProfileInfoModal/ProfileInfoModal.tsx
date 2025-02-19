@@ -47,7 +47,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           ",",
         )[1];
       }
-      const updateData: Record<string, any> = { id: userId };
+      const updateData: Record<string, string> = { id: userId };
       if (bio !== user?.bio) updateData.bio = bio;
       if (profilePicture) updateData.profile_picture = profilePicture;
       const res = await fetch(`/api/user/`, {
@@ -87,7 +87,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           <InputField
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            placeholder="Edit your bio"
+            placeholder="Edit your bio. This information will be visible for all users."
           />
           <SaveButton onClick={handleSave}>Save</SaveButton>
         </EditContainer>
