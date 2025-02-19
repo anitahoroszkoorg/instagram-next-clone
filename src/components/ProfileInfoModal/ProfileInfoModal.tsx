@@ -11,6 +11,8 @@ import {
   SaveButton,
 } from "./styled";
 import { useUser } from "@/app/lib/hooks/userContext";
+import { fetchData } from "@/app/lib/fetchData";
+import { toast } from "react-toastify";
 
 interface ProfileEditModalProps {
   onClose: () => void;
@@ -40,7 +42,6 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     try {
       const userId = user?.user_id;
       if (!userId) return;
-
       let profilePicture: string | undefined;
       if (selectedFile) {
         profilePicture = (await convertFileToBase64(selectedFile)).split(
@@ -50,13 +51,9 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
       const updateData: Record<string, string> = { id: userId };
       if (bio !== user?.bio) updateData.bio = bio;
       if (profilePicture) updateData.profile_picture = profilePicture;
-      const res = await fetch(`/api/user/`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updateData),
-      });
-      if (!res.ok) {
-        throw new Error(`Request failed with status ${res.status}`);
+      const response = await fetchData("/api/user/", "PATCH", updateData);
+      if (response.status !== 200) {
+        toast.error("Unable to update profile information");
       }
       onUpdate({ bio, avatar });
       onClose();
