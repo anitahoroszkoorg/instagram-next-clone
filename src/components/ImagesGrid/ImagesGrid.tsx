@@ -34,9 +34,11 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({
   isProfileOwner,
 }) => {
   const { data, loading, error } = useFetch<Post>(`/api/images/${id}`);
+
   useEffect(() => {
     setPostsLength(data?.posts?.length ?? 0);
   }, [data]);
+
   const [selectedImage, setSelectedImage] = useState<PostDetails | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editedCaption, setEditedCaption] = useState<string>("");
