@@ -1,5 +1,5 @@
+"use client";
 import React, { useState } from "react";
-import { fetchData } from "@/app/lib/fetchData";
 import {
   ModalOverlay,
   ModalContent,
@@ -10,24 +10,20 @@ import {
   CloseButton,
   SaveButton,
 } from "./styled";
+import { useUser } from "@/app/lib/hooks/userContext";
 
 interface ProfileEditModalProps {
-  userId: string;
-  currentBio?: string;
-  currentAvatar?: string;
   onClose: () => void;
   onUpdate: (updatedData: { bio: string; avatar: string }) => void;
 }
 
 const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
-  userId,
-  currentBio = "",
-  currentAvatar = "",
   onClose,
   onUpdate,
 }) => {
-  const [bio, setBio] = useState<string>(currentBio);
-  const [avatar, setAvatar] = useState<string>(currentAvatar);
+  const { user } = useUser();
+  const [bio, setBio] = useState<string>(user?.bio || "");
+  const [avatar, setAvatar] = useState<string>(user?.profile_picture || "");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,20 +38,26 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
 
   const handleSave = async () => {
     try {
-      const formData = new FormData();
-      formData.append("id", userId);
-      formData.append("bio", bio);
+      const userId = user?.user_id;
+      if (!userId) return;
+
+      let profilePicture: string | undefined;
       if (selectedFile) {
-        const base64Image = await convertFileToBase64(selectedFile);
-        formData.append("profile_picture", base64Image);
+        profilePicture = (await convertFileToBase64(selectedFile)).split(
+          ",",
+        )[1];
       }
-
-      await fetchData(`/api/user/${userId}`, "PATCH", {
-        id: userId,
-        bio,
-        profile_picture: selectedFile ? avatar.split(",")[1] : undefined,
+      const updateData: Record<string, any> = { id: userId };
+      if (bio !== user?.bio) updateData.bio = bio;
+      if (profilePicture) updateData.profile_picture = profilePicture;
+      const res = await fetch(`/api/user/`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updateData),
       });
-
+      if (!res.ok) {
+        throw new Error(`Request failed with status ${res.status}`);
+      }
       onUpdate({ bio, avatar });
       onClose();
     } catch (error) {
@@ -84,9 +86,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           </UploadButton>
           <InputField
             value={bio}
-            onChange={(e: {
-              target: { value: React.SetStateAction<string> };
-            }) => setBio(e.target.value)}
+            onChange={(e) => setBio(e.target.value)}
             placeholder="Edit your bio"
           />
           <SaveButton onClick={handleSave}>Save</SaveButton>
