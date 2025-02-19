@@ -21,3 +21,7 @@ export interface Message {
   avatar?: string;
   picked?: boolean;
 }
+
+export interface UserInfo extends User {
+  followed: User[];
+}

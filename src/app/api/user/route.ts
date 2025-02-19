@@ -27,22 +27,37 @@ export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
     const { id, ...updateData } = body;
+
     if (!id) {
       return NextResponse.json({ message: "No ID provided" }, { status: 400 });
     }
+
     if (Object.keys(updateData).length === 0) {
       return NextResponse.json(
         { message: "No data provided" },
         { status: 400 },
       );
     }
-    await editUser(id, updateData);
-    return NextResponse.json({ message: "Ok" }, { status: 200 });
+
+    const updatedUser = await editUser(id, updateData);
+
+    if (!updatedUser) {
+      return NextResponse.json(
+        { message: "User not found or update failed" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(
+      { message: "ok", user: updatedUser },
+      { status: 200 },
+    );
   } catch (error: any) {
     console.error("Error updating user:", error);
-    return NextResponse.json(
-      { message: error.message || "Internal Server Error" },
-      { status: 500 },
+
+    return new NextResponse(
+      JSON.stringify({ message: error.message || "Internal Server Error" }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 }

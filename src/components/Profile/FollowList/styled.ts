@@ -50,17 +50,15 @@ export const Username = styled.div`
 `;
 
 export const FollowButton = styled.button<{ $following: boolean }>`
-  padding: 6px 12px;
+  height: 2em;
   border: none;
-  background: ${(props) =>
-    props.$following ? "var(--ig-red)" : "var(--ig-blue)"};
+  background-color: ${(props) =>
+    props.$following ? "var( --ig-light-grey)" : "var(--ig-blue)"};
+  color: ${(props) =>
+    props.$following ? "var(--ig-black)" : " var(--ig-white)"};
   color: var(--ig-white);
   border-radius: 5px;
   cursor: pointer;
-  &:hover {
-    background: ${(props) =>
-      props.$following ? "#cc0000" : "var(--ig-dark-blue)"};
-  }
 `;
 
 export const Button = styled.button`

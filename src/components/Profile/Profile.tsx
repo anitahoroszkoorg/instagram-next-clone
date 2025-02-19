@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import ProfileInfo from "./ProfileInformation/ProfileInformation";
 import { ContentContainer, InfoContainer, ProfileContainer } from "./styled";
 import { ImagesGrid } from "../ImagesGrid/ImagesGrid";
 import FollowList from "./FollowList/Followlist";
@@ -8,6 +7,7 @@ import useFetch from "@/app/lib/hooks/useFetch";
 import { useUser } from "@/app/lib/hooks/userContext";
 import { UserDetails } from "@/shared/types/user";
 import { User } from "@/globals";
+import ProfileInfo from "./ProfileInformation/ProfileInformation";
 
 interface UserDetailsResponse {
   userDetails: UserDetails;
@@ -23,13 +23,12 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
     "followers" | "followed" | "posts"
   >("posts");
   const [postsLength, setPostsLength] = useState(0);
-  const [followersAmount, setFollowersAmount] = useState<number | null>(null);
-  const [followedAmount, setFollowedAmount] = useState<number | null>(null);
+  const [followersAmount, setFollowersAmount] = useState<number>(0);
+  const [followedAmount, setFollowedAmount] = useState<number>(0);
 
   const { data, loading, error } = useFetch<UserDetailsResponse>(
     `/api/user/${slug}`,
   );
-
   const { user } = useUser();
   const userDetails = data?.userDetails;
   const isProfileOwner = user?.user_id === userDetails?.user_id;
@@ -44,8 +43,12 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
 
   useEffect(() => {
     if (followData) {
-      setFollowersAmount(followData.followers?.length || 0);
-      setFollowedAmount(followData.following?.length || 0);
+      setFollowersAmount(
+        Array.isArray(followData.followers) ? followData.followers.length : 0,
+      );
+      setFollowedAmount(
+        Array.isArray(followData.following) ? followData.following.length : 0,
+      );
     }
   }, [followData]);
 
@@ -62,8 +65,9 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
           loading={loading}
           error={error ?? false}
           postsLength={postsLength}
-          followersAmount={followersAmount ?? 0}
-          followedAmount={followedAmount ?? 0}
+          followersAmount={followersAmount}
+          followedAmount={followedAmount}
+          followers={followData ? followData.followers : []}
         />
       </InfoContainer>
       <ContentContainer>

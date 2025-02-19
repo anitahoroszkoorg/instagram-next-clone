@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   UserRow,
   ProfileImage,
@@ -40,6 +40,7 @@ const FollowList: React.FC<FollowListProps> = ({
     followers: User[];
     following: User[];
   }>(`/api/followers/${id}`);
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
   const users =
     activeTab === "followers" ? data?.followers || [] : data?.following || [];
@@ -60,6 +61,17 @@ const FollowList: React.FC<FollowListProps> = ({
   if (activeTab === "posts") return null;
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error fetching data.</p>;
+
+  const followUser = async (userId: string) => {
+    try {
+      await fetchData("/api/follow", "POST", { user_id: userId });
+      setIsFollowing(true);
+    } catch (error) {
+      console.error("Error following user:", error);
+      setIsFollowing(false);
+      toast.error("Something went wrong.");
+    }
+  };
 
   return (
     <Container>
@@ -88,10 +100,16 @@ const FollowList: React.FC<FollowListProps> = ({
               <Username>
                 <Link href={`/profile/${user.user_id}/`}>@{user.username}</Link>
               </Username>
-              <FollowButton $following={activeTab === "followed"}>
-                {activeTab === "followed" ? "Unfollow" : "Follow"}
+              <FollowButton
+                onClick={() => followUser(user.user_id)}
+                $following={activeTab === "followed"}
+              >
+                {activeTab === "followed"
+                  ? "Unfollow"
+                  : "Follow" && isFollowing
+                    ? "Following"
+                    : "Follow"}
               </FollowButton>
-
               {activeTab === "followers" && isProfileOwner && (
                 <Button onClick={() => handleDeleteFollower(user.user_id)}>
                   <DeleteOutlineIcon

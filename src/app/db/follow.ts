@@ -32,22 +32,6 @@ export const removeFollow = async (user_id: string, id: string) => {
   }
 };
 
-export const removeFollower = async (user_id: string, id: string) => {
-  try {
-    await prisma.follow.deleteMany({
-      where: {
-        following_user_id: user_id,
-        followed_user_id: id,
-      },
-    });
-  } catch (error) {
-    console.error("Error unfollowing user:", error);
-    throw new Error("Failed to unfollow user");
-  } finally {
-    await prisma.$disconnect();
-  }
-};
-
 export const getFollowers = async (id: string) => {
   const followers = await prisma.follow.findMany({
     where: {
