@@ -14,6 +14,8 @@ import { Caption } from "../Image/styled";
 import { Image } from "./styled";
 import { PostDetails } from "@/shared/types/post";
 import { UserDetails } from "@/shared/types/user";
+import { fetchData } from "@/app/lib/fetchData";
+import { toast } from "react-toastify";
 
 interface ImageModalProps {
   image: PostDetails;
@@ -37,29 +39,13 @@ const ImageModal: React.FC<ImageModalProps> = ({
 
   const handleSaveClick = async () => {
     try {
-      const response = await fetch(`/api/post/${image.post_id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: image.post_id,
-          caption: editedCaption,
-        }),
+      const response = await fetchData(`/api/post/${image.post_id}`, "PATCH", {
+        id: image.post_id,
+        caption: editedCaption,
       });
-
-      const text = await response.text();
-      console.log("Raw API Response:", text);
-
-      if (!response.ok) {
-        throw new Error(
-          `Failed to update caption: ${response.status} - ${text}`,
-        );
+      if (response.status !== 200) {
+        toast.error("Unable to update caption.");
       }
-
-      const updatedPost = text ? JSON.parse(text) : null;
-      if (!updatedPost) {
-        throw new Error("Invalid response received from server");
-      }
-
       setIsEditing(false);
     } catch (error) {
       console.error("Failed to update caption:", error);
