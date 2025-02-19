@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { getUserId } from "@/app/db/users";
 import { NextResponse } from "next/server";
 import { deletePost } from "@/app/services/post/deletePost";
+import { getAllPublicPosts } from "@/app/services/post/getPublicPosts";
 
 const formDataToObject = (formData: FormData) => {
   const obj: { [key: string]: any } = {};
@@ -82,4 +83,16 @@ export async function DELETE(req: Request) {
       },
     );
   }
+}
+
+export async function GET() {
+  try {
+    const posts = await getAllPublicPosts();
+    return NextResponse.json(
+      {
+        posts,
+      },
+      { status: 200 },
+    );
+  } catch (error) {}
 }

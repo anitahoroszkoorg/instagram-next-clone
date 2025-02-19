@@ -130,3 +130,50 @@ export const getPostsByUserId = async (id: string) => {
 
   return formattedPosts;
 };
+
+export const getAllPublicPostsFromDb = async () => {
+  const publicPosts = await prisma.post.findMany({
+    where: {
+      user: {
+        public: "public",
+      },
+    },
+    include: {
+      user: {
+        select: {
+          username: true,
+        },
+      },
+      likes: {
+        include: {
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      },
+      comments: {
+        include: {
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  prisma.$disconnect;
+
+  const formattedPosts = publicPosts.map((post) => ({
+    ...post,
+    image:
+      post.image && Buffer.from(post.image).toString("base64")
+        ? `data:image/jpeg;base64,${Buffer.from(post.image).toString("base64")}`
+        : null,
+  }));
+
+  return formattedPosts;
+};
