@@ -16,6 +16,9 @@ import upload from "../../assets/images/upload-image-icon.png";
 import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { fetchData } from "@/app/lib/fetchData";
+import { toast } from "react-toastify";
+import { validateImage } from "@/app/utils/validateImage";
 
 interface Props {
   openModal?: boolean;
@@ -24,7 +27,6 @@ interface Props {
 
 export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
   const [caption, setCaption] = useState<string>("");
   const { data: session } = useSession();
   const email = session?.user?.email;
@@ -41,10 +43,8 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     if (files && files.length > 0) {
       const file = files[0];
       setSelectedFile(file);
-      setIsFilePicked(true);
     } else {
       setSelectedFile(null);
-      setIsFilePicked(false);
     }
   };
 
@@ -61,15 +61,19 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     if (!selectedFile || !caption || !email) {
       return;
     }
+    const validationResult = await validateImage(selectedFile);
+    if (!validationResult.isValid) {
+      toast.error(validationResult.error);
+      return;
+    }
     data.append("image", selectedFile);
     data.append("caption", caption);
     if (data.has("image") && data.has("caption")) {
       try {
-        const response = await fetch("/api/post", {
-          method: "POST",
-          body: data,
-        });
-        if (response.ok) {
+        const response = await fetchData("/api/post", "POST", data);
+        if (response.status !== 200) {
+          toast.error("Unable to update caption.");
+        } else {
           close();
         }
       } catch (error) {
