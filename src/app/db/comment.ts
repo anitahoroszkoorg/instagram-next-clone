@@ -21,6 +21,18 @@ export const addComment = async (
   }
 };
 
+export const getComments = async (postId: string) => {
+  try {
+    await prisma.comment.findMany({
+      where: {
+        post_id: postId,
+      },
+    });
+  } catch (error: any) {
+    throw new Error("Failed to fetch comments");
+  }
+};
+
 export const deleteComment = async (comment_id: string) => {
   try {
     await prisma.comment.delete({
