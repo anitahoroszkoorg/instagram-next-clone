@@ -2,7 +2,7 @@
 import { UserProvider } from "@/app/lib/hooks/userContext";
 import "./globals.css";
 import type { Metadata } from "next";
-import { SessionProvider, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import { Header } from "@/components/Header/Header";
 
@@ -32,14 +32,14 @@ export default function RootLayout({ children, params: { session } }: Props) {
   );
 }
 
-function LayoutWithHeader({ children }: { children: React.ReactNode }) {
-  const { data: sessionData } = useSession();
-  const isLoggedIn = sessionData?.user;
-
+export function LayoutWithHeader({ children }: { children: React.ReactNode }) {
   return (
     <>
-      {isLoggedIn && <Header />}
-      {children}
+      <header>
+        <Header />
+      </header>
+      <main>{children}</main>
+      <footer></footer>
     </>
   );
 }

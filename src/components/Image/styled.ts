@@ -1,31 +1,10 @@
 import styled from "styled-components";
 
-export const Photobox = styled.img`
-  margin: 2px;
-  padding: 1rem;
-  width: 250px;
-  height: 250px;
-  object-fit: cover;
-`;
-
 export const PhotoDescription = styled.p`
   text-align: justify;
   text-justify: inter-word;
   font-size: 14px;
   margin: 0.5rem;
-`;
-
-export const BackDropContainer = styled.div<{ visible: boolean }>`
-  display: ${({ visible }) => (visible ? "flex" : "none")};
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--ig-backdrop);
-  z-index: 1000;
 `;
 
 export const PhotoboxFrame = styled.div`

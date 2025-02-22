@@ -2,22 +2,19 @@ import styled from "styled-components";
 
 export const StyledSearchBar = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   background-color: var(--ig-divider-grey);
   height: 3em;
   border-radius: 0.6em;
-  width: 20em;
-  padding: 0 0.6em;
-  position: relative;
-  z-index: 10;
+  width: 25em;
+  margin: 1em 0em 0em 1em;
 `;
 
 export const Input = styled.input`
   width: 100%;
   border: none;
   font-size: 1em;
-  padding: 0.5em;
   background: transparent;
   outline: none;
 `;
@@ -38,7 +35,6 @@ export const ResultsList = styled.ul`
   list-style-type: none;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 0.6em;
-  z-index: 999;
 `;
 
 export const ResultItem = styled.li`

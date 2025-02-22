@@ -1,28 +1,22 @@
-"use client";
 import React, { useState } from "react";
+import { useUser } from "@/app/lib/hooks/userContext";
+import { fetchData } from "@/app/lib/fetchData";
+import { toast } from "react-toastify";
+import Modal from "../Modal/Modal";
+
 import {
-  ModalOverlay,
-  ModalContent,
   AvatarPreview,
   EditContainer,
   UploadButton,
   InputField,
-  CloseButton,
   SaveButton,
 } from "./styled";
-import { useUser } from "@/app/lib/hooks/userContext";
-import { fetchData } from "@/app/lib/fetchData";
-import { toast } from "react-toastify";
 
 interface ProfileEditModalProps {
-  onClose: () => void;
-  onUpdate: (updatedData: { bio: string; avatar: string }) => void;
+  closeModal: () => void;
 }
 
-const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
-  onClose,
-  onUpdate,
-}) => {
+const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ closeModal }) => {
   const { user } = useUser();
   const [bio, setBio] = useState<string>(user?.bio || "");
   const [avatar, setAvatar] = useState<string>(user?.profile_picture || "");
@@ -55,8 +49,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
       if (response.status !== 200) {
         toast.error("Unable to update profile information");
       }
-      onUpdate({ bio, avatar });
-      onClose();
+      closeModal();
     } catch (error) {
       console.error("Error updating profile:", error);
     }
@@ -72,9 +65,8 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   };
 
   return (
-    <ModalOverlay>
-      <ModalContent>
-        <CloseButton onClick={onClose}>×</CloseButton>
+    <Modal openModal closeModal={closeModal} modalTitle="Edit Profile">
+      <div>
         <AvatarPreview src={avatar} alt="Profile Preview" />
         <EditContainer>
           <UploadButton>
@@ -84,12 +76,12 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           <InputField
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            placeholder="Edit your bio. This information will be visible for all users."
+            placeholder="Edit your bio. This information will be visible to all users."
           />
           <SaveButton onClick={handleSave}>Save</SaveButton>
         </EditContainer>
-      </ModalContent>
-    </ModalOverlay>
+      </div>
+    </Modal>
   );
 };
 

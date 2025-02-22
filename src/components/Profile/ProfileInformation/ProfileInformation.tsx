@@ -138,15 +138,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
         )}
       </Bio>
       <Stories isProfileOwner={isProfileOwner} />
-      {isEditing && (
-        <ProfileEditModal
-          onClose={() => setIsEditing(false)}
-          onUpdate={(updatedData) => {
-            userDetails.bio = updatedData.bio;
-            userDetails.profile_picture = updatedData.avatar;
-          }}
-        />
-      )}
+      {isEditing && <ProfileEditModal closeModal={() => setIsEditing(false)} />}
     </ProfileContainer>
   );
 };

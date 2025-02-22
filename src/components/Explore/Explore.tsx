@@ -4,11 +4,12 @@ import { PostDetails } from "@/shared/types/post";
 import { useState } from "react";
 import {
   FeedWrapper,
-  Photobox,
-  ContentContainer,
   SearchContainer,
   ExploreContainer,
+  ContentContainer,
 } from "./styled";
+import { ExploreModal } from "./ExploreModal/ExploreModal";
+import { Photobox } from "@/shared/styled/styled";
 
 export const Explore = () => {
   const { data, loading, error } = useFetch<{ posts: PostDetails[] }>(
@@ -37,6 +38,12 @@ export const Explore = () => {
           </FeedWrapper>
         </ContentContainer>
       </ExploreContainer>
+      {selectedImage && (
+        <ExploreModal
+          image={selectedImage}
+          onClose={() => setSelectedImage(null)}
+        />
+      )}
     </>
   );
 };

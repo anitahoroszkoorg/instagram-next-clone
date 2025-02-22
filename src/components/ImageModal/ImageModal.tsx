@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import {
-  BackDropContainer,
   EditButton,
   InputField,
   SaveButton,
-  CloseButton,
   CreateWizardActions,
   CreateWizardContainer,
-  ModalContent,
-  ModalOverlay,
 } from "./styled";
 import { Caption } from "../Image/styled";
 import { Image } from "./styled";
@@ -16,6 +12,7 @@ import { PostDetails } from "@/shared/types/post";
 import { UserDetails } from "@/shared/types/user";
 import { fetchData } from "@/app/lib/fetchData";
 import { toast } from "react-toastify";
+import Modal from "../Modal/Modal";
 
 interface ImageModalProps {
   image: PostDetails;
@@ -34,8 +31,6 @@ const ImageModal: React.FC<ImageModalProps> = ({
   const [editedCaption, setEditedCaption] = useState(image.caption);
 
   const handleEditClick = () => setIsEditing(true);
-
-  const handleModalContentClick = (e: React.MouseEvent) => e.stopPropagation();
 
   const handleSaveClick = async () => {
     try {
@@ -66,38 +61,33 @@ const ImageModal: React.FC<ImageModalProps> = ({
   };
 
   return (
-    <BackDropContainer visible={!!image} onClick={onClose}>
-      <ModalOverlay>
-        <ModalContent onClick={handleModalContentClick}>
-          <CloseButton onClick={onClose}>×</CloseButton>
-          <Image src={image.image} alt="Selected" />
-          <CreateWizardContainer>
-            <CreateWizardActions>
-              {isEditing ? (
-                <InputField
-                  value={editedCaption}
-                  onChange={(e) => setEditedCaption(e.target.value)}
-                  placeholder="Edit your caption"
-                />
-              ) : (
-                <Caption>
-                  @{userDetails.username}: {editedCaption}
-                </Caption>
-              )}
-              {isProfileOwner &&
-                (isEditing ? (
-                  <SaveButton onClick={handleSaveClick}>Save</SaveButton>
-                ) : (
-                  <>
-                    <EditButton onClick={handleEditClick}>Edit</EditButton>
-                    <EditButton onClick={handleDelete}>Delete</EditButton>
-                  </>
-                ))}
-            </CreateWizardActions>
-          </CreateWizardContainer>
-        </ModalContent>
-      </ModalOverlay>
-    </BackDropContainer>
+    <Modal openModal={!!image} closeModal={onClose} modalTitle="Image Details">
+      <Image src={image.image} alt="Selected" />
+      <CreateWizardContainer>
+        <CreateWizardActions>
+          {isEditing ? (
+            <InputField
+              value={editedCaption}
+              onChange={(e) => setEditedCaption(e.target.value)}
+              placeholder="Edit your caption"
+            />
+          ) : (
+            <Caption>
+              @{userDetails.username}: {editedCaption}
+            </Caption>
+          )}
+          {isProfileOwner &&
+            (isEditing ? (
+              <SaveButton onClick={handleSaveClick}>Save</SaveButton>
+            ) : (
+              <>
+                <EditButton onClick={handleEditClick}>Edit</EditButton>
+                <EditButton onClick={handleDelete}>Delete</EditButton>
+              </>
+            ))}
+        </CreateWizardActions>
+      </CreateWizardContainer>
+    </Modal>
   );
 };
 

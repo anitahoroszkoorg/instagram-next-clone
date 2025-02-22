@@ -1,8 +1,11 @@
 import { NewUser, User } from "@/globals";
 import { prisma } from "../api/_base";
 
-export const getUsers = async () => {
+export const getUsers = async (query: string) => {
   return await prisma.user.findMany({
+    where: {
+      username: { contains: query, mode: "insensitive" },
+    },
     select: {
       user_id: true,
       full_name: true,

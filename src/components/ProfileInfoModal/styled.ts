@@ -1,43 +1,5 @@
 import styled from "styled-components";
 
-export const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: var(--ig-backdrop);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  z-index: 10;
-`;
-
-export const ModalContent = styled.div`
-  background-color: var(--ig-white);
-  padding: 1.25em;
-  border-radius: 0.5em;
-  width: 31.25em;
-  height: 31.25em;
-  box-shadow: 0 0.125em 0.25em var(--ig-medium-grey);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-`;
-
-export const CloseButton = styled.button`
-  background-color: transparent;
-  border: none;
-  position: absolute;
-  top: 0.625em;
-  right: 0.625em;
-  cursor: pointer;
-  font-size: 1.25em;
-  color: var(--ig-black);
-`;
-
 export const AvatarPreview = styled.img`
   width: 16em;
   padding: 0.625em;
