@@ -23,6 +23,7 @@ import { Like, PostDetails, Comment } from "@/shared/types/post";
 import { fetchData } from "@/app/lib/fetchData";
 import { useUser } from "@/app/lib/hooks/userContext";
 import { formatDate } from "@/app/utils/formatDate";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 interface ImageComponentProps {
   postDetails: PostDetails | null;
@@ -110,7 +111,6 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
       setLikes((prev) => prev + 1);
     }
   };
-
   const refreshComments = async () => {
     if (!postDetails) return;
     try {
@@ -162,6 +162,22 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
     }
   };
 
+  const handleDeleteComment = async (id: string | undefined) => {
+    try {
+      if (!id) {
+        return;
+      }
+      const response = await fetchData(`/api/comment/`, "DELETE", {
+        comment_id: id,
+      });
+      if (response.status !== 200) {
+        toast.error("Unable to delete post. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Failed to delete post", error);
+    }
+  };
+
   if (!postDetails) return null;
 
   return (
@@ -195,11 +211,22 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
           </LikeSection>
           <CommentsSection>
             {currentComments.map((comment) => (
-              <CommentItem key={comment.comment_id}>
-                <p>{comment.user.username}</p>
-                <p>{comment.comment_text}</p>
-                <p>{formatDate(comment.created_at)}</p>
-              </CommentItem>
+              <>
+                <CommentItem key={comment.comment_id}>
+                  <p>{comment.user.username}</p>
+                  <p>{comment.comment_text}</p>
+                  <p>{formatDate(comment.created_at)}</p>
+                </CommentItem>
+                <Button
+                  onClick={() =>
+                    handleDeleteComment(comment.comment_id as string)
+                  }
+                >
+                  <DeleteOutlineIcon
+                    style={{ color: "grey", padding: "0.2em" }}
+                  />
+                </Button>
+              </>
             ))}
             <CommentsInputContainer>
               <Input
