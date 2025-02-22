@@ -11,8 +11,8 @@ import {
 } from "./styled";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
+import AppsIcon from "@mui/icons-material/Apps";
 import Link from "next/link";
 import Create from "../Create/Create";
 import Image from "next/image";
@@ -55,8 +55,8 @@ export const Header = () => {
             </Link>
           </Icon>
           <Icon>
-            <Link href="/">
-              <MailOutlinedIcon color="primary" />
+            <Link href="/explore">
+              <AppsIcon color="primary" />
             </Link>
           </Icon>
         </IconsWrapper>
