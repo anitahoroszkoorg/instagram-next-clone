@@ -24,9 +24,6 @@ export const StyledSearchIcon = styled.div`
 `;
 
 export const ResultsList = styled.ul`
-  position: absolute;
-  top: 100%;
-  left: 0;
   width: 100%;
   max-height: 200px;
   overflow-y: auto;

@@ -1,14 +1,13 @@
 import styled from "styled-components";
 export const ProfileContainer = styled.div`
   display: flex;
-  margin-top: 12vh;
+  margin-top: 14vh;
   height: 100%;
   width: 100%;
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
-  z-index: 10;
 `;
 
 export const InfoContainer = styled.div`
@@ -20,7 +19,7 @@ export const InfoContainer = styled.div`
 
 export const ContentContainer = styled.div`
   display: flex;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   flex-direction: column;
 `;

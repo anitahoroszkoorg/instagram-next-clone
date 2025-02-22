@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import { Header } from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,11 +36,9 @@ export default function RootLayout({ children, params: { session } }: Props) {
 export function LayoutWithHeader({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <header>
-        <Header />
-      </header>
+      <Header />
       <main>{children}</main>
-      <footer></footer>
+      <Footer />
     </>
   );
 }

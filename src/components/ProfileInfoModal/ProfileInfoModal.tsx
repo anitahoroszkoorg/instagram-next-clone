@@ -3,7 +3,6 @@ import { useUser } from "@/app/lib/hooks/userContext";
 import { fetchData } from "@/app/lib/fetchData";
 import { toast } from "react-toastify";
 import Modal from "../Modal/Modal";
-
 import {
   AvatarPreview,
   EditContainer,
@@ -66,21 +65,19 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ closeModal }) => {
 
   return (
     <Modal openModal closeModal={closeModal} modalTitle="Edit Profile">
-      <div>
-        <AvatarPreview src={avatar} alt="Profile Preview" />
-        <EditContainer>
-          <UploadButton>
-            Upload Photo
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-          </UploadButton>
-          <InputField
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            placeholder="Edit your bio. This information will be visible to all users."
-          />
-          <SaveButton onClick={handleSave}>Save</SaveButton>
-        </EditContainer>
-      </div>
+      <AvatarPreview src={avatar} alt="Profile Preview" />
+      <EditContainer>
+        <UploadButton>
+          Upload Photo
+          <input type="file" accept="image/*" onChange={handleFileChange} />
+        </UploadButton>
+        <InputField
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          placeholder="Edit your bio. This information will be visible to all users."
+        />
+        <SaveButton onClick={handleSave}>Save</SaveButton>
+      </EditContainer>
     </Modal>
   );
 };

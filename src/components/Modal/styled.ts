@@ -10,7 +10,7 @@ export const BackDropContainer = styled.div<{ $visible: boolean }>`
   width: 100%;
   height: 100%;
   background: var(--ig-backdrop);
-  z-index: 5;
+  z-index: 1000;
 `;
 
 export const Photobox = styled.img`
@@ -42,6 +42,7 @@ export const ModalContent = styled.div`
     font-size: 20px;
     color: #000;
   }
+  z-index: 1001;
 `;
 
 export const ModalHeader = styled.div`

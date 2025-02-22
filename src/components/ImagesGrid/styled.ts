@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import { keyframes } from "styled-components";
 
 export const FeedWrapper = styled.div`
   display: flex;
   height: 100%;
   flex-wrap: wrap;
   overflow-x: hidden;
-  border: 1px solid green;
 `;
 
 export const CloseButton = styled.button`
