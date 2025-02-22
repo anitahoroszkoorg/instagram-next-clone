@@ -15,7 +15,7 @@ export const PhotoboxFrame = styled.div`
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  margin: 4rem 0rem 2rem 0rem;
+  margin: 1rem 0rem 2rem 0rem;
 `;
 
 export const Photo = styled.img.attrs((props) => ({
