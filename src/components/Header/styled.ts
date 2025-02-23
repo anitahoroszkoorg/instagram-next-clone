@@ -6,7 +6,7 @@ export const HeaderWrapper = styled.header`
   justify-content: center;
   align-items: center;
   background-color: white;
-  height: 6.25em;
+  height: 4.5em;
   overflow: hidden;
   left: 0;
   right: 0;
@@ -52,10 +52,11 @@ export const AvatarWrapper = styled.div`
 `;
 
 export const Avatar = styled.div`
-  width: 3.125em;
-  height: 3.125em;
+  width: 3em;
+  height: 3em;
   border-radius: 50%;
-  padding: 0.2em;
+  padding: 1em 0em;
+  margin-top: 0.5em;
   background: linear-gradient(
     45deg,
     #fcaf45,
@@ -69,8 +70,8 @@ export const Avatar = styled.div`
   align-items: center;
   img {
     border-radius: 50%;
-    width: 3em;
-    height: 3em;
+    width: 2.6em;
+    height: 2.6em;
     object-fit: cover;
   }
 `;
