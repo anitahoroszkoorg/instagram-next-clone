@@ -28,19 +28,3 @@ export const Title = styled.h1`
   margin: 0px 0px 20px 0px;
   padding: 10px;
 `;
-
-export const Button = styled.button`
-  width: 30% !important;
-  height: 45px;
-  border: none;
-  border-radius: 3px;
-  background-color: #2196f3;
-  color: white;
-  font-size: 16px;
-  font-weight: 300;
-  cursor: pointer;
-  &:hover {
-    background-color: #0d8bf2;
-  }
-  margin-top: 30px;
-`;

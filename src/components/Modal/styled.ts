@@ -27,8 +27,10 @@ export const ModalContent = styled.div`
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  width: 500px;
-  height: 500px;
+  min-width: 30em;
+  min-height: 30em;
+  width: auto;
+  height: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -49,4 +51,5 @@ export const ModalHeader = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row;
+  margin-bottom: 1em;
 `;

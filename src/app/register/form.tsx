@@ -1,9 +1,10 @@
 "use client";
 import { FormEvent } from "react";
-import { Button, Input, StyledForm } from "../login/styled";
+import { Input, StyledForm } from "../login/styled";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { StyledButton } from "@/shared/styled/styled";
 
 export default function Form() {
   const router = useRouter();
@@ -38,7 +39,7 @@ export default function Form() {
         <Input name="password" type="password" placeholder="password" />
         <Input name="username" type="text" placeholder="user name" />
         <Input name="full_name" type="text" placeholder="full name" />
-        <Button type="submit">Register</Button>
+        <StyledButton type="submit">Register</StyledButton>
       </StyledForm>
     </>
   );

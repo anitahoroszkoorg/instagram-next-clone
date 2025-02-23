@@ -14,7 +14,6 @@ import {
   MaskedImage,
   MaskContainer,
   UserDetails,
-  StyledButton,
 } from "./styled";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -25,6 +24,7 @@ import { fetchData } from "@/app/lib/fetchData";
 import { useUser } from "@/app/lib/hooks/userContext";
 import { formatDate } from "@/app/utils/formatDate";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { StyledButton } from "@/shared/styled/styled";
 
 interface ImageComponentProps {
   postDetails: PostDetails | null;
@@ -41,8 +41,6 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
   const [expandedComments, setExpandedComments] = useState<{
     [key: string]: boolean;
   }>({});
-
-  console.log(user);
 
   useEffect(() => {
     if (postDetails) {

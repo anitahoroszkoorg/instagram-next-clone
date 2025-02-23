@@ -33,7 +33,7 @@ export const PhotoboxFrame = styled.div`
   justify-content: center;
   align-items: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  margin: 4.5rem 0rem 2rem 0rem;
+  margin: 4.5rem 0rem 0rem 0rem;
 `;
 
 export const UserDetails = styled.div`
@@ -122,12 +122,16 @@ export const CommentItem = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 0.6em;
+  border: 1px solid var(--ig-divider-grey);
+  padding: 0.6em 1em;
   margin-bottom: 0.5em;
-  border-radius: 0.25em;
+  border-radius: 0.5em;
   color: var(--ig-black);
   width: 100%;
   gap: 0.6em;
+  &:nth-child(odd) {
+    background-color: var(--ig-background-default);
+  }
   & > p {
     text-align: left;
     overflow-wrap: break-word;
@@ -153,12 +157,13 @@ export const CommentItem = styled.div`
 export const CommentsInputContainer = styled.div`
   display: flex;
   align-items: flex-start;
+  justify-content: center;
   width: 100%;
   padding: 1em;
   gap: 1em;
 `;
 export const Input = styled.input`
-  width: 90%;
+  width: 100%;
   height: 30px;
   padding: 10px;
   border: none;
@@ -167,20 +172,9 @@ export const Input = styled.input`
     outline: none;
     border-bottom: 1px solid var(--ig-blue);
   }
-  background-color: var(--ig-light-grey);
   border-radius: 4px;
   color: var(--ig-black);
-`;
-
-export const StyledButton = styled.button`
-  padding: 6px 12px;
-  font-size: 0.8em;
-  background-color: var(--ig-blue);
-  color: var(--ig-white);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  align-self: flex-end;
+  background-color: var(--ig-background-default);
 `;
 
 export const Button = styled.button`

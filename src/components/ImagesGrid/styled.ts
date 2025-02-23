@@ -7,17 +7,6 @@ export const FeedWrapper = styled.div`
   overflow-x: hidden;
 `;
 
-export const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #333;
-`;
-
 export const Image = styled.img`
   max-width: 100%;
   max-height: 500px;
@@ -45,36 +34,6 @@ export const InputField = styled.input`
   border-radius: 5px;
   width: 80%;
   margin-bottom: 10px;
-`;
-
-export const SaveButton = styled.button`
-  padding: 10px 20px;
-  background-color: var(--ig-blue);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-`;
-
-export const EditButton = styled.button`
-  padding: 10px 20px;
-  background-color: var(--ig-blue);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-`;
-
-export const CancelButton = styled.button`
-  padding: 10px 20px;
-  background-color: var(--ig-light-grey);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
 `;
 
 export const Caption = styled.div`

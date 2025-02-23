@@ -20,3 +20,16 @@ export const CloseButton = styled.button`
   font-size: 1.25em;
   color: var(--ig-black);
 `;
+
+export const StyledButton = styled.button`
+  padding: 10px 20px;
+  margin: 0.5em 1em 0em 0em;
+  background-color: var(--ig-blue);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--ig-black);
+  }
+`;

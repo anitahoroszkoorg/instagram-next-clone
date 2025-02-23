@@ -53,26 +53,6 @@ export const Input = styled.input`
   margin: 10px;
 `;
 
-export const Button = styled.button`
-  width: 90%;
-  border: none;
-  height: 45px;
-  border-radius: 3px;
-  background-color: #2196f3;
-  color: white;
-  font-size: 16px;
-  font-weight: 300;
-  cursor: pointer;
-  &:hover {
-    background-color: #0d8bf2;
-  }
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const ForgotPassword = styled.a`
   font-size: 14px;
   color: #2196f3;

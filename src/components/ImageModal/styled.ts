@@ -38,25 +38,42 @@ export const ModalContent = styled.div`
   align-items: center;
 `;
 
-export const Image = styled.img`
-  max-width: 100%;
-  max-height: 500px;
-  object-fit: contain;
-  margin-bottom: 20px;
+export const Main = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  padding: 0;
 `;
 
-export const CreateWizardContainer = styled.div`
+export const MainContent = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+  width: 40%;
+  border: 1px solid red;
 `;
 
-export const CreateWizardActions = styled.div`
+export const ActionsSection = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
+  height: 10vh;
+  flex-wrap: wrap;
+  border: 1px solid green;
+`;
+
+export const MaskContainer = styled.div`
+  width: 30em;
+  height: 30em;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+  padding: 1em;
+`;
+
+export const MaskedImage = styled.img`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: auto;
 `;
 
 export const InputField = styled.input`
@@ -67,38 +84,10 @@ export const InputField = styled.input`
   margin-bottom: 10px;
 `;
 
-export const SaveButton = styled.button`
-  padding: 10px 20px;
-  background-color: var(--ig-blue);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-`;
-
-export const EditButton = styled.button`
-  padding: 10px 20px;
-  background-color: var(--ig-blue);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-`;
-
-export const CancelButton = styled.button`
-  padding: 10px 20px;
-  background-color: var(--ig-light-grey);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-`;
-
 export const Caption = styled.div`
-  margin-top: 20px;
-  font-size: 16px;
-  text-align: center;
+  display: flex;
+  width: 100%;
+  border: 1px solid red;
+  height: fit-content;
+  align-items: center;
 `;
