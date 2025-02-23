@@ -47,7 +47,6 @@ export const Main = styled.div`
 export const MainContent = styled.div`
   display: flex;
   width: 40%;
-  border: 1px solid red;
 `;
 
 export const ActionsSection = styled.div`
@@ -55,7 +54,6 @@ export const ActionsSection = styled.div`
   width: 100%;
   height: 10vh;
   flex-wrap: wrap;
-  border: 1px solid green;
 `;
 
 export const MaskContainer = styled.div`
@@ -87,7 +85,6 @@ export const InputField = styled.input`
 export const Caption = styled.div`
   display: flex;
   width: 100%;
-  border: 1px solid red;
   height: fit-content;
   align-items: center;
 `;

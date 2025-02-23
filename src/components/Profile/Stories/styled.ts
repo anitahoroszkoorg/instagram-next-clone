@@ -7,7 +7,7 @@ export const InstaStoriesContainer = styled.div`
   overflow-x: auto;
   overflow-y: hidden;
   max-height: 20vh;
-  padding: 10px 0px;
+  padding: 0.6em 0;
   justify-content: space-between;
 `;
 
@@ -20,10 +20,10 @@ export const Instastory = styled.div`
 
 export const InstastoryImg = styled.img`
   display: flex;
-  width: 60px;
-  height: 60px;
+  width: 3.75em;
+  height: 3.75em;
   border-radius: 100%;
-  margin: 0.5rem;
+  margin: 0.3em;
   object-fit: cover;
 `;
 
@@ -31,24 +31,24 @@ export const AddHighlight = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60px;
-  height: 60px;
+  width: 3.75em;
+  height: 3.75em;
   border-radius: 100%;
   background: white;
   border: 2px solid var(--ig-light-grey);
-  margin: 0.5rem 0.5rem 0rem 0.5rem;
+  margin: 0.3em 0.3em 0 0.3em;
   cursor: pointer;
   position: relative;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 24px;
+  box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
+  font-size: 1.5em;
   font-weight: bold;
   color: var(--ig-light-grey);
 
   &::after {
     content: "";
     position: absolute;
-    width: 65px;
-    height: 65px;
+    width: 4em;
+    height: 4em;
     border-radius: 100%;
     border: 2px solid var(--ig-light-grey);
   }
@@ -56,5 +56,5 @@ export const AddHighlight = styled.div`
 
 export const Label = styled.p`
   color: var(--ig-dark-grey);
-  font-size: 12px;
+  font-size: 0.75em;
 `;

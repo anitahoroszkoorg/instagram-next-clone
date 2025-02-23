@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 export const MaskContainer = styled.div`
   width: 30em;
   height: 30em;
@@ -19,12 +20,12 @@ export const PhotoDescription = styled.p`
   text-align: justify;
   text-justify: inter-word;
   font-size: 1em;
-  margin: 0.5rem;
+  margin: 0.5em;
 `;
 
 export const PhotoboxFrame = styled.div`
   background: white;
-  border-radius: 10px;
+  border-radius: 0.6em;
   max-width: 30em;
   height: 40em;
   overflow: hidden;
@@ -32,8 +33,8 @@ export const PhotoboxFrame = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  margin: 4.5rem 0rem 0rem 0rem;
+  box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.2);
+  margin: 4.5em 0 0 0;
 `;
 
 export const UserDetails = styled.div`
@@ -47,14 +48,13 @@ export const Photo = styled.img.attrs((props) => ({
   alt: props.alt || "Image",
 }))`
   width: 30em;
-  height: 30em
+  height: 30em;
   object-fit: cover;
   background: var(--ig-medium-grey);
-  object-fit: cover;
 `;
 
 export const PhotoDetails = styled.div`
-  padding: 1rem;
+  padding: 1em;
 `;
 
 export const PostTitle = styled.div`
@@ -66,10 +66,9 @@ export const PostTitle = styled.div`
 export const Header = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
   height: 1vh;
-  border: 1px solid red;
-  backgroud-color: blue;
+  background-color: blue;
 `;
 
 export const Avatar = styled.img`
@@ -122,7 +121,7 @@ export const CommentItem = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  border: 1px solid var(--ig-divider-grey);
+  border: 0.5em solid var(--ig-divider-grey);
   padding: 0.6em 1em;
   margin-bottom: 0.5em;
   border-radius: 0.5em;
@@ -162,17 +161,18 @@ export const CommentsInputContainer = styled.div`
   padding: 1em;
   gap: 1em;
 `;
+
 export const Input = styled.input`
   width: 100%;
-  height: 30px;
-  padding: 10px;
+  height: 1.8em;
+  padding: 0.6em;
   border: none;
   font-size: 0.8em;
   &:focus {
     outline: none;
     border-bottom: 1px solid var(--ig-blue);
   }
-  border-radius: 4px;
+  border-radius: 0.25em;
   color: var(--ig-black);
   background-color: var(--ig-background-default);
 `;

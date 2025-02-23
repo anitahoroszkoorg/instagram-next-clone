@@ -9,22 +9,22 @@ export const Container = styled.div`
 `;
 
 export const Card = styled.div`
-  width: 700px;
-  height: 550px;
+  width: 44em;
+  height: 34em;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: white;
-  border-radius: 3px;
-  -webkit-box-shadow: -0px 0px 33px -14px rgba(66, 68, 90, 0.61);
-  -moz-box-shadow: -0px 0px 33px -14px rgba(66, 68, 90, 0.61);
-  box-shadow: -0px 0px 33px -14px rgba(66, 68, 90, 0.61);
+  border-radius: 0.2em;
+  -webkit-box-shadow: 0em 0em 2em -1em rgba(66, 68, 90, 0.61);
+  -moz-box-shadow: 0em 0em 2em -1em rgba(66, 68, 90, 0.61);
+  box-shadow: 0em 0em 2em -1em rgba(66, 68, 90, 0.61);
 `;
 
 export const Title = styled.h1`
-  font-size: 24px;
+  font-size: 1.5em;
   font-weight: 300;
-  margin: 0px 0px 20px 0px;
-  padding: 10px;
+  margin: 0em 0em 1.25em 0em;
+  padding: 0.6em;
 `;

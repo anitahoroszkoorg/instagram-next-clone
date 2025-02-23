@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const ImgUpload = styled.img`
-  width: 250px;
-  padding: 10px;
-  margin-right: 25px;
+  width: 15.5em;
+  padding: 0.6em;
+  margin-right: 1.5em;
   object-fit: cover;
 `;
 
@@ -26,22 +26,22 @@ export const UploadBtn = styled.button.attrs<UploadBtnProps>((props) => ({
 }))`
   height: 2.2rem;
   width: ${(props) => (props.$isFileSelected ? "90%" : "40%")};
-  border-radius: 5px;
+  border-radius: 0.3em;
   justify-content: center;
   border: none;
   background-color: #4c68d7;
   color: white;
-  padding: 5px;
-  margin-left: ${(props) => (props.$isFileSelected ? "12px" : "10px")};
-  margin-top: 12px;
+  padding: 0.3em;
+  margin-left: ${(props) => (props.$isFileSelected ? "0.75em" : "0.6em")};
+  margin-top: 0.75em;
 `;
 
 export const CaptionInput = styled.textarea`
   border: 1px solid darkgrey;
-  border-radius: 5px;
+  border-radius: 0.3em;
   height: 6rem;
   resize: none;
-  margin-left: 10px;
+  margin-left: 0.6em;
 `;
 
 export const CreateWizardContainer = styled.div`

@@ -1,13 +1,13 @@
 import styled, { keyframes } from "styled-components";
 
-const commonBoxShadow = "rgba(149, 157, 165, 0.2) 0px 8px 24px";
+const commonBoxShadow = "rgba(149, 157, 165, 0.2) 0px 0.5em 1.5em";
 
 const itemAnimation = keyframes`
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(5px);
+    transform: translateX(0.3em);
   }
 `;
 
@@ -24,28 +24,28 @@ const clickItemAnimation = keyframes`
 `;
 
 export const RecentsTitle = styled.p`
-  font-size: 12px;
+  font-size: 0.75em;
   color: #616771;
-  padding: 10px;
+  padding: 0.6em;
 `;
 
 export const DateStamp = styled.p`
-  font-size: 12px;
+  font-size: 0.75em;
   color: #616771;
-  margin-left: 10px;
+  margin-left: 0.6em;
 `;
 
 export const UserAvatar = styled.img`
   border-radius: 50%;
-  height: 30px;
-  width: 30px;
-  padding: 5px;
+  height: 2em;
+  width: 2em;
+  padding: 0.3em;
   object-fit: cover;
 `;
 
 export const MessageList = styled.div`
   width: 30vw;
-  border-radius: 10px;
+  border-radius: 0.6em;
   box-shadow: ${commonBoxShadow};
   display: flex;
   flex-direction: column;
@@ -54,15 +54,15 @@ export const MessageList = styled.div`
 `;
 
 export const MessageItem = styled.div<MessageItemTextProps>`
-  margin-top: 1px;
+  margin-top: 0.06em;
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 28vw;
-  border-radius: 10px;
+  border-radius: 0.6em;
   box-shadow: ${commonBoxShadow};
-  height: 70px;
+  height: 4.4em;
   &:hover {
     animation: ${itemAnimation} 1s 1;
     cursor: pointer;
@@ -70,7 +70,7 @@ export const MessageItem = styled.div<MessageItemTextProps>`
   &:active {
     animation: ${clickItemAnimation} 1s 1;
   }
-  border: ${({ picked }) => (picked ? "1px solid lightblue" : "none")};
+  border: ${({ picked }) => (picked ? "0.06em solid lightblue" : "none")};
 `;
 
 interface MessageItemTextProps {
@@ -79,9 +79,9 @@ interface MessageItemTextProps {
 }
 
 export const MessageItemText = styled.p<MessageItemTextProps>`
-  padding: 5px;
+  padding: 0.3em;
   color: ${({ read }) => (read ? "lightgrey" : "black")};
-  margin-right: 10px;
+  margin-right: 0.6em;
 `;
 
 export const CreateMessage = styled.div`
@@ -90,20 +90,19 @@ export const CreateMessage = styled.div`
 `;
 
 const commonInputStyle = `
-  border: 1px solid darkgrey;
-  border-radius: 5px;
+  border: 0.06em solid darkgrey;
+  border-radius: 0.3em;
 `;
 
 export const InputMessage = styled.input`
   ${commonInputStyle}
   width: 65vw;
   height: 10vh;
-  padding: 5px;
+  padding: 0.3em;
   position: fixed;
   right: 3rem;
   top: 90%;
   transform: translateY(-50%);
-  right: 3rem;
 `;
 
 export const SendButton = styled.button`
@@ -118,7 +117,7 @@ export const SendButton = styled.button`
 
 export const Recents = styled.div`
   width: 30vw;
-  border-radius: 10px;
+  border-radius: 0.6em;
 `;
 
 export const Messenger = styled.div`
@@ -126,20 +125,20 @@ export const Messenger = styled.div`
   margin-top: 2rem;
   overflow-x: hidden;
   overflow-y: scroll;
-  border-radius: 10px;
+  border-radius: 0.6em;
   width: 70vw;
   display: flex;
   height: 65vh;
 `;
 
 const commonBubbleStyles = `
-color: white;
-border-radius: 20px;
-padding: 10px 10px; 
-margin: 15px 0px 10px 20px;
-word-wrap: break-word;
-display: flex;
-justify-content: center;
+  color: white;
+  border-radius: 1.25em;
+  padding: 0.6em 0.6em;
+  margin: 0.9em 0em 0.6em 1.25em;
+  word-wrap: break-word;
+  display: flex;
+  justify-content: center;
 `;
 
 export const Incoming = styled.div`
@@ -153,9 +152,9 @@ export const Incoming = styled.div`
     rgba(0, 108, 255, 1) 100%
   );
   box-shadow:
-    rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
-    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-  width: 250px;
+    rgba(0, 0, 0, 0.1) 0px 0.6em 0.9em -0.18em,
+    rgba(0, 0, 0, 0.05) 0px 0.25em 0.4em -0.12em;
+  width: 15.5em;
 `;
 
 export const Outgoing = styled.div`
@@ -164,7 +163,7 @@ export const Outgoing = styled.div`
   flex-direction: column;
   align-items: flex-end;
   background: lightgrey;
-  width: 250px;
+  width: 15.5em;
 `;
 
 export const Wrapper = styled.div`
