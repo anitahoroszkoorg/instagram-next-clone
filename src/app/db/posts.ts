@@ -62,6 +62,20 @@ export const updatePostInDb = async (
   }
 };
 
+export const getPostDetails = async (post_id: string) => {
+  try {
+    const postDetails = await prisma.post.findUnique({
+      where: {
+        post_id,
+      },
+    });
+    return postDetails;
+  } catch (error) {
+    console.error("Error finding post details", error);
+    throw new Error("Failed to find post details");
+  }
+};
+
 export const getAllPostsByFollowedUsers = async (email: string) => {
   const posts = await prisma.post.findMany({
     where: {

@@ -1,4 +1,4 @@
-import { updatePostInDb } from "@/app/db/posts";
+import { getPostDetails, updatePostInDb } from "@/app/db/posts";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(req: NextRequest) {
@@ -20,5 +20,16 @@ export async function PATCH(req: NextRequest) {
       { message: error.message || "Internal Server Error" },
       { status: 500 },
     );
+  }
+}
+
+export async function GET(
+  _: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const id = params.id;
+  if (id && typeof id === "string") {
+    const postDetails = await getPostDetails(id);
+    return NextResponse.json({ postDetails }, { status: 200 });
   }
 }
