@@ -221,7 +221,6 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
             const displayedText = isExpanded
               ? comment.comment_text
               : comment.comment_text.slice(0, 50) + (isLong ? "..." : "");
-
             return (
               <CommentItem key={comment.comment_id}>
                 <p>{comment.user.username}</p>
