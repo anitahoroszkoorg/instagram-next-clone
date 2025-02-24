@@ -1,34 +1,40 @@
 import React, { useState } from "react";
 import {
-  EditButton,
   InputField,
-  SaveButton,
-  CreateWizardActions,
-  CreateWizardContainer,
+  MainContent,
+  Main,
+  MaskContainer,
+  Caption,
+  MaskedImage,
+  ActionsSection,
 } from "./styled";
-import { Caption } from "../Image/styled";
-import { Image } from "./styled";
 import { PostDetails } from "@/shared/types/post";
 import { UserDetails } from "@/shared/types/user";
 import { fetchData } from "@/app/lib/fetchData";
 import { toast } from "react-toastify";
 import Modal from "../Modal/Modal";
+import { Username } from "../Image/styled";
+import { StyledButton } from "@/shared/styled/styled";
 
 interface ImageModalProps {
   image: PostDetails;
-  userDetails: UserDetails;
-  isProfileOwner: boolean;
+  userDetails?: UserDetails;
+  isProfileOwner?: boolean;
+  isEditable?: boolean;
   onClose: () => void;
 }
 
-const ImageModal: React.FC<ImageModalProps> = ({
+export const ImageModal: React.FC<ImageModalProps> = ({
   image,
   userDetails,
   isProfileOwner,
+  isEditable = false,
   onClose,
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedCaption, setEditedCaption] = useState(image.caption);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editedCaption, setEditedCaption] = useState<string | null>(
+    image?.caption,
+  );
 
   const handleEditClick = () => setIsEditing(true);
 
@@ -61,34 +67,54 @@ const ImageModal: React.FC<ImageModalProps> = ({
   };
 
   return (
-    <Modal openModal={!!image} closeModal={onClose} modalTitle="Image Details">
-      <Image src={image.image} alt="Selected" />
-      <CreateWizardContainer>
-        <CreateWizardActions>
-          {isEditing ? (
-            <InputField
-              value={editedCaption}
-              onChange={(e) => setEditedCaption(e.target.value)}
-              placeholder="Edit your caption"
-            />
-          ) : (
-            <Caption>
-              @{userDetails.username}: {editedCaption}
-            </Caption>
-          )}
-          {isProfileOwner &&
-            (isEditing ? (
-              <SaveButton onClick={handleSaveClick}>Save</SaveButton>
+    <Modal
+      openModal={!!image}
+      closeModal={onClose}
+      modalTitle={isEditing ? "Edit your post" : ""}
+    >
+      <Main>
+        <MaskContainer>
+          <MaskedImage src={image.image} alt="Masked" />
+        </MaskContainer>
+        <MainContent>
+          <ActionsSection>
+            {isEditable ? (
+              isEditing ? (
+                <>
+                  <InputField
+                    value={editedCaption || ""}
+                    onChange={(e) => setEditedCaption(e.target.value)}
+                    placeholder="Edit your caption"
+                  />
+                  <StyledButton onClick={handleSaveClick}>Save</StyledButton>
+                  <StyledButton onClick={() => setIsEditing(false)}>
+                    Cancel
+                  </StyledButton>
+                </>
+              ) : (
+                <>
+                  <Caption>
+                    <Username>@{userDetails?.username}: </Username>
+                    {editedCaption}
+                  </Caption>
+                  {isProfileOwner && (
+                    <>
+                      <StyledButton onClick={handleEditClick}>
+                        Edit
+                      </StyledButton>
+                      <StyledButton onClick={handleDelete}>Delete</StyledButton>
+                    </>
+                  )}
+                </>
+              )
             ) : (
               <>
-                <EditButton onClick={handleEditClick}>Edit</EditButton>
-                <EditButton onClick={handleDelete}>Delete</EditButton>
+                <Caption>{image.caption}</Caption>
               </>
-            ))}
-        </CreateWizardActions>
-      </CreateWizardContainer>
+            )}
+          </ActionsSection>
+        </MainContent>
+      </Main>
     </Modal>
   );
 };
-
-export default ImageModal;

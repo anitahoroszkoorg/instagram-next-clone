@@ -8,8 +8,8 @@ import {
   ExploreContainer,
   ContentContainer,
 } from "./styled";
-import { ExploreModal } from "./ExploreModal/ExploreModal";
 import { Photobox } from "@/shared/styled/styled";
+import { ImageModal } from "../ImageModal/ImageModal";
 
 export const Explore = () => {
   const { data, loading, error } = useFetch<{ posts: PostDetails[] }>(
@@ -39,8 +39,9 @@ export const Explore = () => {
         </ContentContainer>
       </ExploreContainer>
       {selectedImage && (
-        <ExploreModal
+        <ImageModal
           image={selectedImage}
+          isEditable={false}
           onClose={() => setSelectedImage(null)}
         />
       )}

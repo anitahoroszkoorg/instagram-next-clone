@@ -4,7 +4,7 @@ import { FeedWrapper, Photobox } from "./styled";
 import useFetch from "@/app/lib/hooks/useFetch";
 import { Post, PostDetails } from "@/shared/types/post";
 import { UserDetails } from "@/shared/types/user";
-import ImageModal from "../ImageModal/ImageModal";
+import { ImageModal } from "../ImageModal/ImageModal";
 
 interface ImageGridProps {
   id: string;
@@ -49,6 +49,7 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({
           userDetails={userDetails}
           isProfileOwner={isProfileOwner}
           onClose={() => setSelectedImage(null)}
+          isEditable={isProfileOwner}
         />
       )}
     </>
