@@ -3,7 +3,7 @@ import { Post } from "@/shared/types/post";
 import { ImageComponent } from "../Image/Image";
 import { FeedWrapper } from "./styled";
 import { ToastContainer, toast } from "react-toastify";
-import useFetch from "@/app/lib/hooks/useFetch";
+import useFetch from "@/app/hooks/useFetch";
 
 export const Feed: React.FC = () => {
   const { data, loading, error } = useFetch<Post>("/api/images");

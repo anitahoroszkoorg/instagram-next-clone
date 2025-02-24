@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import upload from "../../assets/images/upload-image-icon.png";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { fetchData } from "@/app/lib/fetchData";
+import { fetchData } from "@/app/utils/fetchData";
 import { toast } from "react-toastify";
 import { validateImage } from "@/app/utils/validateImage";
 

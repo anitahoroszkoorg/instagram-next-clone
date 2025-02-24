@@ -1,5 +1,5 @@
 "use client";
-import useFetch from "@/app/lib/hooks/useFetch";
+import useFetch from "@/app/hooks/useFetch";
 import { PostDetails } from "@/shared/types/post";
 import { useState } from "react";
 import {
@@ -10,6 +10,7 @@ import {
 } from "./styled";
 import { Photobox } from "@/shared/styled/styled";
 import { ImageModal } from "../ImageModal/ImageModal";
+import { SearchBar } from "../Searchbar/Searchbar";
 
 export const Explore = () => {
   const { data, loading, error } = useFetch<{ posts: PostDetails[] }>(
@@ -20,7 +21,9 @@ export const Explore = () => {
   return (
     <>
       <ExploreContainer>
-        <SearchContainer></SearchContainer>
+        <SearchContainer>
+          <SearchBar />
+        </SearchContainer>
         <ContentContainer>
           <FeedWrapper>
             {loading && <p>Loading...</p>}

@@ -14,10 +14,10 @@ import {
   ProfileDescription,
 } from "./styled";
 import { Stories } from "../Stories/Stories";
-import { fetchData } from "@/app/lib/fetchData";
+import { fetchData } from "@/app/utils/fetchData";
 import { UserDetails } from "@/shared/types/user";
 import ProfileEditModal from "@/components/ProfileInfoModal/ProfileInfoModal";
-import { useUser } from "@/app/lib/hooks/userContext";
+import { useUser } from "@/app/hooks/userContext";
 import { User } from "@/globals";
 
 interface ProfileInfoProps {

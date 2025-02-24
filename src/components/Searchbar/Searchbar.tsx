@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import { useQuery } from "@tanstack/react-query";
+import { debounce } from "lodash";
 import {
   StyledSearchBar,
   StyledSearchIcon,
@@ -7,31 +10,51 @@ import {
   ResultsList,
   ResultItem,
 } from "./styled";
-import { fetchData } from "@/app/lib/fetchData";
+import { fetchUsers } from "@/app/utils/fetchUsers";
 import { User } from "@/globals";
 
-export const SearchBar = () => {
+export const SearchBar: React.FC = () => {
+  const [query, setQuery] = useState<string>("");
+
+  const debouncedSetQuery = debounce((value: string) => {
+    setQuery(value);
+  }, 300);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedSetQuery(e.target.value);
+  };
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["users", query],
+    queryFn: () => fetchUsers(query),
+    enabled: !!query,
+    staleTime: 1000 * 60 * 5,
+  });
+
   return (
     <div>
       <StyledSearchBar>
         <StyledSearchIcon>
-          <SearchIcon color="secondary" />
+          <SearchIcon color="secondary" style={{ color: "grey" }} />
         </StyledSearchIcon>
         <Input
           type="text"
-          value={query}
           onChange={handleInputChange}
           placeholder="Search users"
         />
       </StyledSearchBar>
-
       {isLoading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      {results && results.length > 0 && (
+      {error && <p>{error.message}</p>}
+      {data && data.users?.length > 0 && (
         <ResultsList>
-          {results.map((user) => (
+          {data.users.map((user: User) => (
             <ResultItem key={user.user_id}>{user.username}</ResultItem>
           ))}
+        </ResultsList>
+      )}
+      {data && data.users?.length === 0 && (
+        <ResultsList>
+          <ResultItem>No users found.</ResultItem>
         </ResultsList>
       )}
     </div>

@@ -11,10 +11,10 @@ import {
   Button,
   EmptyRow,
 } from "./styled";
-import useFetch from "@/app/lib/hooks/useFetch";
+import useFetch from "@/app/hooks/useFetch";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Link from "next/link";
-import { fetchData } from "@/app/lib/fetchData";
+import { fetchData } from "@/app/utils/fetchData";
 import { toast } from "react-toastify";
 
 interface User {

@@ -10,7 +10,7 @@ import {
 } from "./styled";
 import { PostDetails } from "@/shared/types/post";
 import { UserDetails } from "@/shared/types/user";
-import { fetchData } from "@/app/lib/fetchData";
+import { fetchData } from "@/app/utils/fetchData";
 import { toast } from "react-toastify";
 import Modal from "../Modal/Modal";
 import { Username } from "../Image/styled";

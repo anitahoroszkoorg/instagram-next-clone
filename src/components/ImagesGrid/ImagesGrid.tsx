@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FeedWrapper, Photobox } from "./styled";
-import useFetch from "@/app/lib/hooks/useFetch";
+import useFetch from "@/app/hooks/useFetch";
 import { Post, PostDetails } from "@/shared/types/post";
 import { UserDetails } from "@/shared/types/user";
 import { ImageModal } from "../ImageModal/ImageModal";

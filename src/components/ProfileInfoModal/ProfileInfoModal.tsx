@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useUser } from "@/app/lib/hooks/userContext";
-import { fetchData } from "@/app/lib/fetchData";
+import { useUser } from "@/app/hooks/userContext";
+import { fetchData } from "@/app/utils/fetchData";
 import { toast } from "react-toastify";
 import Modal from "../Modal/Modal";
 import {

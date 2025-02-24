@@ -1,6 +1,6 @@
 export async function fetchData<T>(
   url: string,
-  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" = "GET",
   data?: Record<string, any> | FormData,
   headers: Record<string, string> = {},
 ): Promise<{ status: number; data: T }> {
