@@ -43,7 +43,7 @@ export const Explore = () => {
       </ExploreContainer>
       {selectedImage && (
         <ImageModal
-          image={selectedImage}
+          id={selectedImage.post_id}
           isEditable={false}
           onClose={() => setSelectedImage(null)}
         />

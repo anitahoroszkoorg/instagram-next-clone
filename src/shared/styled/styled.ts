@@ -37,3 +37,10 @@ export const StyledButton = styled.button`
     cursor: not-allowed;
   }
 `;
+
+export const Username = styled.p`
+  font-weight: bold;
+  color: var(--ig-dark-blue);
+  font-size: 1em;
+  text-decoration: none;
+`;

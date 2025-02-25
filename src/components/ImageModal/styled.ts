@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const Main = styled.div`
   display: flex;
-  justify-content: flex-start;
   padding: 0;
 `;
 
@@ -24,7 +23,7 @@ export const MaskContainer = styled.div`
   height: 30em;
   overflow: hidden;
   position: relative;
-  margin: 0;
+  margin: 1em;
   padding: 1em;
 `;
 
@@ -47,7 +46,15 @@ export const InputField = styled.input`
 
 export const Caption = styled.div`
   display: flex;
-  width: 100%;
+  width: 90%;
+  padding: 1em;
   height: fit-content;
   align-items: center;
+  margin-top: 1em;
+  border: 1px solid var(--ig-divider-grey);
+`;
+
+export const Username = styled.p`
+  font-weight: bold;
+  color: var(--ig-dark-blue)];
 `;

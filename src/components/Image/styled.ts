@@ -80,12 +80,6 @@ export const Avatar = styled.img`
   object-fit: cover;
 `;
 
-export const Username = styled.span`
-  font-weight: bold;
-  color: var(--ig-dark-blue);
-  font-size: 1em;
-`;
-
 export const Caption = styled.p`
   font-size: 1em;
   color: var(--ig-black);

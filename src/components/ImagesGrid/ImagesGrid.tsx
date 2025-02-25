@@ -45,8 +45,7 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({
       </FeedWrapper>
       {selectedImage && (
         <ImageModal
-          image={selectedImage}
-          userDetails={userDetails}
+          id={selectedImage.post_id}
           isProfileOwner={isProfileOwner}
           onClose={() => setSelectedImage(null)}
           isEditable={isProfileOwner}

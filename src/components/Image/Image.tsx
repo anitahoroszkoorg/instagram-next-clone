@@ -7,7 +7,6 @@ import {
   CommentItem,
   CommentsInputContainer,
   Avatar,
-  Username,
   Input,
   Button,
   Caption,
@@ -24,7 +23,7 @@ import { fetchData } from "@/app/utils/fetchData";
 import { useUser } from "@/app/hooks/userContext";
 import { formatDate } from "@/app/utils/formatDate";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { StyledButton } from "@/shared/styled/styled";
+import { StyledButton, Username } from "@/shared/styled/styled";
 
 interface ImageComponentProps {
   postDetails: PostDetails | null;
