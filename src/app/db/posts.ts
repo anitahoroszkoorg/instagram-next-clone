@@ -65,11 +65,25 @@ export const updatePostInDb = async (
 export const getPostDetails = async (post_id: string) => {
   try {
     const postDetails = await prisma.post.findUnique({
-      where: {
-        post_id,
+      where: { post_id },
+      include: {
+        user: { select: { username: true } },
+        likes: { include: { user: { select: { username: true } } } },
+        comments: { include: { user: { select: { username: true } } } },
       },
     });
-    return postDetails;
+    if (!postDetails) {
+      throw new Error("Post not found");
+    }
+    const formattedPost = {
+      ...postDetails,
+      image: postDetails.image
+        ? `data:image/jpeg;base64,${Buffer.from(postDetails.image).toString(
+            "base64",
+          )}`
+        : null,
+    };
+    return formattedPost;
   } catch (error) {
     console.error("Error finding post details", error);
     throw new Error("Failed to find post details");
