@@ -13,3 +13,7 @@ export const FeedWrapper = styled.div`
   overflow: auto;
   padding: 1rem;
 `;
+
+export const RefContainer = styled.div`
+  margin-top: 1em;
+`;

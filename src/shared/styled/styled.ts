@@ -32,4 +32,8 @@ export const StyledButton = styled.button`
   &:hover {
     background-color: var(--ig-black);
   }
+  &:disabled {
+    background-color: var(--ig-medium-grey);
+    cursor: not-allowed;
+  }
 `;

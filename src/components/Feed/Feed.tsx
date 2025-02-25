@@ -1,27 +1,66 @@
 "use client";
-import { Post } from "@/shared/types/post";
+import { PostDetails } from "@/shared/types/post";
 import { ImageComponent } from "../Image/Image";
-import { FeedWrapper } from "./styled";
-import { ToastContainer, toast } from "react-toastify";
-import useFetch from "@/app/hooks/useFetch";
+import { FeedWrapper, RefContainer } from "./styled";
+import { ToastContainer } from "react-toastify";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+import { StyledButton } from "@/shared/styled/styled";
+import { fetchPosts } from "@/app/utils/fetchPosts";
 
 export const Feed: React.FC = () => {
-  const { data, loading, error } = useFetch<Post>("/api/images");
+  const { ref, inView } = useInView();
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ["images"],
+    queryFn: fetchPosts,
+    staleTime: 10000,
+    initialPageParam: null,
+    getNextPageParam: (lastPage) => lastPage.nextCursor || null,
+  });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return toast.error(error.message);
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, inView, hasNextPage]);
 
   return (
     <FeedWrapper>
       <ToastContainer />
-      {!!data && data.posts.length > 0 ? (
-        data.posts.map((postDetails) => (
-          <div key={postDetails.post_id}>
-            <ImageComponent postDetails={postDetails} />
-          </div>
-        ))
+      {status === "pending" ? (
+        <p>Loading...</p>
+      ) : status === "error" ? (
+        <span>Error: {error?.message}</span>
       ) : (
-        <p>No images found</p>
+        <>
+          {data.pages.map((page) =>
+            page.posts.map((postDetails: PostDetails) => (
+              <div key={postDetails.post_id}>
+                <ImageComponent postDetails={postDetails} />
+              </div>
+            )),
+          )}
+          <RefContainer ref={ref}>
+            <StyledButton
+              onClick={() => fetchNextPage()}
+              disabled={!hasNextPage || isFetchingNextPage}
+            >
+              {isFetchingNextPage
+                ? "Loading older posts..."
+                : hasNextPage
+                  ? "Load More"
+                  : "No older posts."}
+            </StyledButton>
+          </RefContainer>
+        </>
       )}
     </FeedWrapper>
   );
