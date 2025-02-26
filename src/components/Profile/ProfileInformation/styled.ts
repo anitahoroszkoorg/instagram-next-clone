@@ -118,3 +118,12 @@ export const ProfileDescription = styled.p`
   font-weight: light;
   margin: 1.25em 0;
 `;
+export const AvatarWrapper = styled.div`
+  width: 6em;
+  height: 6em;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

@@ -8,34 +8,14 @@ export const BackDropContainer = styled.div<{ $visible: boolean }>`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 120%;
   background: var(--ig-backdrop);
   z-index: 1000;
 `;
 
-export const Photobox = styled.img`
-  margin: 0rem 1rem 1rem 1rem;
-  width: 25em;
-  height: 25em;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  border-radius: 10px;
-  display: flex;
-`;
-
 export const ModalContent = styled.div`
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  min-width: 30em;
-  min-height: 30em;
-  width: auto;
-  height: auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   position: relative;
+  transform: translateY(-6em);
   div.close-button {
     position: absolute;
     top: 10px;
@@ -44,12 +24,18 @@ export const ModalContent = styled.div`
     font-size: 20px;
     color: #000;
   }
-  z-index: 1001;
+  z-index: 1000;
+  margin: 5em 0em 6em 0em;
 `;
 
 export const ModalHeader = styled.div`
+  position: relative;
+  transform: translateY(2em);
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
+  z-index: 1000;
   flex-direction: row;
-  margin-bottom: 1em;
+  height: 1em;
 `;

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const MaskContainer = styled.div`
-  width: 30em;
-  height: 30em;
+  min-width: 25em;
+  min-height: 25em;
   overflow: hidden;
   position: relative;
 `;
@@ -27,7 +27,8 @@ export const PhotoboxFrame = styled.div`
   background: white;
   border-radius: 0.6em;
   max-width: 30em;
-  height: 40em;
+  min-height: 40em;
+  max-height: 45em;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -114,17 +115,14 @@ export const CommentsSection = styled.div`
 export const CommentItem = styled.div`
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
-  border: 0.5em solid var(--ig-divider-grey);
+  justify-content: space-around;
+  border-bottom: 2px solid var(--ig-divider-grey);
   padding: 0.6em 1em;
   margin-bottom: 0.5em;
   border-radius: 0.5em;
   color: var(--ig-black);
   width: 100%;
   gap: 0.6em;
-  &:nth-child(odd) {
-    background-color: var(--ig-background-default);
-  }
   & > p {
     text-align: left;
     overflow-wrap: break-word;
@@ -154,11 +152,12 @@ export const CommentsInputContainer = styled.div`
   width: 100%;
   padding: 1em;
   gap: 1em;
+  min-height: 5vh;
 `;
 
 export const Input = styled.input`
   width: 100%;
-  height: 1.8em;
+  height: 5vh;
   padding: 0.6em;
   border: none;
   font-size: 0.8em;

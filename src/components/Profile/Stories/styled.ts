@@ -20,8 +20,8 @@ export const Instastory = styled.div`
 
 export const InstastoryImg = styled.img`
   display: flex;
-  width: 3.75em;
-  height: 3.75em;
+  width: 2em;
+  height: 2em;
   border-radius: 100%;
   margin: 0.3em;
   object-fit: cover;
@@ -31,11 +31,11 @@ export const AddHighlight = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3.75em;
-  height: 3.75em;
+  width: 2em;
+  height: 2em;
   border-radius: 100%;
   background: white;
-  border: 2px solid var(--ig-light-grey);
+  border: 1px solid var(--ig-light-grey);
   margin: 0.3em 0.3em 0 0.3em;
   cursor: pointer;
   position: relative;
@@ -43,12 +43,11 @@ export const AddHighlight = styled.div`
   font-size: 1.5em;
   font-weight: bold;
   color: var(--ig-light-grey);
-
   &::after {
     content: "";
     position: absolute;
-    width: 4em;
-    height: 4em;
+    width: 2em;
+    height: 2em;
     border-radius: 100%;
     border: 2px solid var(--ig-light-grey);
   }
@@ -57,4 +56,5 @@ export const AddHighlight = styled.div`
 export const Label = styled.p`
   color: var(--ig-dark-grey);
   font-size: 0.75em;
+  margin: 1em 0em;
 `;
