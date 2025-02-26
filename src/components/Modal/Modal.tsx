@@ -5,7 +5,7 @@ import { BackDropContainer, ModalContent, ModalHeader } from "./styled";
 interface Props {
   openModal?: boolean;
   closeModal?: () => void;
-  modalTitle: string;
+  modalTitle?: string;
   children?: ReactNode;
 }
 
