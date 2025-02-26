@@ -1,7 +1,6 @@
+"use client";
 import React, { ReactNode } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import { BackDropContainer, ModalContent, ModalHeader } from "./styled";
-import { CloseButton } from "@/shared/styled/styled";
 
 interface Props {
   openModal?: boolean;
@@ -16,15 +15,15 @@ export const Modal: React.FC<Props> = ({
   modalTitle,
   children,
 }) => {
+  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) {
+      closeModal?.();
+    }
+  };
   return (
-    <BackDropContainer $visible={!!openModal}>
+    <BackDropContainer $visible={!!openModal} onClick={handleBackdropClick}>
       <ModalContent>
-        <ModalHeader>
-          {modalTitle}
-          <CloseButton onClick={closeModal}>
-            <CloseIcon />
-          </CloseButton>
-        </ModalHeader>
+        <ModalHeader>{modalTitle}</ModalHeader>
         {children}
       </ModalContent>
     </BackDropContainer>
