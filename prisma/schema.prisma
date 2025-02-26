@@ -36,32 +36,33 @@ model Post {
   post_id    String   @id @default(uuid()) // UUID for post ID
   user_id    String
   caption    String
-  image      Bytes?
+  image      Bytes?  // Use String? if storing URLs
   created_at DateTime @default(now())
 
   // Relations
-  user       User     @relation(fields: [user_id], references: [user_id])
-  comments   Comment[]
-  likes      Like[]
+  user        User        @relation(fields: [user_id], references: [user_id])
+  comments    Comment[]   
+  likes       Like[]
   notifications Notification[]
 
   @@map("post")
 }
 
 model Comment {
-  comment_id  String   @id @default(uuid())
-  user_id     String
-  post_id     String
+  comment_id   String   @id @default(uuid())
+  user_id      String
+  post_id      String
   comment_text String
-  created_at  DateTime @default(now())
+  created_at   DateTime @default(now())
 
   // Relations
-  user        User   @relation(fields: [user_id], references: [user_id])
-  post        Post   @relation(fields: [post_id], references: [post_id])
+  user         User   @relation(fields: [user_id], references: [user_id])
+  post         Post   @relation(fields: [post_id], references: [post_id], onDelete: Cascade) 
   notifications Notification[]
 
   @@map("comment")
 }
+
 
 model Like {
   like_id    String   @id @default(uuid())
@@ -71,7 +72,7 @@ model Like {
 
   // Relations
   user       User    @relation(fields: [user_id], references: [user_id])
-  post       Post    @relation(fields: [post_id], references: [post_id])
+  post       Post    @relation(fields: [post_id], references: [post_id], onDelete: Cascade)
   notifications Notification[]
 
   @@map("like")
