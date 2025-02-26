@@ -41,6 +41,7 @@ export const Button = styled.button`
   border-radius: 0.3em;
   border: none;
   margin: 1.25em;
+  padding: 0.5em;
 `;
 
 export const AvatarWrapper = styled.div`
