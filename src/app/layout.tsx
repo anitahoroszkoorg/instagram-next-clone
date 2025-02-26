@@ -29,7 +29,7 @@ export default function RootLayout({ children, params: { session } }: Props) {
         <SessionProvider session={session}>
           <UserProvider>
             <QueryClientProvider client={queryClient}>
-              <LayoutWithHeader>{children}</LayoutWithHeader>{" "}
+              <LayoutWithHeader>{children}</LayoutWithHeader>
             </QueryClientProvider>
           </UserProvider>
         </SessionProvider>

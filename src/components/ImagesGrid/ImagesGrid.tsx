@@ -3,19 +3,16 @@ import React, { useEffect, useState } from "react";
 import { FeedWrapper, Photobox } from "./styled";
 import useFetch from "@/app/hooks/useFetch";
 import { Post, PostDetails } from "@/shared/types/post";
-import { UserDetails } from "@/shared/types/user";
 import { ImageModal } from "../ImageModal/ImageModal";
 
 interface ImageGridProps {
   id: string;
-  userDetails: UserDetails;
   setPostsLength: (length: number) => void;
   isProfileOwner: boolean;
 }
 
 export const ImagesGrid: React.FC<ImageGridProps> = ({
   id,
-  userDetails,
   setPostsLength,
   isProfileOwner,
 }) => {
