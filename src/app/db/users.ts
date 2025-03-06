@@ -1,4 +1,4 @@
-import { NewUser, User } from "@/globals";
+import { NewUser, User } from "@/shared/types/user";
 import { prisma } from "../api/_base";
 
 export const getUsers = async (query: string) => {
@@ -65,7 +65,7 @@ export const getUserDetails = async (email: string) => {
 };
 
 export const getUserDetailsById = async (id: string) => {
-  const user = await prisma.user.findUnique({
+  return await prisma.user.findUnique({
     where: {
       user_id: id,
     },
@@ -77,7 +77,6 @@ export const getUserDetailsById = async (id: string) => {
       profile_picture: true,
     },
   });
-  return user;
 };
 
 export const getFollowedUsers = async (email: string) => {
