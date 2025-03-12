@@ -14,6 +14,7 @@ import {
 import Image from "next/image";
 import { PostDetails } from "@/shared/types/post";
 import { formatImage } from "@/app/utils/formatImage";
+import { useMutation } from "@tanstack/react-query";
 
 interface ProfileEditModalProps {
   closeModal: () => void;
@@ -48,35 +49,6 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ closeModal }) => {
     }
   };
 
-  const handleSave = async () => {
-    try {
-      const userId = user?.user_id;
-      if (!userId) return;
-
-      let profilePicture: string | undefined;
-      if (selectedFile) {
-        profilePicture = (await convertFileToBase64(selectedFile)).split(
-          ",",
-        )[1];
-      }
-
-      const updateData: Record<string, string> = { id: userId };
-      if (bio !== user?.bio) updateData.bio = bio;
-      if (profilePicture) updateData.profile_picture = profilePicture;
-
-      const response = await fetchData("/api/user/", "PATCH", updateData);
-      if (response.status !== 200) {
-        toast.error("Unable to update profile information");
-      } else {
-        toast.success("Profile updated successfully!");
-      }
-      closeModal();
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      toast.error("An error occurred while updating your profile.");
-    }
-  };
-
   const convertFileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -84,6 +56,43 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ closeModal }) => {
       reader.onload = () => resolve(reader.result as string);
       reader.onerror = (error) => reject(error);
     });
+  };
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const userId = user?.user_id;
+      if (!userId) throw new Error("User ID is missing");
+      let profilePicture: string | undefined;
+      if (selectedFile) {
+        profilePicture = (await convertFileToBase64(selectedFile)).split(
+          ",",
+        )[1];
+      }
+      const updateData: Record<string, string> = { id: userId };
+      if (bio !== user?.bio) updateData.bio = bio;
+      if (profilePicture) updateData.profile_picture = profilePicture;
+
+      if (Object.keys(updateData).length === 1) {
+        throw new Error("No changes made");
+      }
+
+      return fetchData("/api/user/", "PATCH", updateData);
+    },
+    onSuccess: () => {
+      toast.success("Profile updated successfully!");
+      closeModal();
+    },
+    onError: (error: any) => {
+      if (error.message === "No changes made") {
+        toast.info("No changes made.");
+      } else {
+        toast.error("An error occurred while updating your profile.");
+      }
+    },
+  });
+
+  const handleSave = () => {
+    mutation.mutate();
   };
 
   return (
