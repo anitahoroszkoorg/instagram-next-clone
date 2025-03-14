@@ -25,7 +25,7 @@ export const StyledButton = styled.button`
   background-color: var(--ig-blue);
   color: white;
   border: none;
-  height: 5vh;
+  height: 2em;
   min-width: fit-content;
   padding: 0.5em 1em;
   border-radius: 5px;
