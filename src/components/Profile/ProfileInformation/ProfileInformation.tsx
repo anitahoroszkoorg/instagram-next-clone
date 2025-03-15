@@ -90,6 +90,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
             width={300}
             height={300}
             priority
+            style={{ width: "100%", height: "auto" }}
           />
         </AvatarWrapper>
       </ProfilePictureContainer>

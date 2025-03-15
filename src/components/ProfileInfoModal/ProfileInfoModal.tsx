@@ -96,6 +96,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ closeModal }) => {
             priority
             src={avatar || "/avatar.jpeg"}
             alt="User Avatar"
+            style={{ width: "100%", height: "auto" }}
           />
         </AvatarWrapper>
         <>

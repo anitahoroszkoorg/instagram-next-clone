@@ -19,8 +19,10 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({
   const { data, loading, error } = useFetch<Post>(`/api/images/${id}`);
 
   useEffect(() => {
-    setPostsLength(data?.posts?.length ?? 0);
-  }, [data, setPostsLength]);
+    if (data) {
+      setPostsLength(data.posts?.length ?? 0);
+    }
+  }, [data?.posts, setPostsLength]);
 
   const [selectedImage, setSelectedImage] = useState<PostDetails | null>(null);
 
