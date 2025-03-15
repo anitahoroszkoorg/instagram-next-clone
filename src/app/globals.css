@@ -9,17 +9,27 @@
   --ig-white: #ffffff;
 
   --ig-blue: #3897f0;
-  --ig-light-grey: #b2b2b2;
-  --ig-medium-grey: #dbdbdb;
+  --ig-dark-blue: #333;
+  --ig-medium-grey: #b2b2b2;
+  --ig-light-grey: #eeeded;
   --ig-background-default: #fafafa;
-  --ig-divider-grey: #efefef;
-
+  --ig-divider-grey: #f4f4f4;
   --ig-backdrop: rgba(0, 0, 0, 0.65);
 }
 
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
+  padding: 0;
+}
+
+html,
+body {
+  background: var(--ig-background-default);
+}
+
+main {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
 }

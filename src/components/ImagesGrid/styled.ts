@@ -2,15 +2,52 @@ import styled from "styled-components";
 
 export const FeedWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 1em;
-  border-radius: 3px;
-  width: 90%;
   height: 100%;
   flex-wrap: wrap;
-  margin: 5rem 2rem 5rem 5rem;
-  overflow: auto;
-  padding: 1rem;
+  overflow-x: hidden;
+`;
+
+export const Image = styled.img`
+  max-width: 100%;
+  max-height: 30em;
+  object-fit: contain;
+  margin-bottom: 1.25em;
+`;
+
+export const CreateWizardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+
+export const CreateWizardActions = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+
+export const InputField = styled.input`
+  padding: 0.6em;
+  border: 1px solid var(--ig-divider-grey);
+  border-radius: 0.3em;
+  width: 80%;
+  margin-bottom: 0.6em;
+`;
+
+export const Caption = styled.div`
+  margin-top: 1.25em;
+  font-size: 1em;
+  text-align: center;
+`;
+
+export const Photobox = styled.img`
+  margin: 0 1em 1em 1em;
+  width: 20em;
+  height: 20em;
+  box-shadow: 0 0.25em 0.1em rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  border-radius: 0.6em;
+  display: flex;
 `;

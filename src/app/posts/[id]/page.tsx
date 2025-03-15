@@ -1,10 +1,10 @@
 import Create from "@/components/Create/Create";
-import { ImagesGrid } from "@/components/ImagesGrid/ImagesGrid";
+import { Feed } from "@/components/Feed/Feed";
 
 const Posts = () => {
   return (
     <>
-      <ImagesGrid />
+      <Feed />
       <Create />
     </>
   );

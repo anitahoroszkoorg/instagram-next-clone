@@ -1,5 +1,6 @@
 "use client";
-import { Container, Card, Title, Button } from "./styled";
+import { StyledButton } from "@/shared/styled/styled";
+import { Container, Card, Title } from "./styled";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,7 +29,7 @@ export const Page = ({ params }: { params: { id: string } }) => {
       <ToastContainer />
       <Card>
         <Title>Welcome to Instagram!</Title>
-        <Button onClick={sendConfirmation}>Confirm Signup</Button>
+        <StyledButton onClick={sendConfirmation}>Confirm Signup</StyledButton>
       </Card>
     </Container>
   );

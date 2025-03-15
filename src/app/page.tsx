@@ -1,13 +1,9 @@
 "use client";
-import { Header } from "@/components/Header/Header";
-import { AppWrapper } from "../../styled";
-
-import LoginPage from "./login/page";
-import StyledComponentsRegistry from "./registry";
 import { useSession } from "next-auth/react";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { AppWrapper } from "../../styled";
+import StyledComponentsRegistry from "./registry";
 import HomePage from "@/components/Home/page";
+import LoginPage from "./login/page";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -15,17 +11,7 @@ export default function Home() {
 
   return (
     <StyledComponentsRegistry>
-      <ToastContainer />
-      <AppWrapper>
-        {isLoggedIn ? (
-          <>
-            <Header />
-            <HomePage />
-          </>
-        ) : (
-          <LoginPage />
-        )}
-      </AppWrapper>
+      <AppWrapper>{isLoggedIn ? <HomePage /> : <LoginPage />}</AppWrapper>
     </StyledComponentsRegistry>
   );
 }

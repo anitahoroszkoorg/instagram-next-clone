@@ -6,12 +6,12 @@ export const HeaderWrapper = styled.header`
   justify-content: center;
   align-items: center;
   background-color: white;
-  height: 120px;
+  height: 4.5em;
   overflow: hidden;
   left: 0;
   right: 0;
   top: 0;
-  z-index: 1;
+  z-index: 10;
 `;
 
 export const LogoWrapper = styled.div`
@@ -19,27 +19,29 @@ export const LogoWrapper = styled.div`
   position: absolute;
   left: 1rem;
 `;
+
 export const IconsWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
 
 export const Logo = styled.img`
-  width: 100px;
-  height: 30px;
-  margin: 15px 10px 0px 0px;
+  width: 6.25em;
+  height: 2em;
+  margin: 1em 0.625em 0 0;
   overflow: hidden;
 `;
 
 export const Icon = styled.div`
-  margin: 25px;
+  margin: 1.5em;
 `;
 
 export const Button = styled.button`
   height: 2rem;
-  border-radius: 5px;
+  border-radius: 0.3em;
   border: none;
-  margin: 20px;
+  margin: 1.25em;
+  padding: 0.5em;
 `;
 
 export const AvatarWrapper = styled.div`
@@ -51,10 +53,11 @@ export const AvatarWrapper = styled.div`
 `;
 
 export const Avatar = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 3em;
+  height: 3em;
   border-radius: 50%;
-  padding: 3px;
+  padding: 1em 0em;
+  margin-top: 0.5em;
   background: linear-gradient(
     45deg,
     #fcaf45,
@@ -63,15 +66,13 @@ export const Avatar = styled.div`
     #833ab4,
     #fd1d1d
   );
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   img {
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 2.6em;
+    height: 2.6em;
     object-fit: cover;
   }
 `;

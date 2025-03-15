@@ -1,95 +1,98 @@
 import styled from "styled-components";
 
-export const Photobox = styled.img`
-  margin: 2px;
-  padding: 1rem;
-  width: 250px;
-  height: 250px;
+export const MaskContainer = styled.div`
+  min-width: 25em;
+  min-height: 25em;
+  overflow: hidden;
+  position: relative;
+`;
+
+export const MaskedImage = styled.img`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: 100%;
 `;
 
 export const PhotoDescription = styled.p`
   text-align: justify;
   text-justify: inter-word;
-  font-size: 0.8rem;
-  margin: 0.5rem;
-`;
-
-export const BackDropContainer = styled.div<{ visible: boolean }>`
-  display: ${({ visible }) => (visible ? "flex" : "none")};
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  font-size: 1em;
+  margin: 0.5em;
 `;
 
 export const PhotoboxFrame = styled.div`
   background: white;
-  border-radius: 10px;
-  width: 700px;
+  border-radius: 0.6em;
+  max-width: 30em;
+  min-height: 40em;
+  max-height: 45em;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  margin: 4rem 0rem 2rem 0rem;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.2);
+  margin: 4.5em 0 0 0;
+`;
+
+export const UserDetails = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 export const Photo = styled.img.attrs((props) => ({
   src: props.src,
   alt: props.alt || "Image",
 }))`
-  width: 100%;
-  height: 400px;
+  width: 30em;
+  height: 30em;
   object-fit: cover;
-  background: #f4f4f4;
+  background: var(--ig-medium-grey);
 `;
 
 export const PhotoDetails = styled.div`
-  padding: 1rem;
+  padding: 1em;
+`;
+
+export const PostTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 `;
 
 export const Header = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
+  height: 1vh;
+  background-color: blue;
 `;
 
 export const Avatar = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 2em;
+  height: 2em;
   border-radius: 50%;
-  background: #ccc;
-  margin-right: 0.5rem;
-`;
-
-export const Username = styled.span`
-  font-weight: bold;
-  color: #333;
+  background: var(--ig-background-default);
+  margin-right: 0.5em;
+  object-fit: cover;
 `;
 
 export const Caption = styled.p`
-  font-size: 1rem;
-  color: #555;
-  margin: 0.5rem 0;
+  font-size: 1em;
+  color: var(--ig-black);
 `;
 
-export const TagsContainer = styled.div`
-  font-size: 0.9rem;
-  color: #007aff;
-  margin-bottom: 1rem;
-`;
-
-export const LikeSection = styled.div`
+export const Section = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 1rem;
+  gap: 0.5em;
+  font-size: 0.8em;
+  width: 100%;
+  margin: 0.5em 1em 0.5em 2.5em;
 `;
 
 export const Icon = styled.div`
@@ -99,70 +102,78 @@ export const Icon = styled.div`
 `;
 
 export const CommentsSection = styled.div`
-  font-size: 0.9rem;
-  color: #999;
+  font-size: 0.8em;
+  overflow: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  flex-wrap: nowrap;
+  max-height: 10vh;
 `;
 
 export const CommentItem = styled.div`
-  background-color: #f1f1f1;
-  padding: 8px;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  font-size: 14px;
-  color: #333;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  border-bottom: 2px solid var(--ig-divider-grey);
+  padding: 0.6em 1em;
+  margin-bottom: 0.5em;
+  border-radius: 0.5em;
+  color: var(--ig-black);
+  width: 100%;
+  gap: 0.6em;
+  & > p {
+    text-align: left;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  & > p:nth-child(2) {
+    flex: 2;
+    max-width: 60%;
+  }
+  & > p:nth-child(1),
+  & > p:nth-child(3) {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  & > button {
+    flex: 0 0 auto;
+    margin-left: 0.6em;
+  }
 `;
 
 export const CommentsInputContainer = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  justify-content: center;
+  width: 100%;
+  padding: 1em;
+  gap: 1em;
+  min-height: 5vh;
 `;
 
-export const StyledButton = styled.button`
-  padding: 6px 12px;
-  font-size: 14px;
-  background-color: #007aff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  align-self: flex-end;
-  &:hover {
-    background-color: #005bb5;
-  }
-`;
 export const Input = styled.input`
-  width: 90%;
-  height: 30px;
-  padding: 10px;
+  width: 100%;
+  height: 5vh;
+  padding: 0.6em;
   border: none;
-  border-bottom: 1px solid #ccc;
-  font-size: 16px;
-  font-weight: 300;
+  font-size: 0.8em;
   &:focus {
     outline: none;
-    border-bottom: 2px solid #2196f3;
+    border-bottom: 1px solid var(--ig-blue);
   }
-  margin: 10px;
+  border-radius: 0.25em;
+  color: var(--ig-black);
+  background-color: var(--ig-background-default);
 `;
 
 export const Button = styled.button`
-  width: 10%;
-  border: none;
-  height: 45px;
-  border-radius: 3px;
-  background-color: #2196f3;
-  color: white;
-  font-size: 16px;
-  font-weight: 300;
-  cursor: pointer;
-  &:hover {
-    background-color: #0d8bf2;
-  }
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  all: unset;
+`;
+
+export const StyledForm = styled.form`
+  width: 100%;
 `;

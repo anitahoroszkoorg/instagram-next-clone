@@ -1,21 +1,21 @@
 import React, { useState, useRef } from "react";
-import {
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  UploadBtn,
-  CaptionInput,
-  ImgUpload,
-  CloseButton,
-  Input,
-  CreateWizardContainer,
-  CreateWizardActions,
-  WizardImg,
-} from "./styled";
 import upload from "../../assets/images/upload-image-icon.png";
-import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { fetchData } from "@/app/utils/fetchData";
+import { toast } from "react-toastify";
+import { validateImage } from "@/app/utils/validateImage";
+
+import {
+  CreateWizardContainer,
+  WizardImg,
+  CreateWizardActions,
+  CaptionInput,
+  UploadBtn,
+  ImgUpload,
+  Input,
+} from "./styled";
+import { Modal } from "../Modal/Modal";
 
 interface Props {
   openModal?: boolean;
@@ -24,7 +24,6 @@ interface Props {
 
 export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
   const [caption, setCaption] = useState<string>("");
   const { data: session } = useSession();
   const email = session?.user?.email;
@@ -41,10 +40,8 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     if (files && files.length > 0) {
       const file = files[0];
       setSelectedFile(file);
-      setIsFilePicked(true);
     } else {
       setSelectedFile(null);
-      setIsFilePicked(false);
     }
   };
 
@@ -61,18 +58,19 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     if (!selectedFile || !caption || !email) {
       return;
     }
+    const validationResult = await validateImage(selectedFile);
+    if (!validationResult.isValid) {
+      toast.error(validationResult.error);
+      return;
+    }
     data.append("image", selectedFile);
     data.append("caption", caption);
     if (data.has("image") && data.has("caption")) {
       try {
-        const response = await fetch("/api/upload", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: data,
-        });
-        if (response.ok) {
+        const response = await fetchData("/api/post", "POST", data);
+        if (response.status !== 200) {
+          toast.error("Unable to upload image.");
+        } else {
           close();
         }
       } catch (error) {
@@ -82,14 +80,12 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   };
 
   return (
-    <ModalOverlay style={{ display: openModal ? "flex" : "none" }}>
-      <ModalContent>
-        <ModalHeader>
-          Create a new post
-          <CloseButton>
-            <CloseIcon onClick={close} />
-          </CloseButton>
-        </ModalHeader>
+    <Modal
+      openModal={openModal}
+      closeModal={close}
+      modalTitle={"Create a new post"}
+    >
+      <div>
         <p>Upload your pictures and movies here:</p>
         {selectedFile ? (
           <CreateWizardContainer>
@@ -106,7 +102,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
                 onChange={handleCaptionChange}
                 placeholder="Add your caption"
               />
-              <UploadBtn onClick={onSubmit} $isFileSelected>
+              <UploadBtn onClick={() => onSubmit()} $isFileSelected>
                 Upload!
               </UploadBtn>
             </CreateWizardActions>
@@ -128,8 +124,8 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
             </UploadBtn>
           </>
         )}
-      </ModalContent>
-    </ModalOverlay>
+      </div>
+    </Modal>
   );
 };
 

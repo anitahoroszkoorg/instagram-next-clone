@@ -1,5 +1,19 @@
-import { NewUser } from "@/globals";
+import { NewUser, User } from "@/shared/types/user";
 import { prisma } from "../api/_base";
+
+export const getUsers = async (query: string) => {
+  return await prisma.user.findMany({
+    where: {
+      username: { contains: query, mode: "insensitive" },
+    },
+    select: {
+      user_id: true,
+      full_name: true,
+      bio: true,
+      username: true,
+    },
+  });
+};
 
 export const addUser = async (data: NewUser) => {
   const { email, password_hash, username, full_name } = data;
@@ -10,6 +24,25 @@ export const addUser = async (data: NewUser) => {
       username: username,
       full_name: full_name,
     },
+  });
+};
+
+export const editUser = async (
+  user_id: string,
+  data: Partial<Omit<User, "user_id" | "created_at">>,
+) => {
+  if (Object.keys(data).length === 0) {
+    throw new Error("No valid fields provided for update.");
+  }
+  const updateData: any = { ...data };
+  if (data.profile_picture) {
+    updateData.profile_picture = {
+      set: Buffer.from(data.profile_picture, "base64"),
+    };
+  }
+  return await prisma.user.update({
+    where: { user_id },
+    data: updateData,
   });
 };
 
@@ -29,6 +62,21 @@ export const getUserDetails = async (email: string) => {
     },
   });
   return user;
+};
+
+export const getUserDetailsById = async (id: string) => {
+  return await prisma.user.findUnique({
+    where: {
+      user_id: id,
+    },
+    select: {
+      user_id: true,
+      full_name: true,
+      bio: true,
+      username: true,
+      profile_picture: true,
+    },
+  });
 };
 
 export const getFollowedUsers = async (email: string) => {
