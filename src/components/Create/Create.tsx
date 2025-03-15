@@ -1,21 +1,24 @@
 import React, { useState, useRef } from "react";
+import {
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  UploadBtn,
+  CaptionInput,
+  ImgUpload,
+  CloseButton,
+  Input,
+  CreateWizardContainer,
+  Error,
+  ImageWrapper,
+} from "./styled";
 import upload from "../../assets/images/upload-image-icon.png";
+import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { fetchData } from "@/app/utils/fetchData";
-import { toast } from "react-toastify";
 import { validateImage } from "@/app/utils/validateImage";
-
-import {
-  CreateWizardContainer,
-  WizardImg,
-  CreateWizardActions,
-  CaptionInput,
-  UploadBtn,
-  ImgUpload,
-  Input,
-} from "./styled";
-import { Modal } from "../Modal/Modal";
+import { toast } from "react-toastify";
+import { fetchData } from "@/app/utils/fetchData";
 
 interface Props {
   openModal?: boolean;
@@ -24,6 +27,7 @@ interface Props {
 
 export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [error, setError] = useState<string>("");
   const [caption, setCaption] = useState<string>("");
   const { data: session } = useSession();
   const email = session?.user?.email;
@@ -61,6 +65,7 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
     const validationResult = await validateImage(selectedFile);
     if (!validationResult.isValid) {
       toast.error(validationResult.error);
+      validationResult.error && setError(validationResult?.error);
       return;
     }
     data.append("image", selectedFile);
@@ -80,32 +85,34 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
   };
 
   return (
-    <Modal
-      openModal={openModal}
-      closeModal={close}
-      modalTitle={"Create a new post"}
-    >
-      <div>
-        <p>Upload your pictures and movies here:</p>
+    <ModalOverlay style={{ display: openModal ? "flex" : "none" }}>
+      <ModalContent>
+        <ModalHeader>
+          Create a new post
+          <CloseButton>
+            <CloseIcon onClick={close} />
+          </CloseButton>
+        </ModalHeader>
         {selectedFile ? (
           <CreateWizardContainer>
-            <WizardImg>
+            <ImageWrapper>
               <Image
                 src={URL.createObjectURL(selectedFile)}
                 alt="selected image"
                 width={300}
                 height={300}
+                style={{ width: "100%", height: "auto" }}
+                priority
               />
-            </WizardImg>
-            <CreateWizardActions>
-              <CaptionInput
-                onChange={handleCaptionChange}
-                placeholder="Add your caption"
-              />
-              <UploadBtn onClick={() => onSubmit()} $isFileSelected>
-                Upload!
-              </UploadBtn>
-            </CreateWizardActions>
+            </ImageWrapper>
+            {error ? <Error>{error}</Error> : null}
+            <CaptionInput
+              onChange={handleCaptionChange}
+              placeholder="Add your caption"
+            />
+            <UploadBtn onClick={onSubmit} $isFileSelected>
+              Upload!
+            </UploadBtn>
           </CreateWizardContainer>
         ) : (
           <>
@@ -124,8 +131,8 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
             </UploadBtn>
           </>
         )}
-      </div>
-    </Modal>
+      </ModalContent>
+    </ModalOverlay>
   );
 };
 

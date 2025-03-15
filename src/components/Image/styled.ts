@@ -32,7 +32,6 @@ export const PhotoboxFrame = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.2);
   margin: 4.5em 0 0 0;
