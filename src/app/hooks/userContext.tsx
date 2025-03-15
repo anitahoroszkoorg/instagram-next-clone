@@ -7,8 +7,8 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { User, UserInfo } from "@/globals";
 import useFetch from "./useFetch";
+import { User, UserInfo } from "@/shared/types/user";
 
 interface UserContextType {
   user: UserInfo | null;

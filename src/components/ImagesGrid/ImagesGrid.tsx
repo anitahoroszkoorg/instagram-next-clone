@@ -20,7 +20,7 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({
 
   useEffect(() => {
     setPostsLength(data?.posts?.length ?? 0);
-  }, [data]);
+  }, [data, setPostsLength]);
 
   const [selectedImage, setSelectedImage] = useState<PostDetails | null>(null);
 
