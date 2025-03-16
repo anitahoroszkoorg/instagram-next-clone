@@ -28,6 +28,12 @@ import { fetchData } from "@/app/utils/fetchData";
 import { useUser } from "@/app/hooks/userContext";
 import { formatDate } from "@/app/utils/formatDate";
 import { StyledButton, Username } from "@/shared/styled/styled";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+const fetchPostDetails = async (postId: string) => {
+  const response = await fetchData(`/api/post/${postId}`);
+  return response.data;
+};
 
 interface ImageComponentProps {
   postDetails: PostDetails | null;
@@ -47,6 +53,7 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
   const [editedCaption, setEditedCaption] = useState<string>(
     postDetails?.caption || "",
   );
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (postDetails) {
@@ -84,34 +91,6 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
       setIsLiked(true);
       setLikes((prev) => prev + 1);
       toast.error("Unable to unlike");
-    }
-  };
-
-  const handleAddComment = async () => {
-    if (!user || !postDetails || !newComment.trim()) return;
-    const optimisticComment: Comment = {
-      comment_id: Math.random().toString(),
-      comment_text: newComment,
-      created_at: new Date().toISOString(),
-      user_id: user.user_id,
-      user: { username: user.username },
-    };
-
-    setComments((prev) => [optimisticComment, ...prev]);
-    setNewComment("");
-
-    try {
-      await fetchData("/api/comment", "POST", {
-        post_id: postDetails.post_id,
-        comment_text: newComment,
-      });
-    } catch {
-      setComments((prev) =>
-        prev.filter(
-          (comment) => comment.comment_id !== optimisticComment.comment_id,
-        ),
-      );
-      toast.error("Failed to add comment");
     }
   };
 
@@ -173,6 +152,83 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
   };
 
   if (!postDetails) return null;
+
+  const addCommentMutation = useMutation<
+    Comment,
+    Error,
+    string,
+    { previousPostDetails: PostDetails | undefined }
+  >({
+    mutationFn: async (newCommentText) => {
+      const response = await fetchData("/api/comment", "POST", {
+        post_id: postDetails?.post_id,
+        comment_text: newCommentText,
+      });
+      return response.data as Comment;
+    },
+    onMutate: (newCommentText) => {
+      const previousPostDetails = queryClient.getQueryData<PostDetails>([
+        "post",
+        postDetails?.post_id,
+      ]);
+      const optimisticComment = {
+        comment_id: Math.random().toString(),
+        comment_text: newCommentText,
+        created_at: new Date().toISOString(),
+        user_id: user?.user_id,
+        user: { username: user?.username },
+      };
+      queryClient.setQueryData(
+        ["post", postDetails?.post_id],
+        (oldData: PostDetails | undefined) => {
+          if (oldData) {
+            return {
+              ...oldData,
+              comments: [optimisticComment, ...oldData.comments],
+            };
+          }
+          return oldData;
+        },
+      );
+      return { previousPostDetails };
+    },
+    onError: (err, newCommentText, context) => {
+      if (context?.previousPostDetails) {
+        queryClient.setQueryData(
+          ["post", postDetails?.post_id],
+          context.previousPostDetails,
+        );
+      }
+      toast.error("Failed to add comment");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["post", postDetails?.post_id],
+      });
+    },
+    onSuccess: (newCommentData) => {
+      queryClient.setQueryData(
+        ["post", postDetails?.post_id],
+        (oldData: PostDetails | undefined) => {
+          if (oldData) {
+            return {
+              ...oldData,
+              comments: oldData.comments.map((comment) =>
+                comment.comment_id === newCommentData.comment_id
+                  ? newCommentData
+                  : comment,
+              ),
+            };
+          }
+          return oldData;
+        },
+      );
+    },
+  });
+
+  const handleAddComment = () => {
+    addCommentMutation.mutate(newComment);
+  };
 
   return (
     <>
@@ -268,7 +324,7 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
           />
           <StyledButton
             disabled={!newComment.trim()}
-            onClick={handleAddComment}
+            onClick={() => handleAddComment()}
           >
             Add
           </StyledButton>
