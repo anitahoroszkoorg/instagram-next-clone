@@ -42,12 +42,13 @@ export const Caption = styled.div`
   text-align: center;
 `;
 
-export const Photobox = styled.img`
-  margin: 0 1em 1em 1em;
+export const ImgWrapper = styled.div`
   width: 20em;
   height: 20em;
-  box-shadow: 0 0.25em 0.1em rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
   overflow: hidden;
-  border-radius: 0.6em;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1em 1em 1em;
 `;

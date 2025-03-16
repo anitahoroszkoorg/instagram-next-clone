@@ -17,7 +17,7 @@ export const ImageModal: React.FC<ImageModalProps> = ({ id, onClose }) => {
 
   return (
     <Modal openModal={!!id} closeModal={onClose}>
-      <ImageComponent postDetails={data.postDetails} />
+      <ImageComponent postDetails={data.postDetails} onClose={onClose} />
     </Modal>
   );
 };

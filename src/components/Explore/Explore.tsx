@@ -8,9 +8,10 @@ import {
   ExploreContainer,
   ContentContainer,
 } from "./styled";
-import { Photobox } from "@/shared/styled/styled";
 import { ImageModal } from "../ImageModal/ImageModal";
 import { SearchBar } from "../Searchbar/Searchbar";
+import { ImgWrapper } from "./styled";
+import Image from "next/image";
 
 export const Explore = () => {
   const { data, loading, error } = useFetch<{ posts: PostDetails[] }>(
@@ -30,12 +31,18 @@ export const Explore = () => {
             {error && <p>Error: {error.message}</p>}
             {!!data && data.posts.length > 0
               ? data.posts.map((image) => (
-                  <Photobox
-                    key={image.post_id}
-                    src={image.image}
-                    alt="photo"
-                    onClick={() => setSelectedImage(image)}
-                  />
+                  <ImgWrapper>
+                    <Image
+                      src={image.image}
+                      alt="Post"
+                      width={300}
+                      height={300}
+                      priority
+                      style={{ width: "100%", height: "auto" }}
+                      key={image.post_id}
+                      onClick={() => setSelectedImage(image)}
+                    />
+                  </ImgWrapper>
                 ))
               : !loading && <p>No posts available</p>}
           </FeedWrapper>

@@ -26,7 +26,8 @@ export const PhotoDescription = styled.p`
 export const PhotoboxFrame = styled.div`
   background: white;
   border-radius: 0.6em;
-  max-width: 30em;
+  max-width: 35em;
+  min-width: 35em;
   min-height: 40em;
   max-height: 45em;
   overflow: hidden;
@@ -83,6 +84,7 @@ export const Avatar = styled.img`
 export const Caption = styled.p`
   font-size: 1em;
   color: var(--ig-black);
+  margin: 0em 1em;
 `;
 
 export const Section = styled.div`
@@ -146,7 +148,7 @@ export const CommentItem = styled.div`
 
 export const CommentsInputContainer = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   width: 100%;
   padding: 1em;
@@ -160,6 +162,21 @@ export const Input = styled.input`
   padding: 0.6em;
   border: none;
   font-size: 0.8em;
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid var(--ig-blue);
+  }
+  border-radius: 0.25em;
+  color: var(--ig-black);
+  background-color: var(--ig-background-default);
+`;
+
+export const CaptionInput = styled.input`
+  width: 90%;
+  height: 5vh;
+  padding: 0.6em;
+  border: none;
+  margin: 0em 1em;
   &:focus {
     outline: none;
     border-bottom: 1px solid var(--ig-blue);

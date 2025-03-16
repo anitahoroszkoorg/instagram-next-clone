@@ -16,7 +16,7 @@ export const FeedWrapper = styled.div`
   height: 100%;
   flex-wrap: wrap;
   overflow-x: hidden;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 10vh;
 `;
 
@@ -34,4 +34,15 @@ export const SearchContainer = styled.div`
   width: 40%;
   justify-content: center;
   padding: 0em 1em;
+`;
+
+export const ImgWrapper = styled.div`
+  width: 25em;
+  height: 25em;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1em 1em 1em;
 `;

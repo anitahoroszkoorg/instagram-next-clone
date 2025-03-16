@@ -3,9 +3,10 @@ import { validateUploadPostData } from "@/app/schemas/uploadPostSchema";
 import Joi from "joi";
 import { getServerSession } from "next-auth";
 import { getUserId } from "@/app/db/users";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { deletePost } from "@/app/services/post/deletePost";
 import { getAllPublicPosts } from "@/app/services/post/getPublicPosts";
+import { updatePostInDb } from "@/app/db/posts";
 
 const formDataToObject = (formData: FormData) => {
   const obj: { [key: string]: any } = {};
@@ -95,4 +96,25 @@ export async function GET() {
       { status: 200 },
     );
   } catch (error) {}
+}
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { id, caption } = body;
+    if (!id || !caption) {
+      return NextResponse.json(
+        { message: "ID and caption are required" },
+        { status: 400 },
+      );
+    }
+    const updatedPost = await updatePostInDb(id, { caption });
+    return NextResponse.json(updatedPost, { status: 200 });
+  } catch (error: any) {
+    console.error("Error updating post:", error);
+    return NextResponse.json(
+      { message: error.message || "Internal Server Error" },
+      { status: 500 },
+    );
+  }
 }

@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FeedWrapper, Photobox } from "./styled";
+import { FeedWrapper, ImgWrapper } from "./styled";
 import useFetch from "@/app/hooks/useFetch";
 import { Post, PostDetails } from "@/shared/types/post";
 import { ImageModal } from "../ImageModal/ImageModal";
+import Image from "next/image";
 
 interface ImageGridProps {
   id: string;
@@ -33,12 +34,18 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({
         {error && <p>Error: {error.message}</p>}
         {!!data && data.posts.length > 0
           ? data.posts.map((image) => (
-              <Photobox
-                key={image.post_id}
-                src={image.image}
-                alt="photo"
-                onClick={() => setSelectedImage(image)}
-              />
+              <ImgWrapper>
+                <Image
+                  src={image.image}
+                  alt="Post"
+                  width={300}
+                  height={300}
+                  priority
+                  style={{ width: "100%", height: "auto" }}
+                  key={image.post_id}
+                  onClick={() => setSelectedImage(image)}
+                />
+              </ImgWrapper>
             ))
           : !loading && <p>No posts available</p>}
       </FeedWrapper>

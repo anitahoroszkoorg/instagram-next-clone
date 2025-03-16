@@ -68,7 +68,11 @@ export const getPostDetails = async (post_id: string) => {
       where: { post_id },
       include: {
         user: { select: { username: true } },
-        likes: { include: { user: { select: { username: true } } } },
+        likes: {
+          include: {
+            user: { select: { username: true, profile_picture: true } },
+          },
+        },
         comments: { include: { user: { select: { username: true } } } },
       },
     });
