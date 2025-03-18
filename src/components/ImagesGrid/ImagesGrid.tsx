@@ -5,6 +5,8 @@ import useFetch from "@/app/hooks/useFetch";
 import { Post, PostDetails } from "@/shared/types/post";
 import { ImageModal } from "../ImageModal/ImageModal";
 import Image from "next/image";
+import { fetchPostDetails } from "@/app/utils/fetchPosts";
+import { useQuery } from "@tanstack/react-query";
 
 interface ImageGridProps {
   id: string;
@@ -17,8 +19,11 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({
   setPostsLength,
   isProfileOwner,
 }) => {
-  const { data, loading, error } = useFetch<Post>(`/api/images/${id}`);
-
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["post"],
+    queryFn: () => fetchPostDetails(id),
+    staleTime: 1000,
+  });
   useEffect(() => {
     if (data) {
       setPostsLength(data.posts?.length ?? 0);
@@ -30,11 +35,11 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({
   return (
     <>
       <FeedWrapper>
-        {loading && <p>Loading...</p>}
+        {isLoading && <p>Loading...</p>}
         {error && <p>Error: {error.message}</p>}
         {!!data && data.posts.length > 0
-          ? data.posts.map((image) => (
-              <ImgWrapper>
+          ? data.posts.map((image: PostDetails) => (
+              <ImgWrapper key={image.post_id}>
                 <Image
                   src={image.image}
                   alt="Post"
@@ -47,7 +52,7 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({
                 />
               </ImgWrapper>
             ))
-          : !loading && <p>No posts available</p>}
+          : !isLoading && <p>No posts available</p>}
       </FeedWrapper>
       {selectedImage && (
         <ImageModal

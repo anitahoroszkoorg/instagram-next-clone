@@ -48,7 +48,10 @@ export const getFollowers = async (id: string) => {
     },
   });
   prisma.$disconnect();
-  return followers.map((f) => f.follower);
+  const uniqueFollowers = Array.from(
+    new Map(followers.map((f) => [f.follower.user_id, f.follower])).values(),
+  );
+  return uniqueFollowers;
 };
 
 export const getFollowed = async (id: string) => {
@@ -66,6 +69,9 @@ export const getFollowed = async (id: string) => {
       },
     },
   });
-  prisma.$disconnect;
-  return followed.map((f) => f.followed);
+  prisma.$disconnect();
+  const uniqueFollowed = Array.from(
+    new Map(followed.map((f) => [f.followed.user_id, f.followed])).values(),
+  );
+  return uniqueFollowed;
 };

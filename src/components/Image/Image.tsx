@@ -22,7 +22,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CheckIcon from "@mui/icons-material/Check";
 import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
 import { Like, PostDetails, Comment } from "@/shared/types/post";
 import { fetchData } from "@/app/utils/fetchData";
 import { useUser } from "@/app/hooks/userContext";
@@ -30,15 +29,10 @@ import { formatDate } from "@/app/utils/formatDate";
 import { StyledButton, Username } from "@/shared/styled/styled";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const fetchPostDetails = async (postId: string) => {
-  const response = await fetchData(`/api/post/${postId}`);
-  return response.data;
-};
-
-interface ImageComponentProps {
+type ImageComponentProps = {
   postDetails: PostDetails | null;
   onClose?: () => void;
-}
+};
 
 export const ImageComponent: React.FC<ImageComponentProps> = ({
   postDetails,
@@ -60,106 +54,58 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
       setComments(postDetails.comments);
       setLikes(postDetails.likes?.length || 0);
       if (postDetails.likes && user) {
-        const userHasLiked = postDetails.likes.some(
-          (like: Like) => like.user_id === user.user_id,
+        setIsLiked(
+          postDetails.likes.some((like: Like) => like.user_id === user.user_id),
         );
-        setIsLiked(userHasLiked);
+      }
+      if (postDetails.caption) {
+        setEditedCaption(postDetails.caption);
       }
     }
   }, [postDetails, user]);
 
-  const likePost = async () => {
-    if (!postDetails) return;
-    setIsLiked(true);
-    setLikes((prev) => prev + 1);
-    try {
-      await fetchData("/api/like", "POST", { post_id: postDetails.post_id });
-    } catch {
-      setIsLiked(false);
-      setLikes((prev) => prev - 1);
-      toast.error("Unable to like");
-    }
-  };
-
-  const unlikePost = async () => {
-    if (!postDetails) return;
-    setIsLiked(false);
-    setLikes((prev) => prev - 1);
-    try {
-      await fetchData("/api/like", "DELETE", { post_id: postDetails.post_id });
-    } catch {
+  const likeMutation = useMutation({
+    mutationFn: async () => {
+      await fetchData("/api/like", "POST", { post_id: postDetails?.post_id });
+    },
+    onMutate: () => {
       setIsLiked(true);
       setLikes((prev) => prev + 1);
-      toast.error("Unable to unlike");
-    }
-  };
-
-  const handleDeleteComment = async (id: string | undefined) => {
-    if (!id) return;
-    try {
-      await fetchData("/api/comment", "DELETE", { comment_id: id });
-      setComments((prev) =>
-        prev.filter((comment) => comment.comment_id !== id),
-      );
-    } catch {
-      toast.error("Unable to delete comment");
-    }
-  };
-
-  const handleDelete = async () => {
-    if (!postDetails?.post_id) return;
-
-    try {
-      const response = await fetchData("/api/post/", "DELETE", {
-        post_id: postDetails.post_id,
+    },
+    onError: () => {
+      setIsLiked(false);
+      setLikes((prev) => prev - 1);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["post", postDetails?.post_id],
       });
+      queryClient.invalidateQueries({ queryKey: ["images"] });
+    },
+  });
 
-      if (response.status !== 200) {
-        toast.error("Unable to delete the post. Please try again later.");
-        return;
-      }
-
-      toast.success("Post deleted successfully!");
-      if (onClose) onClose();
-    } catch (error) {
-      console.error("Failed to delete post", error);
-      toast.error("Error deleting the post.");
-    }
-  };
-
-  const handleSave = async () => {
-    if (!postDetails?.post_id) return;
-    if (editedCaption === postDetails.caption) {
-      setIsEditing(false);
-      return;
-    }
-    try {
-      const response = await fetchData("/api/post", "PATCH", {
-        id: postDetails.post_id,
-        caption: editedCaption,
+  const unlikeMutation = useMutation({
+    mutationFn: async () => {
+      await fetchData("/api/like", "DELETE", { post_id: postDetails?.post_id });
+    },
+    onMutate: () => {
+      setIsLiked(false);
+      setLikes((prev) => prev - 1);
+    },
+    onError: () => {
+      setIsLiked(true);
+      setLikes((prev) => prev + 1);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["post", postDetails?.post_id],
       });
-      if (response.status === 200) {
-        toast.success("Post updated successfully!");
-        postDetails.caption = editedCaption;
-      } else {
-        toast.error("Failed to update the post.");
-      }
-    } catch (error) {
-      console.error("Error updating post", error);
-      toast.error("Error updating the post.");
-    }
-    setIsEditing(false);
-  };
+      queryClient.invalidateQueries({ queryKey: ["images"] });
+    },
+  });
 
-  if (!postDetails) return null;
-
-  const addCommentMutation = useMutation<
-    Comment,
-    Error,
-    string,
-    { previousPostDetails: PostDetails | undefined }
-  >({
-    mutationFn: async (newCommentText) => {
+  const addCommentMutation = useMutation({
+    mutationFn: async (newCommentText: string) => {
       const response = await fetchData("/api/comment", "POST", {
         post_id: postDetails?.post_id,
         comment_text: newCommentText,
@@ -167,169 +113,164 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
       return response.data as Comment;
     },
     onMutate: (newCommentText) => {
-      const previousPostDetails = queryClient.getQueryData<PostDetails>([
-        "post",
-        postDetails?.post_id,
-      ]);
-      const optimisticComment = {
+      const optimisticComment: Comment = {
         comment_id: Math.random().toString(),
         comment_text: newCommentText,
         created_at: new Date().toISOString(),
-        user_id: user?.user_id,
-        user: { username: user?.username },
+        user_id: user?.user_id || "",
+        user: { username: user?.username || "" },
       };
-      queryClient.setQueryData(
-        ["post", postDetails?.post_id],
-        (oldData: PostDetails | undefined) => {
-          if (oldData) {
-            return {
-              ...oldData,
-              comments: [optimisticComment, ...oldData.comments],
-            };
-          }
-          return oldData;
-        },
-      );
-      return { previousPostDetails };
+      setComments((prev) => [optimisticComment, ...prev]);
     },
-    onError: (err, newCommentText, context) => {
-      if (context?.previousPostDetails) {
-        queryClient.setQueryData(
-          ["post", postDetails?.post_id],
-          context.previousPostDetails,
-        );
-      }
-      toast.error("Failed to add comment");
-    },
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["post", postDetails?.post_id],
       });
-    },
-    onSuccess: (newCommentData) => {
-      queryClient.setQueryData(
-        ["post", postDetails?.post_id],
-        (oldData: PostDetails | undefined) => {
-          if (oldData) {
-            return {
-              ...oldData,
-              comments: oldData.comments.map((comment) =>
-                comment.comment_id === newCommentData.comment_id
-                  ? newCommentData
-                  : comment,
-              ),
-            };
-          }
-          return oldData;
-        },
-      );
+      queryClient.invalidateQueries({ queryKey: ["images"] });
     },
   });
 
-  const handleAddComment = () => {
-    addCommentMutation.mutate(newComment);
-  };
+  const deleteCommentMutation = useMutation({
+    mutationFn: async (commentId: string) => {
+      await fetchData("/api/comment", "DELETE", { comment_id: commentId });
+    },
+    onMutate: (commentId) => {
+      setComments((prev) =>
+        prev.filter((comment) => comment.comment_id !== commentId),
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["post", postDetails?.post_id],
+      });
+      queryClient.invalidateQueries({ queryKey: ["images"] });
+    },
+  });
+
+  const editCaptionMutation = useMutation({
+    mutationFn: async () => {
+      await fetchData("/api/post", "PATCH", {
+        id: postDetails?.post_id,
+        caption: editedCaption,
+      });
+    },
+    onSuccess: async () => {
+      setIsEditing(false);
+      if (onClose) onClose();
+      queryClient.invalidateQueries({ queryKey: ["post"] });
+      queryClient.invalidateQueries({ queryKey: ["images"] });
+    },
+  });
+
+  const deletePostMutation = useMutation({
+    mutationFn: async () => {
+      await fetchData("/api/post", "DELETE", { post_id: postDetails?.post_id });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["post"] });
+      if (onClose) onClose();
+    },
+  });
 
   return (
-    <>
-      <ToastContainer />
-      <PhotoboxFrame>
-        <Section>
-          <Link href={`/profile/${postDetails.user_id}`}>
-            <UserDetails>
-              <Avatar src={postDetails.user.profile_image || "/avatar.jpeg"} />
-              <Username>{postDetails.user.username}</Username>
-            </UserDetails>
-          </Link>
-        </Section>
-        <MaskContainer>
-          <MaskedImage src={postDetails.image} alt="Masked" />
-        </MaskContainer>
-        <Section>
-          {isLiked ? (
-            <FavoriteIcon
-              onClick={unlikePost}
-              style={{ color: "red", cursor: "pointer" }}
-            />
-          ) : (
-            <FavoriteBorderIcon
-              onClick={likePost}
-              style={{ cursor: "pointer" }}
-            />
-          )}
-          <span>
-            {currentLikes} {currentLikes === 1 ? "like" : "likes"}
-          </span>
-          <ChatBubbleOutlineIcon style={{ color: "grey", padding: "0.1em" }} />
-          <span>{currentComments.length}</span>
-          {user?.user_id === postDetails.user_id && (
-            <>
-              <Button onClick={() => handleDelete()}>
+    <PhotoboxFrame>
+      <Section>
+        <Link href={`/profile/${postDetails?.user_id}`}>
+          <UserDetails>
+            <Avatar src={postDetails?.user?.profile_image || "/avatar.jpeg"} />
+            <Username>{postDetails?.user?.username}</Username>
+          </UserDetails>
+        </Link>
+      </Section>
+      <MaskContainer>
+        <MaskedImage src={postDetails?.image} alt="Masked" />
+      </MaskContainer>
+      <Section>
+        {isLiked ? (
+          <FavoriteIcon
+            onClick={() => unlikeMutation.mutate()}
+            style={{ color: "red", cursor: "pointer" }}
+          />
+        ) : (
+          <FavoriteBorderIcon
+            onClick={() => likeMutation.mutate()}
+            style={{ cursor: "pointer" }}
+          />
+        )}
+        <span>
+          {currentLikes} {currentLikes === 1 ? "like" : "likes"}
+        </span>
+        <ChatBubbleOutlineIcon style={{ color: "grey", padding: "0.1em" }} />
+        <span>{currentComments.length}</span>
+        {user?.user_id === postDetails?.user_id && (
+          <>
+            <Button onClick={() => deletePostMutation.mutate()}>
+              <DeleteOutlineIcon style={{ color: "grey", padding: "0.1em" }} />
+            </Button>
+            {isEditing ? (
+              <Button onClick={() => editCaptionMutation.mutate()}>
+                <CheckIcon style={{ color: "grey", padding: "0.1em" }} />
+              </Button>
+            ) : (
+              <Button onClick={() => setIsEditing(true)}>
+                <EditIcon style={{ color: "grey", padding: "0.1em" }} />
+              </Button>
+            )}
+          </>
+        )}
+      </Section>
+      <Section>
+        <Link href={`/profile/${postDetails?.user_id}`}>
+          <UserDetails>
+            <Avatar src={postDetails?.user?.profile_image || "/avatar.jpeg"} />
+            <Username>{postDetails?.user.username}</Username>
+          </UserDetails>
+        </Link>
+        {isEditing ? (
+          <CaptionInput
+            value={editedCaption}
+            onChange={(e) => setEditedCaption(e.target.value)}
+          />
+        ) : (
+          <Caption>{postDetails?.caption}</Caption>
+        )}
+      </Section>
+      <CommentsSection>
+        {currentComments.map((comment) => (
+          <CommentItem key={comment.comment_id}>
+            <Link href={`/profile/${comment.user_id}`}>
+              <Username>{comment.user.username}:</Username>
+            </Link>
+            <Caption>{comment.comment_text}</Caption>
+            <p>{formatDate(comment.created_at)}</p>
+            {comment.user_id === user?.user_id && (
+              <Button
+                onClick={() => {
+                  if (comment.comment_id) {
+                    deleteCommentMutation.mutate(comment.comment_id);
+                  }
+                }}
+              >
                 <DeleteOutlineIcon
-                  style={{ color: "grey", padding: "0.1em" }}
+                  style={{ color: "grey", padding: "0.2em" }}
                 />
               </Button>
-              {isEditing ? (
-                <Button onClick={handleSave}>
-                  <CheckIcon style={{ color: "grey", padding: "0.1em" }} />
-                </Button>
-              ) : (
-                <Button onClick={() => setIsEditing(true)}>
-                  <EditIcon style={{ color: "grey", padding: "0.1em" }} />
-                </Button>
-              )}
-            </>
-          )}
-        </Section>
-        <Section>
-          <Link href={`/profile/${postDetails.user_id}`}>
-            <UserDetails>
-              <Avatar src={postDetails.image} />
-              <Username>{postDetails.user.username}</Username>
-            </UserDetails>
-          </Link>
-          {isEditing ? (
-            <CaptionInput
-              value={editedCaption}
-              onChange={(e) => setEditedCaption(e.target.value)}
-            />
-          ) : (
-            <Caption>{postDetails.caption}</Caption>
-          )}
-        </Section>
-        <CommentsSection>
-          {currentComments.map((comment) => (
-            <CommentItem key={comment.comment_id}>
-              <Link href={`/profile/${comment.user_id}`}>
-                <Username>{comment.user.username}:</Username>
-              </Link>
-              <Caption>{comment.comment_text}</Caption>
-              <p>{formatDate(comment.created_at)}</p>
-              {comment.user_id === user?.user_id && (
-                <Button onClick={() => handleDeleteComment(comment.comment_id)}>
-                  <DeleteOutlineIcon
-                    style={{ color: "grey", padding: "0.2em" }}
-                  />
-                </Button>
-              )}
-            </CommentItem>
-          ))}
-        </CommentsSection>
-        <CommentsInputContainer>
-          <Input
-            required
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a comment..."
-          />
-          <StyledButton
-            disabled={!newComment.trim()}
-            onClick={() => handleAddComment()}
-          >
-            Add
-          </StyledButton>
-        </CommentsInputContainer>
-      </PhotoboxFrame>
-    </>
+            )}
+          </CommentItem>
+        ))}
+      </CommentsSection>
+      <CommentsInputContainer>
+        <Input
+          required
+          type="text"
+          placeholder="Add a comment..."
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+        />
+        <StyledButton onClick={() => addCommentMutation.mutate(newComment)}>
+          Post
+        </StyledButton>
+      </CommentsInputContainer>
+    </PhotoboxFrame>
   );
 };
