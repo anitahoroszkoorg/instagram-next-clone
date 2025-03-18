@@ -5,22 +5,14 @@ import { ImagesGrid } from "../ImagesGrid/ImagesGrid";
 import FollowList from "./FollowList/Followlist";
 import { useUser } from "@/app/hooks/userContext";
 import ProfileInfo from "./ProfileInformation/ProfileInformation";
-import { ProfileProvider, useProfile } from "@/app/hooks/profileContext";
+import { useProfileData } from "@/app/hooks/useProfileData";
 
 interface ProfileComponentProps {
   slug: string;
 }
 
-export const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
-  return (
-    <ProfileProvider userId={slug}>
-      <ProfileContent />
-    </ProfileProvider>
-  );
-};
-
-const ProfileContent: React.FC = () => {
-  const { profile, loading, error } = useProfile();
+const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
+  const { data: profile, isLoading, error } = useProfileData(slug.toString());
   const { user } = useUser();
 
   const [activeTab, setActiveTab] = useState<
@@ -30,13 +22,17 @@ const ProfileContent: React.FC = () => {
 
   const isProfileOwner = user?.user_id === profile?.user_id;
 
-  if (loading) return <p>Loading...</p>;
+  if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
 
   return (
     <ProfileContainer>
       <InfoContainer>
-        <ProfileInfo setActiveTab={setActiveTab} postsLength={postsLength} />
+        <ProfileInfo
+          setActiveTab={setActiveTab}
+          postsLength={postsLength}
+          isProfileOwner={isProfileOwner}
+        />
       </InfoContainer>
       <ContentContainer>
         {activeTab === "posts" ? (
@@ -57,3 +53,5 @@ const ProfileContent: React.FC = () => {
     </ProfileContainer>
   );
 };
+
+export default ProfileComponent;

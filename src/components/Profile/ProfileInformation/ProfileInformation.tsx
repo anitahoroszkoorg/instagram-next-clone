@@ -15,77 +15,91 @@ import {
   AvatarWrapper,
 } from "./styled";
 import { Stories } from "../Stories/Stories";
-import { fetchData } from "@/app/utils/fetchData";
 import ProfileEditModal from "@/components/ProfileInfoModal/ProfileInfoModal";
 import { useUser } from "@/app/hooks/userContext";
-import { useProfile } from "@/app/hooks/profileContext";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useProfileData } from "@/app/hooks/useProfileData";
+import { useFollowersData } from "@/app/hooks/useFollowersData";
+import { useFollowingData } from "@/app/hooks/useFollowingData";
+import { fetchData } from "@/app/utils/fetchData";
+import { UserInfo } from "@/shared/types/user";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface ProfileInfoProps {
   setActiveTab: (tab: "followers" | "followed" | "posts") => void;
   postsLength: number;
+  isProfileOwner: boolean;
 }
 
 export const ProfileInfo: React.FC<ProfileInfoProps> = ({
   setActiveTab,
   postsLength,
+  isProfileOwner,
 }) => {
-  const { profile, followers, following, loading, error } = useProfile();
+  const params = useParams();
+  const userId = params.slug;
+  const { data: profile, isLoading, error } = useProfileData(userId);
+  const { data: followersData } = useFollowersData(userId);
+  const { data: followingData } = useFollowingData(userId);
   const { user } = useUser();
-
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const isProfileOwner = user?.user_id === profile?.user_id;
+  const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (user && followers.length > 0) {
-      const userHasFollowed = followers.some(
-        (follower) => follower.user_id === user.user_id,
+    if (user && followersData?.data?.followers) {
+      const userHasFollowed = followersData.data?.followers.some(
+        (follower: UserInfo) => follower.user_id === user.user_id,
       );
       setIsFollowing(userHasFollowed);
+    } else {
+      setIsFollowing(false);
     }
-  }, [user, followers]);
+  }, [user, followersData]);
 
-  const followUser = async () => {
-    try {
+  const followMutation = useMutation({
+    mutationFn: async () => {
       await fetchData("/api/follow", "POST", { user_id: profile?.user_id });
       setIsFollowing(true);
-    } catch (error) {
-      console.error("Error following user:", error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["profile", userId],
+      });
+    },
+    onError: () => {
       setIsFollowing(false);
-    }
-  };
+    },
+  });
 
-  const unFollowUser = async () => {
-    try {
+  const unFollowMutation = useMutation({
+    mutationFn: async () => {
       await fetchData("/api/follow", "DELETE", { user_id: profile?.user_id });
-      setIsFollowing(false);
-    } catch (error) {
-      console.error("Error unfollowing user:", error);
       setIsFollowing(true);
-    }
-  };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["profile", userId],
+      });
+      queryClient.invalidateQueries({ queryKey: ["images"] });
+    },
+    onError: () => {
+      setIsFollowing(true);
+    },
+  });
 
-  if (loading) return <p>Loading profile...</p>;
+  if (isLoading) return <p>Loading profile...</p>;
   if (error) return <p>Error loading profile</p>;
   if (!profile) return <p>User not found</p>;
-
-  const avatarSrc =
-    profile.profile_picture && typeof profile.profile_picture === "object"
-      ? `data:image/jpeg;base64,${btoa(
-          String.fromCharCode(
-            ...new Uint8Array(Object.values(profile.profile_picture)),
-          ),
-        )}`
-      : "/avatar.jpeg";
 
   return (
     <ProfileContainer>
       <ProfilePictureContainer>
         <AvatarWrapper>
           <Image
-            src={avatarSrc}
+            src={"/avatar.jpeg"}
             alt="User Avatar"
             width={300}
             height={300}
@@ -100,10 +114,10 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
           {postsLength ?? 0} Posts
         </Stats>
         <Stats onClick={() => setActiveTab("followers")}>
-          {followers.length} Followers
+          {followersData?.data?.followers.length ?? 0} Followers
         </Stats>
         <Stats onClick={() => setActiveTab("followed")}>
-          {following.length} Following
+          {followingData?.data?.following.length ?? 0} Following
         </Stats>
       </StatsContainer>
       <ButtonsContainer>
@@ -111,7 +125,11 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
           <>
             <FollowButton
               $isfollowing={isFollowing}
-              onClick={isFollowing ? unFollowUser : followUser}
+              onClick={
+                isFollowing
+                  ? () => unFollowMutation.mutate()
+                  : () => followMutation.mutate()
+              }
             >
               {isFollowing ? "Following" : "Follow"}
             </FollowButton>
