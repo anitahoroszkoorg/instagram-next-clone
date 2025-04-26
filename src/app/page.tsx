@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { AppWrapper } from "../../styled";
 import StyledComponentsRegistry from "./registry";
 import HomePage from "@/components/Home/page";
-import LoginPage from "./login/page";
+import Landing from "@/components/Landing/Landing";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <StyledComponentsRegistry>
-      <AppWrapper>{isLoggedIn ? <HomePage /> : <LoginPage />}</AppWrapper>
+      <AppWrapper>{!isLoggedIn ? <Landing /> : <HomePage />}</AppWrapper>
     </StyledComponentsRegistry>
   );
 }
