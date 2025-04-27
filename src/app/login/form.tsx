@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import { Input, StyledForm } from "./styled";
-import { StyledButton } from "@/shared/styled/styled";
+import { LandingButton } from "@/components/Landing/styled";
 
 export default function Form() {
   const router = useRouter();
@@ -22,7 +22,7 @@ export default function Form() {
     <StyledForm onSubmit={handleSubmit}>
       <Input name="email" type="email" placeholder="Email" required />
       <Input name="password" type="password" placeholder="Password" required />
-      <StyledButton type="submit">Login</StyledButton>
+      <LandingButton type="submit">Log in</LandingButton>
     </StyledForm>
   );
 }

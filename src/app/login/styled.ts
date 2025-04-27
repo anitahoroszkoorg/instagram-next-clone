@@ -39,7 +39,7 @@ export const Title = styled.h1`
 export const Input = styled.input`
   width: 100%;
   max-width: 300px;
-  padding: 0.8empx;
+  padding: 0.8em;
   border: 1px solid white;
   border-radius: 25px;
   font-size: 1em;
