@@ -7,6 +7,7 @@ import { Header } from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import StyledComponentsRegistry from "@/lib/registry";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,11 +27,13 @@ export default function RootLayout({ children, params: { session } }: Props) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>
-          <QueryClientProvider client={queryClient}>
-            <MainLayout>{children}</MainLayout>
-          </QueryClientProvider>
-        </SessionProvider>
+        <StyledComponentsRegistry>
+          <SessionProvider session={session}>
+            <QueryClientProvider client={queryClient}>
+              <MainLayout>{children}</MainLayout>
+            </QueryClientProvider>
+          </SessionProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

@@ -4,10 +4,11 @@ import { Input, StyledForm } from "../login/styled";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { StyledButton } from "@/shared/styled/styled";
+import { LandingButton } from "@/components/Landing/styled";
 
 export default function Form() {
   const router = useRouter();
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -23,6 +24,7 @@ export default function Form() {
         full_name: formData.get("full_name"),
       }),
     });
+
     if (response.ok) {
       router.push("/verifyEmail");
     } else {
@@ -35,11 +37,16 @@ export default function Form() {
     <>
       <ToastContainer />
       <StyledForm onSubmit={handleSubmit}>
-        <Input placeholder="email" name="email" type="email" />
-        <Input name="password" type="password" placeholder="password" />
-        <Input name="username" type="text" placeholder="user name" />
-        <Input name="full_name" type="text" placeholder="full name" />
-        <StyledButton type="submit">Register</StyledButton>
+        <Input placeholder="email" name="email" type="email" required />
+        <Input
+          name="password"
+          type="password"
+          placeholder="password"
+          required
+        />
+        <Input name="username" type="text" placeholder="username" required />
+        <Input name="full_name" type="text" placeholder="full name" required />
+        <LandingButton type="submit">Register</LandingButton>
       </StyledForm>
     </>
   );

@@ -1,82 +1,86 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Wrapper = styled.div`
   display: grid;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #fafafa;
+  position: relative;
+  overflow: hidden;
 `;
 
 export const Card = styled.div`
-  width: 350px;
-  height: 550px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 3px;
-  -webkit-box-shadow: -0px 0px 33px -14px rgba(66, 68, 90, 0.61);
-  -moz-box-shadow: -0px 0px 33px -14px rgba(66, 68, 90, 0.61);
-  box-shadow: -0px 0px 33px -14px rgba(66, 68, 90, 0.61);
-`;
-
-export const CardItemsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 100%;
-  height: 100%;
+  max-width: 400px;
+  height: auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 export const Title = styled.h1`
-  font-size: 24px;
-  font-weight: 300;
-  margin: 0px 0px 20px 0px;
-  padding: 10px;
+  font-size: 1em;
+  font-weight: 400;
+  color: white;
+  padding: 0.5empx;
 `;
 
 export const Input = styled.input`
-  width: 300px;
-  height: 30px;
-  padding: 10px;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  font-size: 16px;
-  font-weight: 300;
+  width: 100%;
+  max-width: 300px;
+  padding: 0.8empx;
+  border: 1px solid white;
+  border-radius: 25px;
+  font-size: 1em;
+  margin-bottom: 1em;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  placeholder-color: white;
+  transition: all 0.3s ease;
   &:focus {
-    outline: none;
-    border-bottom: 2px solid #2196f3;
+    box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
   }
-  margin: 10px;
+  &::placeholder {
+    color: white;
+  }
 `;
 
 export const ForgotPassword = styled.a`
-  font-size: 14px;
+  font-size: 0.8em;
   color: #2196f3;
   text-decoration: none;
-  margin-top: 25px;
+  margin-top: 1em;
   &:hover {
     text-decoration: underline;
   }
 `;
 
 export const SignUp = styled.a`
-  font-size: 14px;
-  color: #999;
+  font-size: 0.8em;
+  color: white;
   text-decoration: none;
-  margin-top: 25px;
+  margin-top: 1em;
   &:hover {
     text-decoration: underline;
   }
 `;
 
 export const ErrorMessage = styled.p`
-  font-size: 10px;
+  font-size: 0.5em;
   color: red;
-  margin-top: 10px;
+  margin-top: 0.5em;
 `;
 
 export const StyledForm = styled.form`
@@ -84,4 +88,37 @@ export const StyledForm = styled.form`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+`;
+export const Background = styled.div`
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    #fcaf45,
+    #f77737,
+    #e1306c,
+    #833ab4,
+    #fd1d1d
+  );
+  background-size: 400% 400%;
+  background-position: 50% 50%;
+  z-index: 0;
+  }
+`;
+
+export const Glass = styled.div`
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 1;
+  pointer-events: none;
+`;
+export const Logo = styled.p`
+  position: relative;
+  color: white;
+  font-size: 2em;
+  text-align: center;
+  z-index: 2;
+  margin: 0em 0em 1em 0em;
 `;

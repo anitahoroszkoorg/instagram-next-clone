@@ -22,7 +22,7 @@ export const Background = styled.div`
     #833ab4,
     #fd1d1d
   );
-  background-size: 400% 400%;
+  background-size: 500% 500%;
   background-position: 50% 50%;
   z-index: 0;
 `;
@@ -66,9 +66,9 @@ export const ButtonContainer = styled.div`
 export const LandingButton = styled.button`
   position: relative;
   background: transparent;
-  border: 2px solid white;
+  border: 1px solid white;
   color: white;
-  font-size: 1.2em;
+  font-size: 1em;
   padding: 0.5em 1em;
   border-radius: 25px;
   cursor: pointer;
