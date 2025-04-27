@@ -24,10 +24,10 @@ import CheckIcon from "@mui/icons-material/Check";
 import Link from "next/link";
 import { Like, PostDetails, Comment } from "@/shared/types/post";
 import { fetchData } from "@/app/utils/fetchData";
-import { useUser } from "@/app/hooks/userContext";
 import { formatDate } from "@/app/utils/formatDate";
 import { StyledButton, Username } from "@/shared/styled/styled";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLoggedInUser } from "@/app/hooks/useLoggedInUser";
 
 type ImageComponentProps = {
   postDetails: PostDetails | null;
@@ -38,7 +38,7 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
   postDetails,
   onClose,
 }) => {
-  const { user } = useUser();
+  const { data: user } = useLoggedInUser();
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [newComment, setNewComment] = useState<string>("");
   const [currentComments, setComments] = useState<Comment[]>([]);
@@ -50,19 +50,15 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (postDetails) {
-      setComments(postDetails.comments);
-      setLikes(postDetails.likes?.length || 0);
-      if (postDetails.likes && user) {
-        setIsLiked(
-          postDetails.likes.some((like: Like) => like.user_id === user.user_id),
-        );
-      }
-      if (postDetails.caption) {
-        setEditedCaption(postDetails.caption);
-      }
-    }
-  }, [postDetails, user]);
+    if (!postDetails || !user) return;
+    setComments(postDetails.comments);
+    setLikes(postDetails.likes?.length || 0);
+    setIsLiked(
+      postDetails.likes?.some((like: Like) => like.user_id === user.user_id) ?? false
+    );
+    setEditedCaption(postDetails.caption || "");
+  }, [postDetails?.post_id, user?.user_id]);
+  
 
   const likeMutation = useMutation({
     mutationFn: async () => {

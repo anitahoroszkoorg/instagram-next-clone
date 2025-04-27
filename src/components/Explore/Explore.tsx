@@ -31,7 +31,7 @@ export const Explore = () => {
             {error && <p>Error: {error.message}</p>}
             {!!data && data.posts.length > 0
               ? data.posts.map((image) => (
-                  <ImgWrapper>
+                  <ImgWrapper key={image.post_id}>
                     <Image
                       src={image.image}
                       alt="Post"

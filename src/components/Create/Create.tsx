@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef } from "react";
 import {
   ModalOverlay,
@@ -25,7 +26,7 @@ interface Props {
   closeModal?: () => void;
 }
 
-export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
+export default function Create({ openModal, closeModal }: Props) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string>("");
   const [caption, setCaption] = useState<string>("");
@@ -134,6 +135,4 @@ export const Create: React.FC<Props> = ({ openModal, closeModal }) => {
       </ModalContent>
     </ModalOverlay>
   );
-};
-
-export default Create;
+}

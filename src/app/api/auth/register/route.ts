@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { hash } from "bcrypt";
 import { addUser } from "@/app/db/users";
-import { NewUser } from "@/globals";
 import { validateAddUserData } from "@/app/schemas/addUserSchema";
 import nodemailer from "nodemailer";
+import { NewUser } from "@/shared/types/user";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",

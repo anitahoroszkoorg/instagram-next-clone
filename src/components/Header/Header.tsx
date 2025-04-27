@@ -18,7 +18,7 @@ import Create from "../Create/Create";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "./styled";
-import { useUser } from "@/app/hooks/userContext";
+import { useLoggedInUser } from "@/app/hooks/useLoggedInUser";
 
 export const Header = () => {
   const { data: session } = useSession();
@@ -28,7 +28,7 @@ export const Header = () => {
     setOpenCreateWizard(false);
   };
 
-  const { user } = useUser();
+  const { data: user } = useLoggedInUser();
 
   return !isLoggedIn ? (
     <></>

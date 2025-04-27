@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const Page = ({ params }: { params: { id: string } }) => {
+export default function Page({ params }: { params: { id: string } }) {
   const router = useRouter();
   const sendConfirmation = async () => {
     const response = await fetch("/api/auth/confirmRegistration", {
@@ -33,6 +33,4 @@ export const Page = ({ params }: { params: { id: string } }) => {
       </Card>
     </Container>
   );
-};
-
-export default Page;
+}

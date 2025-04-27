@@ -1,12 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FeedWrapper, ImgWrapper } from "./styled";
-import useFetch from "@/app/hooks/useFetch";
-import { Post, PostDetails } from "@/shared/types/post";
 import { ImageModal } from "../ImageModal/ImageModal";
 import Image from "next/image";
 import { fetchPostDetails } from "@/app/utils/fetchPosts";
 import { useQuery } from "@tanstack/react-query";
+import { PostDetails } from "@/shared/types/post";
 
 interface ImageGridProps {
   id: string;
@@ -20,7 +19,7 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({
   isProfileOwner,
 }) => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ["post"],
+    queryKey: ["post", id],
     queryFn: () => fetchPostDetails(id),
     staleTime: 1000,
   });
@@ -40,22 +39,26 @@ export const ImagesGrid: React.FC<ImageGridProps> = ({
         {!!data && data.posts.length > 0
           ? data.posts.map((image: PostDetails) => (
               <ImgWrapper key={image.post_id}>
-                <Image
-                  src={image.image}
-                  alt="Post"
-                  width={300}
-                  height={300}
-                  priority
-                  style={{ width: "100%", height: "auto" }}
-                  key={image.post_id}
-                  onClick={() => setSelectedImage(image)}
-                />
+                {image.image ? (
+                  <Image
+                    src={image.image}
+                    alt="Post"
+                    width={300}
+                    height={300}
+                    priority
+                    style={{ width: "100%", height: "auto" }}
+                    onClick={() => setSelectedImage(image)}
+                  />
+                ) : (
+                  <p>Image cannot be viewed.</p>
+                )}
               </ImgWrapper>
             ))
           : !isLoading && <p>No posts available</p>}
       </FeedWrapper>
       {selectedImage && (
         <ImageModal
+          key={selectedImage.post_id}
           id={selectedImage.post_id}
           isProfileOwner={isProfileOwner}
           onClose={() => setSelectedImage(null)}

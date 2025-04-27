@@ -22,10 +22,12 @@ export default function LandingPage() {
   const backgroundRef = useRef<any>(null);
   const glassRef = useRef<any>(null);
   const router = useRouter();
+
   useEffect(() => {
     const text = textRef.current;
     const background = backgroundRef.current;
     const glass = glassRef.current;
+
     if (!text || !background || !glass) return;
 
     const bgTimeline = gsap.timeline({
@@ -36,11 +38,11 @@ export default function LandingPage() {
     bgTimeline
       .to(background, {
         backgroundPosition: "100% 50%",
-        duration: 20,
+        duration: 5,
       })
       .to(background, {
         backgroundPosition: "0% 50%",
-        duration: 20,
+        duration: 5,
       });
 
     const glassTimeline = gsap.timeline({
@@ -60,8 +62,24 @@ export default function LandingPage() {
         duration: 8,
       });
 
+    const lettersEl = text.querySelectorAll("span");
+
+    gsap.fromTo(
+      lettersEl,
+      { opacity: 0, x: -20 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 0.5,
+        ease: "power3.out",
+        stagger: 0.2,
+        onComplete: () => {
+          handleMouseFollow();
+        },
+      },
+    );
+
     const handleMouseMove = (e: MouseEvent) => {
-      const { innerWidth, innerHeight } = window;
       const rect = text.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
@@ -80,16 +98,6 @@ export default function LandingPage() {
         duration: 0.5,
         ease: "power3.out",
       });
-
-      const moveX = (e.clientX / innerWidth - 0.5) * 20;
-      const moveY = (e.clientY / innerHeight - 0.5) * 20;
-
-      gsap.to(background, {
-        backgroundPositionX: `calc(50% + ${moveX}px)`,
-        backgroundPositionY: `calc(50% + ${moveY}px)`,
-        duration: 1.5,
-        ease: "power3.out",
-      });
     };
 
     const handleMouseLeave = () => {
@@ -101,22 +109,16 @@ export default function LandingPage() {
         duration: 0.7,
         ease: "power3.out",
       });
-
-      gsap.to(background, {
-        backgroundPosition: "50% 50%",
-        duration: 1.5,
-        ease: "power3.out",
-      });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", handleMouseLeave);
+    const handleMouseFollow = () => {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseleave", handleMouseLeave);
+    };
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseleave", handleMouseLeave);
-      bgTimeline.kill();
-      glassTimeline.kill();
     };
   }, []);
 
@@ -125,7 +127,9 @@ export default function LandingPage() {
       <Background ref={backgroundRef} />
       <Glass ref={glassRef} />
       <Logo className={hotel.className} ref={textRef}>
-        Instagram
+        {"Instagram".split("").map((letter, index) => (
+          <span key={index}>{letter}</span>
+        ))}
       </Logo>
       <ButtonContainer>
         <LandingButton>Demo mode</LandingButton>

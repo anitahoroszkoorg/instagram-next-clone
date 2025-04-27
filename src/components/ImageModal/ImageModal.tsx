@@ -1,7 +1,7 @@
 import Modal from "../Modal/Modal";
 import { ImageComponent } from "../Image/Image";
 import { useQuery } from "@tanstack/react-query";
-import Error from "@/app/error";
+import { useEffect } from "react";
 
 interface ImageModalProps {
   id: string;
@@ -11,14 +11,24 @@ interface ImageModalProps {
 }
 
 export const ImageModal: React.FC<ImageModalProps> = ({ id, onClose }) => {
-  const { data, error } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ["postDetails", id],
-    queryFn: () => fetch(`/api/post/${id}`).then((res) => res.json()),
+    queryFn: () =>
+      id
+        ? fetch(`/api/post/${id}`).then((res) => res.json())
+        : Promise.resolve(null),
+    enabled: !!id,
   });
 
-  if (!data || !data.postDetails) return null;
+  useEffect(() => {
+    if (!data?.postDetails && !isLoading) {
+      onClose();
+    }
+  }, [data, isLoading, onClose]);
 
-  if (error) return <Error error={error} />;
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading image</p>;
+  if (!data?.postDetails) return null;
 
   return (
     <Modal openModal={!!id} closeModal={onClose}>
