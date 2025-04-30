@@ -10,7 +10,8 @@ import {
   LandingButton,
   ButtonContainer,
 } from "./styled";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const hotel = Grand_Hotel({
   weight: "400",
@@ -18,11 +19,14 @@ const hotel = Grand_Hotel({
 });
 
 export default function LandingPage() {
+  const { data: session } = useSession();
   const textRef = useRef<any>(null);
   const backgroundRef = useRef<any>(null);
   const glassRef = useRef<any>(null);
   const router = useRouter();
-
+  if (session?.user) {
+    redirect("/");
+  }
   useEffect(() => {
     const text = textRef.current;
     const background = backgroundRef.current;

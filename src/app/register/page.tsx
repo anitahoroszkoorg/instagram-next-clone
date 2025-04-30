@@ -4,7 +4,10 @@ import { gsap } from "gsap";
 import { Card, SignUp, Title, Logo } from "../login/styled";
 import { Background, Wrapper } from "@/components/Landing/styled";
 import { Grand_Hotel } from "next/font/google";
+import { useSession } from "next-auth/react";
+
 import Form from "./form";
+import { redirect } from "next/navigation";
 
 const hotel = Grand_Hotel({
   weight: "400",
@@ -12,6 +15,10 @@ const hotel = Grand_Hotel({
 });
 
 const Register = () => {
+  const { data: session } = useSession();
+  if (session?.user) {
+    redirect("/");
+  }
   const backgroundRef = useRef<any>(null);
 
   useEffect(() => {
@@ -35,6 +42,8 @@ const Register = () => {
         duration: 5,
       });
   }, []);
+
+  if (session?.user) return null;
 
   return (
     <>
