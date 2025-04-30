@@ -51,6 +51,8 @@ export const Username = styled.div`
 
 export const FollowButton = styled.button<{ $following: boolean }>`
   height: 2em;
+  width: content-fit;
+  padding: 0.5em;
   border: none;
   background-color: ${(props) =>
     props.$following ? "var( --ig-light-grey)" : "var(--ig-blue)"};

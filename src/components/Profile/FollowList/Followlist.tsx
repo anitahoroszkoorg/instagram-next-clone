@@ -113,7 +113,7 @@ const FollowList: React.FC<FollowListProps> = ({
               {activeTab === "followers" && isProfileOwner && (
                 <Button onClick={() => handleDeleteFollower(user.user_id)}>
                   <DeleteOutlineIcon
-                    style={{ color: "grey", padding: "0.2em" }}
+                    style={{ color: "grey", margin: "0.3em 0.5em 0.3em 0.8em" }}
                   />
                 </Button>
               )}
