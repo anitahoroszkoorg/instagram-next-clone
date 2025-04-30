@@ -159,7 +159,6 @@ export const getPostsByUserId = async (id: string) => {
         ? `data:image/jpeg;base64,${Buffer.from(post.image).toString("base64")}`
         : null,
   }));
-
   return formattedPosts;
 };
 
