@@ -1,5 +1,39 @@
 import styled from "styled-components";
 
+const Skeleton = styled.div`
+  background-color: var(--ig-dark-grey);
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+  @keyframes pulse {
+    0% {
+      background-color: #e0e0e0;
+    }
+    50% {
+      background-color: #f0f0f0;
+    }
+    100% {
+      background-color: #e0e0e0;
+    }
+  }
+`;
+
+export const SkeletonAvatar = styled(Skeleton)`
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+`;
+
+export const SkeletonText = styled(Skeleton)`
+  width: 95%;
+  height: 1em;
+  margin: 0.25em 0;
+`;
+
+export const SkeletonImage = styled(Skeleton)`
+  width: 100%;
+  height: 25em;
+`;
+
 export const MaskContainer = styled.div`
   min-width: 25em;
   min-height: 25em;
