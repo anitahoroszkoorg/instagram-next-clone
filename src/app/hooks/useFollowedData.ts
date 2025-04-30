@@ -4,19 +4,19 @@ import { User } from "@/shared/types/user";
 
 interface FollowersResponse {
   message: string;
-  followers: User[];
+  followed: User[];
 }
 
-export const useFollowersData = (userId: string | undefined | string[]) => {
+export const useFollowedData = (userId: string | undefined | string[]) => {
   return useQuery({
-    queryKey: ["followers", userId],
+    queryKey: ["followed", userId],
     queryFn: async () => {
       if (!userId) return [];
       const { data } = await fetchData<FollowersResponse>(
-        `/api/followers/${userId}`,
+        `/api/followed/${userId}`,
         "GET",
       );
-      return data.followers;
+      return data.followed;
     },
     enabled: !!userId,
     staleTime: 1000 * 60 * 5,

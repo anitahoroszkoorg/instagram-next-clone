@@ -1,6 +1,7 @@
 import { UserInfo } from "@/shared/types/user";
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "../utils/fetchData";
+import { useSession } from "next-auth/react";
 
 interface ProfileDataResponse {
   userDetails: UserInfo;
@@ -8,12 +9,16 @@ interface ProfileDataResponse {
 }
 
 export const useLoggedInUser = () => {
+  const { data: session } = useSession();
+
   return useQuery({
-    queryKey: ["loggedIn"],
+    queryKey: ["loggedIn", session?.user?.email],
     queryFn: async () => {
       const { data } = await fetchData<ProfileDataResponse>(`/api/user/`);
       return data.userDetails;
     },
-    staleTime: 1000 * 60 * 5,
+    enabled: !!session,
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 };

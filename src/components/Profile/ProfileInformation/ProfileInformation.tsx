@@ -17,40 +17,53 @@ import {
 import { Stories } from "../Stories/Stories";
 import { fetchData } from "@/app/utils/fetchData";
 import ProfileEditModal from "@/components/ProfileInfoModal/ProfileInfoModal";
-import { useUser } from "@/app/hooks/userContext";
-import { useProfile } from "@/app/hooks/profileContext";
 import Image from "next/image";
+import { useLoggedInUser } from "@/app/hooks/useLoggedInUser";
+import { useProfileData } from "@/app/hooks/useProfileData";
+import { useFollowersData } from "@/app/hooks/useFollowersData";
+import { useFollowedData } from "@/app/hooks/useFollowedData";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ProfileInfoProps {
   setActiveTab: (tab: "followers" | "followed" | "posts") => void;
   postsLength: number;
+  slug: string;
+  isProfileOwner: boolean;
 }
 
 export const ProfileInfo: React.FC<ProfileInfoProps> = ({
   setActiveTab,
   postsLength,
+  slug,
+  isProfileOwner,
 }) => {
-  const { profile, followers, following, loading, error } = useProfile();
-  const { user } = useUser();
-
+  const { data: profile, isLoading, error } = useProfileData(slug);
+  const { data: followers } = useFollowersData(slug);
+  const { data: followed } = useFollowedData(slug);
+  const { data: user } = useLoggedInUser();
+  const followerCount = Array.isArray(followers) ? followers.length : 0;
+  const followedCount = Array.isArray(followed) ? followed.length : 0;
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
-  const isProfileOwner = user?.user_id === profile?.user_id;
+  const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (user && followers.length > 0) {
-      const userHasFollowed = followers.some(
-        (follower) => follower.user_id === user.user_id,
-      );
-      setIsFollowing(userHasFollowed);
-    }
+    const isFollowed = !!(
+      user &&
+      Array.isArray(followers) &&
+      followers.some((follower) => follower.user_id === user.user_id)
+    );
+    setIsFollowing(isFollowed);
   }, [user, followers]);
 
   const followUser = async () => {
     try {
       await fetchData("/api/follow", "POST", { user_id: profile?.user_id });
       setIsFollowing(true);
+
+      queryClient.setQueryData(["followers", slug], (old: any) =>
+        Array.isArray(old) ? [...old, { user_id: user?.user_id }] : old,
+      );
     } catch (error) {
       console.error("Error following user:", error);
       setIsFollowing(false);
@@ -61,13 +74,18 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
     try {
       await fetchData("/api/follow", "DELETE", { user_id: profile?.user_id });
       setIsFollowing(false);
+      queryClient.setQueryData(["followers", slug], (old: any) =>
+        Array.isArray(old)
+          ? old.filter((follower) => follower.user_id !== user?.user_id)
+          : old,
+      );
     } catch (error) {
       console.error("Error unfollowing user:", error);
       setIsFollowing(true);
     }
   };
 
-  if (loading) return <p>Loading profile...</p>;
+  if (isLoading) return <p>Loading profile...</p>;
   if (error) return <p>Error loading profile</p>;
   if (!profile) return <p>User not found</p>;
 
@@ -100,10 +118,10 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
           {postsLength ?? 0} Posts
         </Stats>
         <Stats onClick={() => setActiveTab("followers")}>
-          {followers.length} Followers
+          {followerCount} Followers
         </Stats>
         <Stats onClick={() => setActiveTab("followed")}>
-          {following.length} Following
+          {followedCount} Following
         </Stats>
       </StatsContainer>
       <ButtonsContainer>
