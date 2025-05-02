@@ -54,7 +54,7 @@ export default function LoginPage() {
           ))}
         </Logo>
         <Form />
-        <SignUp href="/register">Don't have an account? Sign up</SignUp>
+        <SignUp href="/register">Don&apos;t have an account? Sign up</SignUp>
       </Card>
     </Wrapper>
   );

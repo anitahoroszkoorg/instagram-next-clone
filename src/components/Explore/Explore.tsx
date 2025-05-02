@@ -1,5 +1,4 @@
 "use client";
-import useFetch from "@/app/hooks/useFetch";
 import { PostDetails } from "@/shared/types/post";
 import { useState } from "react";
 import {
@@ -7,19 +6,32 @@ import {
   SearchContainer,
   ExploreContainer,
   ContentContainer,
+  ImgWrapper,
 } from "./styled";
 import { ImageModal } from "../ImageModal/ImageModal";
 import { SearchBar } from "../Searchbar/Searchbar";
-import { ImgWrapper } from "./styled";
 import Image from "next/image";
+import { fetchAllPublicPosts } from "@/app/utils/fetchPosts";
+import { useQuery } from "@tanstack/react-query";
+import ErrorPage from "../ErrorPage.ts/ErrorPage";
+import { Skeleton } from "../ImagesGrid/styled";
+import { useSession } from "next-auth/react";
 
 export const Explore = () => {
-  const { data, loading, error } = useFetch<{ posts: PostDetails[] }>(
-    "/api/post",
-  );
+  const { data: session } = useSession();
+  const isLoggedIn = session?.user;
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["post"],
+    queryFn: () => fetchAllPublicPosts(),
+    staleTime: 1000,
+  });
+
   const [selectedImage, setSelectedImage] = useState<PostDetails | null>(null);
 
-  return (
+  if (error) return <ErrorPage />;
+  return !isLoggedIn ? (
+    <></>
+  ) : (
     <>
       <ExploreContainer>
         <SearchContainer>
@@ -27,10 +39,15 @@ export const Explore = () => {
         </SearchContainer>
         <ContentContainer>
           <FeedWrapper>
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error.message}</p>}
+            {isLoading && (
+              <>
+                {[...Array(4)].map((_, index) => (
+                  <Skeleton key={index} data-testid="skeleton" />
+                ))}
+              </>
+            )}
             {!!data && data.posts.length > 0
-              ? data.posts.map((image) => (
+              ? data.posts.map((image: PostDetails) => (
                   <ImgWrapper key={image.post_id}>
                     <Image
                       src={image.image}
@@ -39,19 +56,17 @@ export const Explore = () => {
                       height={300}
                       priority
                       style={{ width: "100%", height: "auto" }}
-                      key={image.post_id}
                       onClick={() => setSelectedImage(image)}
                     />
                   </ImgWrapper>
                 ))
-              : !loading && <p>No posts available</p>}
+              : !isLoading && <p>No posts available</p>}
           </FeedWrapper>
         </ContentContainer>
       </ExploreContainer>
       {selectedImage && (
         <ImageModal
-          id={selectedImage.post_id}
-          isEditable={false}
+          postId={selectedImage.post_id}
           onClose={() => setSelectedImage(null)}
         />
       )}

@@ -1,12 +1,4 @@
-"use client";
-import { useSession } from "next-auth/react";
-import { AppWrapper } from "../../styled";
-import HomePage from "@/components/Home/page";
-import Landing from "@/components/Landing/Landing";
-
-export default function Home() {
-  const { data: session } = useSession();
-  const isLoggedIn = session?.user;
-
-  return <AppWrapper>{!isLoggedIn ? <Landing /> : <HomePage />}</AppWrapper>;
+import ClientHomePageWrapper from "@/components/ClientHomeWrapper/ClientHomePageWrapper";
+export default async function Page() {
+  return <ClientHomePageWrapper />;
 }

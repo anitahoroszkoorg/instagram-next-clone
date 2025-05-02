@@ -19,3 +19,21 @@ export const fetchPostDetails = async (id: string) => {
   }
   return response.json();
 };
+
+export const fetchUsersPosts = async (id: string) => {
+  const url = `/api/images/${id}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Failed to fetch posts");
+  }
+  return response.json();
+};
+
+export const fetchAllPublicPosts = async () => {
+  const url = `/api/post/`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Failed to fetch posts");
+  }
+  return response.json();
+};

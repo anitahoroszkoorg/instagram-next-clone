@@ -1,7 +1,7 @@
 import Create from "@/components/Create/Create";
 import { Feed } from "@/components/Feed/Feed";
 
-export function Posts() {
+export default function Posts() {
   return (
     <>
       <Feed />
@@ -9,5 +9,3 @@ export function Posts() {
     </>
   );
 }
-
-export default Posts;

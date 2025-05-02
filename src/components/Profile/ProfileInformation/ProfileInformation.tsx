@@ -23,6 +23,8 @@ import { useProfileData } from "@/app/hooks/useProfileData";
 import { useFollowersData } from "@/app/hooks/useFollowersData";
 import { useFollowedData } from "@/app/hooks/useFollowedData";
 import { useQueryClient } from "@tanstack/react-query";
+import ErrorPage from "@/components/ErrorPage.ts/ErrorPage";
+import Spinner from "@/components/Loader/Loader";
 
 interface ProfileInfoProps {
   setActiveTab: (tab: "followers" | "followed" | "posts") => void;
@@ -85,9 +87,9 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
     }
   };
 
-  if (isLoading) return <p>Loading profile...</p>;
-  if (error) return <p>Error loading profile</p>;
-  if (!profile) return <p>User not found</p>;
+  if (isLoading) return <Spinner />;
+  if (error) return <ErrorPage />;
+  if (!profile) return;
 
   const avatarSrc =
     profile.profile_picture && typeof profile.profile_picture === "object"

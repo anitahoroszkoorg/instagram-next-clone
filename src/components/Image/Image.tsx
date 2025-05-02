@@ -1,37 +1,44 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   PhotoboxFrame,
   Section,
   CommentsSection,
   CommentItem,
   CommentsInputContainer,
-  Avatar,
   Input,
   Button,
   Caption,
   MaskedImage,
   MaskContainer,
-  UserDetails,
   CaptionInput,
   SkeletonAvatar,
   SkeletonText,
   SkeletonImage,
 } from "./styled";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import CheckIcon from "@mui/icons-material/Check";
+import {
+  FavoriteBorder as FavoriteBorderIcon,
+  Favorite as FavoriteIcon,
+  ChatBubbleOutline as ChatBubbleOutlineIcon,
+  Edit as EditIcon,
+  DeleteOutline as DeleteOutlineIcon,
+  Check as CheckIcon,
+} from "@mui/icons-material";
 import Link from "next/link";
-import { Like, PostDetails, Comment } from "@/shared/types/post";
-import { fetchData } from "@/app/utils/fetchData";
-import { formatDate } from "@/app/utils/formatDate";
-import { StyledButton, Username } from "@/shared/styled/styled";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLoggedInUser } from "@/app/hooks/useLoggedInUser";
 import { fetchPostDetails } from "@/app/utils/fetchPosts";
+import { fetchData } from "@/app/utils/fetchData";
+import { formatDate } from "@/app/utils/formatDate";
+import { StyledButton, Username } from "@/shared/styled/styled";
+import { v4 as uuidv4 } from "uuid";
+import { Like, Comment } from "@/shared/types/post";
+import { UserLink } from "../UserLink/UserLink";
+
+const QUERY_KEYS = {
+  IMAGE: "image",
+  POST: "post",
+};
 
 type ImageComponentProps = {
   postId: string;
@@ -42,142 +49,128 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
   postId,
   onClose,
 }) => {
+  const queryClient = useQueryClient();
+  const { data: user } = useLoggedInUser();
   const {
     data: post,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["image", postId],
+    queryKey: [QUERY_KEYS.IMAGE, postId],
     queryFn: () => fetchPostDetails(postId),
   });
   const postDetails = post?.postDetails;
-  const { data: user } = useLoggedInUser();
-  const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [newComment, setNewComment] = useState<string>("");
-  const [currentComments, setComments] = useState<Comment[]>([]);
-  const [currentLikes, setLikes] = useState<number>(0);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editedCaption, setEditedCaption] = useState<string>(
+
+  const [newComment, setNewComment] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedCaption, setEditedCaption] = useState(
     postDetails?.caption || "",
   );
-
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    if (!postDetails || !user) return;
-    setComments(postDetails.comments);
-    setLikes(postDetails.likes?.length || 0);
-    setIsLiked(
-      postDetails.likes?.some((like: Like) => like.user_id === user.user_id) ??
-        false,
-    );
-    setEditedCaption(postDetails.caption || "");
-  }, [postDetails?.post_id, user?.user_id]);
+  const comments = postDetails?.comments || [];
+  const likesCount = postDetails?.likes?.length || 0;
+  const isLiked =
+    postDetails?.likes?.some((like: Like) => like.user_id === user?.user_id) ??
+    false;
 
   const likeMutation = useMutation({
-    mutationFn: async () => {
-      await fetchData("/api/like", "POST", {
-        post_id: postDetails.post_id,
-      });
-    },
-    onMutate: () => {
-      setIsLiked(true);
-      setLikes((prev) => prev + 1);
-    },
-    onError: () => {
-      setIsLiked(false);
-      setLikes((prev) => prev - 1);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["image", postId] });
-    },
+    mutationFn: () =>
+      fetchData("/api/like", "POST", { post_id: postDetails?.post_id }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.IMAGE, postId] }),
   });
 
   const unlikeMutation = useMutation({
-    mutationFn: async () => {
-      await fetchData("/api/like", "DELETE", {
-        post_id: postDetails?.post_id,
-      });
-    },
-    onMutate: () => {
-      setIsLiked(false);
-      setLikes((prev) => prev - 1);
-    },
-    onError: () => {
-      setIsLiked(true);
-      setLikes((prev) => prev + 1);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["image", postId] });
-    },
+    mutationFn: () =>
+      fetchData("/api/like", "DELETE", { post_id: postDetails?.post_id }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.IMAGE, postId] }),
   });
 
   const addCommentMutation = useMutation({
-    mutationFn: async (newCommentText: string) => {
+    mutationFn: async (text: string) => {
       const response = await fetchData("/api/comment", "POST", {
         post_id: postDetails?.post_id,
-        comment_text: newCommentText,
+        comment_text: text,
       });
       return response.data as Comment;
     },
-    onMutate: (newCommentText) => {
+    onMutate: (text: string) => {
       const optimisticComment: Comment = {
-        comment_id: Math.random().toString(),
-        comment_text: newCommentText,
+        comment_id: uuidv4(),
+        comment_text: text,
         created_at: new Date().toISOString(),
         user_id: user?.user_id || "",
         user: { username: user?.username || "" },
       };
-      setComments((prev) => [optimisticComment, ...prev]);
+      queryClient.setQueryData([QUERY_KEYS.IMAGE, postId], (old: any) => {
+        const updated = { ...old };
+        updated.postDetails.comments = [optimisticComment, ...comments];
+        return updated;
+      });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["post", postDetails?.post_id],
-      });
-      queryClient.invalidateQueries({ queryKey: ["image", postId] });
+      setNewComment("");
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.IMAGE, postId] });
     },
   });
 
   const deleteCommentMutation = useMutation({
-    mutationFn: async (commentId: string) => {
-      await fetchData("/api/comment", "DELETE", { comment_id: commentId });
-    },
+    mutationFn: (commentId: string) =>
+      fetchData("/api/comment", "DELETE", { comment_id: commentId }),
     onMutate: (commentId) => {
-      setComments((prev) =>
-        prev.filter((comment) => comment.comment_id !== commentId),
-      );
+      queryClient.setQueryData([QUERY_KEYS.IMAGE, postId], (old: any) => {
+        const updated = { ...old };
+        updated.postDetails.comments = comments.filter(
+          (c: Comment) => c.comment_id !== commentId,
+        );
+        return updated;
+      });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["post", postDetails?.post_id],
-      });
-      queryClient.invalidateQueries({ queryKey: ["image", postId] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.IMAGE, postId] });
     },
   });
 
   const editCaptionMutation = useMutation({
-    mutationFn: async () => {
-      await fetchData("/api/post", "PATCH", {
+    mutationFn: () =>
+      fetchData("/api/post", "PATCH", {
         id: postDetails?.post_id,
         caption: editedCaption,
-      });
-    },
-    onSuccess: async () => {
+      }),
+    onSuccess: () => {
       setIsEditing(false);
-      if (onClose) onClose();
-      queryClient.invalidateQueries({ queryKey: ["image", postId] });
+      onClose?.();
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.IMAGE, postId] });
     },
   });
 
   const deletePostMutation = useMutation({
-    mutationFn: async () => {
-      await fetchData("/api/post", "DELETE", { post_id: postDetails?.post_id });
-    },
+    mutationFn: () =>
+      fetchData("/api/post", "DELETE", { post_id: postDetails?.post_id }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["image", postId] });
-      if (onClose) onClose();
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.IMAGE, postId] });
+      onClose?.();
     },
   });
+
+  if (error) {
+    return (
+      <PhotoboxFrame>
+        <Section role="alert">
+          <p>Failed to load post.</p>
+          <Button
+            onClick={() =>
+              queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.IMAGE, postId],
+              })
+            }
+          >
+            Retry
+          </Button>
+        </Section>
+      </PhotoboxFrame>
+    );
+  }
 
   return (
     <PhotoboxFrame>
@@ -196,8 +189,8 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
             <SkeletonText />
           </Section>
           <CommentsSection>
-            {[...Array(3)].map((_, index) => (
-              <CommentItem key={index}>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <CommentItem key={i}>
                 <SkeletonText />
               </CommentItem>
             ))}
@@ -209,65 +202,58 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
       ) : (
         <>
           <Section>
-            <Link href={`/profile/${postDetails?.user_id}`}>
-              <UserDetails>
-                <Avatar
-                  src={postDetails?.user?.profile_image || "/avatar.jpeg"}
-                />
-                <Username>{postDetails?.user?.username}</Username>
-              </UserDetails>
-            </Link>
-          </Section>
-          <MaskContainer>
-            <MaskedImage src={postDetails?.image} alt="Masked" />
-          </MaskContainer>
-          <Section>
-            {isLiked ? (
-              <FavoriteIcon
-                onClick={() => unlikeMutation.mutate()}
-                style={{ color: "red", cursor: "pointer" }}
-              />
-            ) : (
-              <FavoriteBorderIcon
-                onClick={() => likeMutation.mutate()}
-                style={{ cursor: "pointer" }}
+            {postDetails?.user && (
+              <UserLink
+                user={{ ...postDetails.user, user_id: postDetails.user_id }}
               />
             )}
+          </Section>
+          <MaskContainer>
+            <MaskedImage src={postDetails?.image} alt="Post image" />
+          </MaskContainer>
+          <Section>
+            <Button
+              onClick={() =>
+                isLiked ? unlikeMutation.mutate() : likeMutation.mutate()
+              }
+            >
+              {isLiked ? (
+                <FavoriteIcon aria-label="Unlike" style={{ color: "red" }} />
+              ) : (
+                <FavoriteBorderIcon aria-label="Like" />
+              )}
+            </Button>
             <span>
-              {currentLikes} {currentLikes === 1 ? "like" : "likes"}
+              {likesCount} {likesCount === 1 ? "like" : "likes"}
             </span>
             <ChatBubbleOutlineIcon
-              style={{ color: "grey", padding: "0.1em" }}
+              style={{ color: "grey", marginLeft: "0.5em" }}
             />
-            <span>{currentComments.length}</span>
+            <span>{comments.length}</span>
+
             {user?.user_id === postDetails?.user_id && (
               <>
                 <Button onClick={() => deletePostMutation.mutate()}>
-                  <DeleteOutlineIcon
-                    style={{ color: "grey", padding: "0.1em" }}
-                  />
+                  <DeleteOutlineIcon />
                 </Button>
                 {isEditing ? (
                   <Button onClick={() => editCaptionMutation.mutate()}>
-                    <CheckIcon style={{ color: "grey", padding: "0.1em" }} />
+                    <CheckIcon />
                   </Button>
                 ) : (
                   <Button onClick={() => setIsEditing(true)}>
-                    <EditIcon style={{ color: "grey", padding: "0.1em" }} />
+                    <EditIcon />
                   </Button>
                 )}
               </>
             )}
           </Section>
           <Section>
-            <Link href={`/profile/${postDetails?.user_id}`}>
-              <UserDetails>
-                <Avatar
-                  src={postDetails?.user?.profile_image || "/avatar.jpeg"}
-                />
-                <Username>{postDetails?.user.username}</Username>
-              </UserDetails>
-            </Link>
+            {postDetails?.user && (
+              <UserLink
+                user={{ ...postDetails.user, user_id: postDetails.user_id }}
+              />
+            )}
             {isEditing ? (
               <CaptionInput
                 value={editedCaption}
@@ -278,7 +264,7 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
             )}
           </Section>
           <CommentsSection>
-            {currentComments.map((comment) => (
+            {[...comments].reverse().map((comment: Comment) => (
               <CommentItem key={comment.comment_id}>
                 <Link href={`/profile/${comment.user_id}`}>
                   <Username>{comment.user.username}:</Username>
@@ -293,9 +279,7 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
                       }
                     }}
                   >
-                    <DeleteOutlineIcon
-                      style={{ color: "grey", padding: "0.2em" }}
-                    />
+                    <DeleteOutlineIcon />
                   </Button>
                 )}
               </CommentItem>
@@ -308,8 +292,22 @@ export const ImageComponent: React.FC<ImageComponentProps> = ({
               placeholder="Add a comment..."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && newComment.trim()) {
+                  e.preventDefault();
+                  addCommentMutation.mutate(newComment.trim());
+                  setNewComment("");
+                }
+              }}
             />
-            <StyledButton onClick={() => addCommentMutation.mutate(newComment)}>
+            <StyledButton
+              onClick={() => {
+                if (newComment.trim()) {
+                  addCommentMutation.mutate(newComment.trim());
+                  setNewComment("");
+                }
+              }}
+            >
               Post
             </StyledButton>
           </CommentsInputContainer>

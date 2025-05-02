@@ -6,6 +6,8 @@ import FollowList from "./FollowList/Followlist";
 import ProfileInfo from "./ProfileInformation/ProfileInformation";
 import { useProfileData } from "@/app/hooks/useProfileData";
 import { useLoggedInUser } from "@/app/hooks/useLoggedInUser";
+import Spinner from "../Loader/Loader";
+import ErrorPage from "../ErrorPage.ts/ErrorPage";
 
 interface ProfileComponentProps {
   slug: string;
@@ -22,8 +24,8 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
 
   const isProfileOwner = user?.user_id === profile?.user_id;
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
+  if (isLoading) return <Spinner />;
+  if (error) return <ErrorPage />;
 
   return (
     <ProfileContainer>
@@ -40,7 +42,6 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
           <ImagesGrid
             id={profile?.user_id ?? ""}
             setPostsLength={setPostsLength}
-            isProfileOwner={isProfileOwner}
           />
         ) : (
           <FollowList
