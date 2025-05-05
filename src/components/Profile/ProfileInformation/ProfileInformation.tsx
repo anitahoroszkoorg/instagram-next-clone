@@ -21,7 +21,7 @@ import Image from "next/image";
 import { useLoggedInUser } from "@/app/hooks/useLoggedInUser";
 import { useProfileData } from "@/app/hooks/useProfileData";
 import { useQueryClient } from "@tanstack/react-query";
-import ErrorPage from "@/components/ErrorPage.ts/ErrorPage";
+import ErrorPage from "@/components/Error/Error";
 import Spinner from "@/components/Loader/Loader";
 import { useFollowData } from "@/app/hooks/useFollowData";
 

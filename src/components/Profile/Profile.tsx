@@ -7,7 +7,7 @@ import ProfileInfo from "./ProfileInformation/ProfileInformation";
 import { useProfileData } from "@/app/hooks/useProfileData";
 import { useLoggedInUser } from "@/app/hooks/useLoggedInUser";
 import Spinner from "../Loader/Loader";
-import ErrorPage from "../ErrorPage.ts/ErrorPage";
+import ErrorPage from "../Error/Error";
 
 interface ProfileComponentProps {
   slug: string;

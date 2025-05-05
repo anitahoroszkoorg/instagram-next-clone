@@ -6,7 +6,7 @@ import Image from "next/image";
 import { fetchUsersPosts } from "@/app/utils/fetchPosts";
 import { useQuery } from "@tanstack/react-query";
 import { PostDetails } from "@/shared/types/post";
-import ErrorPage from "../ErrorPage.ts/ErrorPage";
+import ErrorPage from "../Error/Error";
 
 interface ImageGridProps {
   id: string;

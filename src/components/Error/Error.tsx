@@ -1,9 +1,8 @@
 "use client";
-import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { Button, Message, Wrapper } from "./styled";
 
-export default function ErrorPage() {
+export default function Error() {
   const router = useRouter();
 
   return (

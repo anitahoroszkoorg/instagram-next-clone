@@ -22,7 +22,7 @@ export const Modal: React.FC<Props> = ({
   };
   return (
     <BackDropContainer $visible={!!openModal} onClick={handleBackdropClick}>
-      <ModalContent>
+      <ModalContent data-testid="modal-content">
         <ModalHeader>{modalTitle}</ModalHeader>
         {children}
       </ModalContent>

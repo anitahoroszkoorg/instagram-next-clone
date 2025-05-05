@@ -13,7 +13,7 @@ import { SearchBar } from "../Searchbar/Searchbar";
 import Image from "next/image";
 import { fetchAllPublicPosts } from "@/app/utils/fetchPosts";
 import { useQuery } from "@tanstack/react-query";
-import ErrorPage from "../ErrorPage.ts/ErrorPage";
+import ErrorPage from "../Error/Error";
 import { Skeleton } from "../ImagesGrid/styled";
 import { useSession } from "next-auth/react";
 
