@@ -8,9 +8,9 @@ export interface NewUser {
 
 export interface User extends NewUser {
   user_id: string;
-  bio: string | null;
-  created_at: Date;
-  profile_picture: string;
+  bio?: string | null;
+  created_at?: Date;
+  profile_picture?: string;
 }
 
 export interface UserInfo extends User {

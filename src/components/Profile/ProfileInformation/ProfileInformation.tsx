@@ -20,11 +20,10 @@ import ProfileEditModal from "@/components/ProfileInfoModal/ProfileInfoModal";
 import Image from "next/image";
 import { useLoggedInUser } from "@/app/hooks/useLoggedInUser";
 import { useProfileData } from "@/app/hooks/useProfileData";
-import { useFollowersData } from "@/app/hooks/useFollowersData";
-import { useFollowedData } from "@/app/hooks/useFollowedData";
 import { useQueryClient } from "@tanstack/react-query";
 import ErrorPage from "@/components/ErrorPage.ts/ErrorPage";
 import Spinner from "@/components/Loader/Loader";
+import { useFollowData } from "@/app/hooks/useFollowData";
 
 interface ProfileInfoProps {
   setActiveTab: (tab: "followers" | "followed" | "posts") => void;
@@ -40,8 +39,13 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
   isProfileOwner,
 }) => {
   const { data: profile, isLoading, error } = useProfileData(slug);
-  const { data: followers } = useFollowersData(slug);
-  const { data: followed } = useFollowedData(slug);
+  const {
+    data: followData,
+    isLoading: isFollowLoading,
+    isError,
+  } = useFollowData(slug);
+  const followers = followData?.followers ?? [];
+  const followed = followData?.followed ?? [];
   const { data: user } = useLoggedInUser();
   const followerCount = Array.isArray(followers) ? followers.length : 0;
   const followedCount = Array.isArray(followed) ? followed.length : 0;
@@ -88,8 +92,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
   };
 
   if (isLoading) return <Spinner />;
-  if (error) return <ErrorPage />;
-  if (!profile) return;
+  if (error || !profile) return <ErrorPage />;
 
   const avatarSrc =
     profile.profile_picture && typeof profile.profile_picture === "object"

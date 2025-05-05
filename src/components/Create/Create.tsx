@@ -86,7 +86,10 @@ export default function Create({ openModal, closeModal }: Props) {
   };
 
   return (
-    <ModalOverlay style={{ display: openModal ? "flex" : "none" }}>
+    <ModalOverlay
+      style={{ display: openModal ? "flex" : "none" }}
+      data-testid="create"
+    >
       <ModalContent>
         <ModalHeader>
           Create a new post

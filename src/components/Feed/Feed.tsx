@@ -32,7 +32,7 @@ export const Feed: React.FC = () => {
   }, [fetchNextPage, inView, hasNextPage]);
 
   return (
-    <FeedWrapper>
+    <FeedWrapper data-testid="feed">
       <ToastContainer />
       {status === "pending" ? (
         <p>Loading...</p>

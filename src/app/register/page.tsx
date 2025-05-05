@@ -14,7 +14,7 @@ const hotel = Grand_Hotel({
   subsets: ["latin"],
 });
 
-const Register = () => {
+export default function Register() {
   const { data: session } = useSession();
   if (session?.user) {
     redirect("/");
@@ -47,7 +47,7 @@ const Register = () => {
 
   return (
     <>
-      <Wrapper>
+      <Wrapper data-testid="registerPage">
         <Background ref={backgroundRef} />
         <Card>
           <Title>Register to</Title>
@@ -62,6 +62,4 @@ const Register = () => {
       </Wrapper>
     </>
   );
-};
-
-export default Register;
+}

@@ -2,21 +2,25 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "@/app/utils/fetchData";
 import { User } from "@/shared/types/user";
 
-interface FollowersResponse {
+interface FollowDataResponse {
   message: string;
   followers: User[];
+  followed: User[];
 }
 
-export const useFollowersData = (userId: string | undefined | string[]) => {
+export const useFollowData = (userId: string | undefined | string[]) => {
   return useQuery({
-    queryKey: ["followers", userId],
+    queryKey: ["follow-data", userId],
     queryFn: async () => {
-      if (!userId) return [];
-      const { data } = await fetchData<FollowersResponse>(
+      if (!userId) return { followers: [], followed: [] };
+      const { data } = await fetchData<FollowDataResponse>(
         `/api/followers/${userId}`,
         "GET",
       );
-      return data.followers;
+      return {
+        followers: data.followers,
+        followed: data.followed,
+      };
     },
     enabled: !!userId,
     staleTime: 1000 * 60 * 5,

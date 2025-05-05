@@ -34,9 +34,13 @@ export const SearchBar: React.FC = () => {
 
   return (
     <div>
-      <StyledSearchBar>
+      <StyledSearchBar data-testid="Searchbar">
         <StyledSearchIcon>
-          <SearchIcon color="secondary" style={{ color: "grey" }} />
+          <SearchIcon
+            color="secondary"
+            style={{ color: "grey" }}
+            data-testid="SearchIcon"
+          />
         </StyledSearchIcon>
         <Input
           type="text"

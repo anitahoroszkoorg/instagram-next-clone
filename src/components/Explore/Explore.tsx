@@ -33,7 +33,7 @@ export const Explore = () => {
     <></>
   ) : (
     <>
-      <ExploreContainer>
+      <ExploreContainer data-testid="explore-component">
         <SearchContainer>
           <SearchBar />
         </SearchContainer>

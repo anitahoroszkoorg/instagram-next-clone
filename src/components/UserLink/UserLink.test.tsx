@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import { UserLink } from "./UserLink";
-import "@testing-library/jest-dom";
 
 describe("UserLink", () => {
   const mockUser = {

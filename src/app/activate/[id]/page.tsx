@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function Page({ params }: { params: { id: string } }) {
+export default function ActivatePage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const sendConfirmation = async () => {
     const response = await fetch("/api/auth/confirmRegistration", {
@@ -29,7 +29,9 @@ export default function Page({ params }: { params: { id: string } }) {
       <ToastContainer />
       <Card>
         <Title>Welcome to Instagram!</Title>
-        <StyledButton onClick={sendConfirmation}>Confirm Signup</StyledButton>
+        <StyledButton data-testid="confirmation" onClick={sendConfirmation}>
+          Confirm Signup
+        </StyledButton>
       </Card>
     </Container>
   );

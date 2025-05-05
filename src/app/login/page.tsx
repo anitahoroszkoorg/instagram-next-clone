@@ -44,7 +44,7 @@ export default function LoginPage() {
   if (session?.user) return null;
 
   return (
-    <Wrapper>
+    <Wrapper data-testid="loginPage">
       <Background ref={backgroundRef} />
       <Card>
         <Title>Log in to</Title>
