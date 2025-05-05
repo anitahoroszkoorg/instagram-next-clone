@@ -10,8 +10,7 @@ export const Main = styled.div`
 `;
 
 export const MainContent = styled.div`
-margin: 1em 0em;
-
+  margin: 1em 0em;
   display: flex;
   flex-direction: column;
   justify-content: flex-start:

@@ -11,17 +11,11 @@ import {
   Button,
   EmptyRow,
 } from "./styled";
-import useFetch from "@/app/hooks/useFetch";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Link from "next/link";
 import { fetchData } from "@/app/utils/fetchData";
 import { toast } from "react-toastify";
-
-interface User {
-  user_id: string;
-  username: string;
-  profilePicture?: string;
-}
+import { useFollowData } from "@/app/hooks/useFollowData";
 
 interface FollowListProps {
   setActiveTab: (tab: "followers" | "followed" | "posts") => void;
@@ -36,14 +30,12 @@ const FollowList: React.FC<FollowListProps> = ({
   id,
   isProfileOwner,
 }) => {
-  const { data, loading, error } = useFetch<{
-    followers: User[];
-    following: User[];
-  }>(`/api/followers/${id}`);
+  const { data: followData, isLoading, isError } = useFollowData(id);
+  const followers = followData?.followers || [];
+  const followed = followData?.followed || [];
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
-  const users =
-    activeTab === "followers" ? data?.followers || [] : data?.following || [];
+  const users = activeTab === "followers" ? followers : followed;
 
   const handleDeleteFollower = async (userId: string) => {
     try {
@@ -58,9 +50,10 @@ const FollowList: React.FC<FollowListProps> = ({
       toast.error("Something went wrong.");
     }
   };
+
   if (activeTab === "posts") return null;
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error fetching data.</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error fetching data.</p>;
 
   const followUser = async (userId: string) => {
     try {
@@ -94,7 +87,7 @@ const FollowList: React.FC<FollowListProps> = ({
           users.map((user) => (
             <UserRow key={user.user_id}>
               <ProfileImage
-                src={user.profilePicture || "/avatar.jpeg"}
+                src={user.profile_picture || "/avatar.jpeg"}
                 alt={user.username}
               />
               <Username>
@@ -106,14 +99,17 @@ const FollowList: React.FC<FollowListProps> = ({
               >
                 {activeTab === "followed"
                   ? "Unfollow"
-                  : "Follow" && isFollowing
+                  : isFollowing
                     ? "Following"
                     : "Follow"}
               </FollowButton>
               {activeTab === "followers" && isProfileOwner && (
                 <Button onClick={() => handleDeleteFollower(user.user_id)}>
                   <DeleteOutlineIcon
-                    style={{ color: "grey", padding: "0.2em" }}
+                    style={{
+                      color: "grey",
+                      margin: "0.3em 0.5em 0.3em 0.8em",
+                    }}
                   />
                 </Button>
               )}

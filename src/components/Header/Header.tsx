@@ -18,17 +18,22 @@ import Create from "../Create/Create";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "./styled";
-import { useUser } from "@/app/hooks/userContext";
+import { useLoggedInUser } from "@/app/hooks/useLoggedInUser";
+import { redirect } from "next/navigation";
 
 export const Header = () => {
   const { data: session } = useSession();
+  const logOut = () => {
+    signOut();
+    redirect("/login");
+  };
   const isLoggedIn = session?.user;
   const [openCreateWizard, setOpenCreateWizard] = useState(false);
   const closeModal = () => {
     setOpenCreateWizard(false);
   };
 
-  const { user } = useUser();
+  const { data: user } = useLoggedInUser();
 
   return !isLoggedIn ? (
     <></>
@@ -64,7 +69,7 @@ export const Header = () => {
           </Icon>
         </IconsWrapper>
         <AvatarWrapper>
-          <Button onClick={() => signOut()}>Sign out</Button>
+          <Button onClick={() => logOut()}>Sign out</Button>
           <Link href={`/profile/${user?.user_id}`}>
             <Avatar>
               <Image

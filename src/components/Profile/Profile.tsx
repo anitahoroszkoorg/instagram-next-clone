@@ -3,25 +3,19 @@ import { useState } from "react";
 import { ContentContainer, InfoContainer, ProfileContainer } from "./styled";
 import { ImagesGrid } from "../ImagesGrid/ImagesGrid";
 import FollowList from "./FollowList/Followlist";
-import { useUser } from "@/app/hooks/userContext";
 import ProfileInfo from "./ProfileInformation/ProfileInformation";
-import { ProfileProvider, useProfile } from "@/app/hooks/profileContext";
+import { useProfileData } from "@/app/hooks/useProfileData";
+import { useLoggedInUser } from "@/app/hooks/useLoggedInUser";
+import Spinner from "../Loader/Loader";
+import ErrorPage from "../Error/Error";
 
 interface ProfileComponentProps {
   slug: string;
 }
 
-export const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
-  return (
-    <ProfileProvider userId={slug}>
-      <ProfileContent />
-    </ProfileProvider>
-  );
-};
-
-const ProfileContent: React.FC = () => {
-  const { profile, loading, error } = useProfile();
-  const { user } = useUser();
+const ProfileComponent: React.FC<ProfileComponentProps> = ({ slug }) => {
+  const { data: profile, isLoading, error } = useProfileData(slug);
+  const { data: user } = useLoggedInUser();
 
   const [activeTab, setActiveTab] = useState<
     "followers" | "followed" | "posts"
@@ -30,20 +24,24 @@ const ProfileContent: React.FC = () => {
 
   const isProfileOwner = user?.user_id === profile?.user_id;
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
+  if (isLoading) return <Spinner />;
+  if (error) return <ErrorPage />;
 
   return (
     <ProfileContainer>
       <InfoContainer>
-        <ProfileInfo setActiveTab={setActiveTab} postsLength={postsLength} />
+        <ProfileInfo
+          slug={slug}
+          setActiveTab={setActiveTab}
+          postsLength={postsLength}
+          isProfileOwner={isProfileOwner}
+        />
       </InfoContainer>
       <ContentContainer>
         {activeTab === "posts" ? (
           <ImagesGrid
             id={profile?.user_id ?? ""}
             setPostsLength={setPostsLength}
-            isProfileOwner={isProfileOwner}
           />
         ) : (
           <FollowList
@@ -57,3 +55,5 @@ const ProfileContent: React.FC = () => {
     </ProfileContainer>
   );
 };
+
+export default ProfileComponent;

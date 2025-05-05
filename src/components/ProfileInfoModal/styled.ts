@@ -34,7 +34,7 @@ export const UploadButton = styled.label`
   background-color: var(--ig-blue);
   color: var(--ig-white);
   padding: 0em 1em;
-  margin: 0.75em;
+  margin: 0.75em 0em;
   cursor: pointer;
   input {
     display: none;
@@ -45,8 +45,8 @@ export const UploadButton = styled.label`
 export const ButtonsContainer = styled.div`
   display: flex;
   height: fit-content;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: flex-center;
   min-width: 100%;
 `;
 

@@ -8,9 +8,9 @@ export const BackDropContainer = styled.div<{ $visible: boolean }>`
   top: 0;
   left: 0;
   width: 100%;
-  height: 120%;
+  height: 120vh;
   background: var(--ig-backdrop);
-  z-index: 1000;
+  z-index: 100;
 `;
 
 export const ModalContent = styled.div`
@@ -25,7 +25,10 @@ export const ModalContent = styled.div`
     color: #000;
   }
   z-index: 1000;
-  margin: 5em 0em 6em 0em;
+  @media (max-width: 1281px) {
+    margin: 5em 0em 8em 0em;
+  }
+  margin: 5em 0em 10em 0em;
 `;
 
 export const ModalHeader = styled.div`

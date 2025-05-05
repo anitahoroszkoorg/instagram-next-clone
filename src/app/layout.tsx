@@ -1,5 +1,4 @@
 "use client";
-import { UserProvider } from "@/app/hooks/userContext";
 import "./globals.css";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -7,6 +6,8 @@ import { Inter } from "next/font/google";
 import { Header } from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import StyledComponentsRegistry from "@/lib/registry";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,24 +27,27 @@ export default function RootLayout({ children, params: { session } }: Props) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>
-          <UserProvider>
+        <StyledComponentsRegistry>
+          <SessionProvider session={session}>
             <QueryClientProvider client={queryClient}>
-              <LayoutWithHeader>{children}</LayoutWithHeader>
+              <MainLayout>{children}</MainLayout>
             </QueryClientProvider>
-          </UserProvider>
-        </SessionProvider>
+          </SessionProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
 }
 
-export function LayoutWithHeader({ children }: { children: React.ReactNode }) {
+function MainLayout({ children }: { children: React.ReactNode }) {
+  const { data: session } = useSession();
+  const isLoggedIn = session?.user;
+
   return (
     <>
-      <Header />
+      {isLoggedIn && <Header />}
       <main>{children}</main>
-      <Footer />
+      {isLoggedIn && <Footer />}
     </>
   );
 }

@@ -1,5 +1,39 @@
 import styled from "styled-components";
 
+const Skeleton = styled.div`
+  background-color: var(--ig-dark-grey);
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+  @keyframes pulse {
+    0% {
+      background-color: #e0e0e0;
+    }
+    50% {
+      background-color: #f0f0f0;
+    }
+    100% {
+      background-color: #e0e0e0;
+    }
+  }
+`;
+
+export const SkeletonAvatar = styled(Skeleton)`
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+`;
+
+export const SkeletonText = styled(Skeleton)`
+  width: 95%;
+  height: 1em;
+  margin: 0.25em 0;
+`;
+
+export const SkeletonImage = styled(Skeleton)`
+  width: 100%;
+  height: 25em;
+`;
+
 export const MaskContainer = styled.div`
   min-width: 25em;
   min-height: 25em;
@@ -26,13 +60,13 @@ export const PhotoDescription = styled.p`
 export const PhotoboxFrame = styled.div`
   background: white;
   border-radius: 0.6em;
-  max-width: 30em;
+  max-width: 35em;
+  min-width: 35em;
   min-height: 40em;
   max-height: 45em;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.2);
   margin: 4.5em 0 0 0;
@@ -84,6 +118,7 @@ export const Avatar = styled.img`
 export const Caption = styled.p`
   font-size: 1em;
   color: var(--ig-black);
+  margin: 0em 1em;
 `;
 
 export const Section = styled.div`
@@ -147,7 +182,7 @@ export const CommentItem = styled.div`
 
 export const CommentsInputContainer = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   width: 100%;
   padding: 1em;
@@ -161,6 +196,21 @@ export const Input = styled.input`
   padding: 0.6em;
   border: none;
   font-size: 0.8em;
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid var(--ig-blue);
+  }
+  border-radius: 0.25em;
+  color: var(--ig-black);
+  background-color: var(--ig-background-default);
+`;
+
+export const CaptionInput = styled.input`
+  width: 90%;
+  height: 5vh;
+  padding: 0.6em;
+  border: none;
+  margin: 0em 1em;
   &:focus {
     outline: none;
     border-bottom: 1px solid var(--ig-blue);

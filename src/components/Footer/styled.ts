@@ -12,9 +12,8 @@ export const FooterContainer = styled.footer`
   position: fixed;
   bottom: 0;
   left: 0;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    height: auto;
+  @media (max-width: 1023px) {
+    display: none;
   }
 `;
 

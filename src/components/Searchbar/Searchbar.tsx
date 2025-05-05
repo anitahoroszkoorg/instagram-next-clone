@@ -11,7 +11,8 @@ import {
   ResultItem,
 } from "./styled";
 import { fetchUsers } from "@/app/utils/fetchUsers";
-import { User } from "@/globals";
+import { User } from "@/shared/types/user";
+import Link from "next/link";
 
 export const SearchBar: React.FC = () => {
   const [query, setQuery] = useState<string>("");
@@ -33,9 +34,13 @@ export const SearchBar: React.FC = () => {
 
   return (
     <div>
-      <StyledSearchBar>
+      <StyledSearchBar data-testid="Searchbar">
         <StyledSearchIcon>
-          <SearchIcon color="secondary" style={{ color: "grey" }} />
+          <SearchIcon
+            color="secondary"
+            style={{ color: "grey" }}
+            data-testid="SearchIcon"
+          />
         </StyledSearchIcon>
         <Input
           type="text"
@@ -48,7 +53,17 @@ export const SearchBar: React.FC = () => {
       {data && data.users?.length > 0 && (
         <ResultsList>
           {data.users.map((user: User) => (
-            <ResultItem key={user.user_id}>{user.username}</ResultItem>
+            <ResultItem key={user.user_id}>
+              <Link
+                href={`/profile/${user.user_id}`}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
+              >
+                {user.username}
+              </Link>
+            </ResultItem>
           ))}
         </ResultsList>
       )}

@@ -8,11 +8,11 @@ export const StyledSearchBar = styled.div`
   height: 3em;
   border-radius: 0.6em;
   width: 25em;
-  margin: 1em 0em 0em 1em;
+  padding: 1em;
 `;
 
 export const Input = styled.input`
-  width: 100%;
+  width: 25em;
   border: none;
   font-size: 1em;
   background: transparent;
@@ -24,7 +24,7 @@ export const StyledSearchIcon = styled.div`
 `;
 
 export const ResultsList = styled.ul`
-  width: 100%;
+  width: 25em;
   max-height: 200px;
   overflow-y: auto;
   margin: 0;
@@ -38,4 +38,5 @@ export const ResultItem = styled.li`
   padding: 0.8em;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  width: 24em;
 `;

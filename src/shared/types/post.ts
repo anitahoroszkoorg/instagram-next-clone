@@ -26,6 +26,7 @@ export interface PostDetails {
   comments: Comment[];
   user: {
     username: string;
+    profile_image: string;
   };
 }
 

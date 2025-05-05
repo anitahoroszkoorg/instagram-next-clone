@@ -1,4 +1,4 @@
-import { NewUser } from "@/globals";
+import { NewUser } from "@/shared/types/user";
 
 const Joi = require("joi");
 

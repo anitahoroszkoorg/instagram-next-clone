@@ -1,6 +1,6 @@
 export const validateImage = (
   file: File,
-  minSizeKB = 100,
+  minSizeKB = 10,
   minWidth = 800,
   minHeight = 800,
 ) => {
