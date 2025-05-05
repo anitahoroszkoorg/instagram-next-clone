@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   ProfileContainer,
   ProfilePictureContainer,
@@ -44,8 +44,9 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({
     isLoading: isFollowLoading,
     isError,
   } = useFollowData(slug);
-  const followers = followData?.followers ?? [];
-  const followed = followData?.followed ?? [];
+  const followers = useMemo(() => followData?.followers ?? [], [followData]);
+  const followed = useMemo(() => followData?.followed ?? [], [followData]);
+
   const { data: user } = useLoggedInUser();
   const followerCount = Array.isArray(followers) ? followers.length : 0;
   const followedCount = Array.isArray(followed) ? followed.length : 0;
